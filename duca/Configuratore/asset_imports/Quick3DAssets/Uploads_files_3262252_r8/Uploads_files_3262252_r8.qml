@@ -5,126 +5,6 @@ Node {
     id: node
 
     // Resources
-    PrincipledMaterial {
-        id: paint_Matte_Black__1_material
-        objectName: "Paint Matte Black #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: paint_Gloss_Red__2_material
-        objectName: "Paint Gloss Red #2"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: tire__1_material
-        objectName: "Tire #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: steel_Textured__1_material
-        objectName: "Steel Textured #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: paint_Metallic_Orange_peel_Cool_Grey__1_material
-        objectName: "Paint Metallic Orange peel Cool Grey #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: interior_roof_material
-        objectName: "interior roof"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: paint_Gloss_Black__2_material
-        objectName: "Paint Gloss Black #2"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: carbon_Fiber_Gloss_5mm__3_material
-        objectName: "Carbon Fiber Gloss 5mm #3"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: soft_Rough_Black__1_material
-        objectName: "Soft Rough Black #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: cloth_Beige__1_material
-        objectName: "Cloth Beige #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: glass_Basic_White__2_material
-        objectName: "Glass Basic White #2"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: steel_Rough_Scratched__1_material
-        objectName: "Steel Rough Scratched #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: emissive_Cool__1_material
-        objectName: "Emissive Cool #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: emissive_Warm__3_material
-        objectName: "Emissive Warm #3"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: paint_Metallic_Cool_Grey__1_material
-        objectName: "Paint Metallic Cool Grey #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: logo_red_material
-        objectName: "logo red"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: metal_Rough_Black_10mm_Circular_Mesh__1_material
-        objectName: "Metal Rough Black 10mm Circular Mesh #1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: aluminium_1_material
-        objectName: "Aluminium 1"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: aluminum_2_material
-        objectName: "Aluminum 2"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
-    PrincipledMaterial {
-        id: default_150_150_150_material
-        objectName: "Default 150:150:150"
-        baseColor: "#ff999999"
-        indexOfRefraction: 1
-    }
 
     // Nodes:
     Node {
@@ -737,6 +617,150 @@ Node {
             materials: [
                 paint_Matte_Black__1_material
             ]
+        }
+    }
+
+    Node {
+        id: __materialLibrary__
+
+        PrincipledMaterial {
+            id: paint_Matte_Black__1_material
+            objectName: "Paint Matte Black #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: paint_Gloss_Red__2_material
+            objectName: "Paint Gloss Red #2"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: tire__1_material
+            objectName: "Tire #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: steel_Textured__1_material
+            objectName: "Steel Textured #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: paint_Metallic_Orange_peel_Cool_Grey__1_material
+            objectName: "Paint Metallic Orange peel Cool Grey #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: interior_roof_material
+            objectName: "interior roof"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: paint_Gloss_Black__2_material
+            objectName: "Paint Gloss Black #2"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: carbon_Fiber_Gloss_5mm__3_material
+            objectName: "Carbon Fiber Gloss 5mm #3"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: soft_Rough_Black__1_material
+            objectName: "Soft Rough Black #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: cloth_Beige__1_material
+            objectName: "Cloth Beige #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: glass_Basic_White__2_material
+            objectName: "Glass Basic White #2"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: steel_Rough_Scratched__1_material
+            objectName: "Steel Rough Scratched #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: emissive_Cool__1_material
+            objectName: "Emissive Cool #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: emissive_Warm__3_material
+            objectName: "Emissive Warm #3"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: paint_Metallic_Cool_Grey__1_material
+            objectName: "Paint Metallic Cool Grey #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: logo_red_material
+            objectName: "logo red"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: metal_Rough_Black_10mm_Circular_Mesh__1_material
+            objectName: "Metal Rough Black 10mm Circular Mesh #1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: aluminium_1_material
+            objectName: "Aluminium 1"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: aluminum_2_material
+            objectName: "Aluminum 2"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
+        }
+
+        PrincipledMaterial {
+            id: default_150_150_150_material
+            objectName: "Default 150:150:150"
+            baseColor: "#ff999999"
+            indexOfRefraction: 1
         }
     }
 
