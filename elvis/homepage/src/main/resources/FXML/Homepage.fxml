@@ -2,34 +2,71 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/homepage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.homepage.Controller">
    <children>
-      <HBox layoutX="-11.0" layoutY="-10.0" prefHeight="100.0" prefWidth="200.0" styleClass="top_container" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <MenuButton mnemonicParsing="false" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="30.0" />
-      <VBox prefHeight="668.0" prefWidth="185.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="363.0" text="Marche">
-               <VBox.margin>
-                  <Insets top="60.0" />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" text="Modelli">
-               <VBox.margin>
+      <BorderPane layoutX="9.0" layoutY="27.0" prefHeight="702.0" prefWidth="1006.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="100.0" prefWidth="200.0" styleClass="top_container" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
                   <Insets />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" prefWidth="125.0" text="Sedi">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
+               </BorderPane.margin>
+               <children>
+                  <HBox layoutX="49.0" prefHeight="100.0" prefWidth="200.0" styleClass="header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="menu" mnemonicParsing="false" prefHeight="48.0" prefWidth="20.0" styleClass="menu-button">
+                           <HBox.margin>
+                              <Insets left="90.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="menuback" mnemonicParsing="false" prefHeight="60.0" prefWidth="20.0" styleClass="menu-button">
+                           <HBox.margin>
+                              <Insets left="-20.0" />
+                           </HBox.margin>
+                        </Button>
+                        <ImageView fitHeight="79.0" fitWidth="145.0" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets left="320.0" top="11.0" />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@../Images/Logo%20concessionario.png" />
+                           </image>
+                        </ImageView>
+                        <Button mnemonicParsing="false" styleClass="login_button">
+                           <HBox.margin>
+                              <Insets left="370.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </top>
+         <left>
+            <AnchorPane fx:id="slider" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox id="slider" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: E5DDC5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Marche" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Modelli" textFill="WHITE" />
+                        <Button mnemonicParsing="false" text="Sedi" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </left>
+      </BorderPane>
    </children>
 </AnchorPane>

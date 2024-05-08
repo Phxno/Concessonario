@@ -1,6 +1,5 @@
-.top_container{
-    -fx-background-color: #92C7CF;
-    -fx-background-radius: B3C8CF;
+.header{
+    -fx-background-color: #BED7DC; /* Header color */
 }
 
 
@@ -37,11 +36,11 @@
     -fx-text-fill: transparent; /* No text color */
     -fx-border-width: 0; /* No border */
     -fx-padding: 10; /* Padding around the icon */
+    -fx-font-size: 20px; /* Increase text size */
+    -fx-font-weight: bold; /* Make text bold */
 }
 
-.menu-button:hover {
-    -fx-background-color: rgba(0, 0, 0, 0.1); /* Slight hover effect */
-}
+
 
 .menu-button:pressed {
     -fx-background-color: rgba(0, 0, 0, 0.2); /* Slight press effect */
@@ -51,3 +50,28 @@
     -fx-shape: none;
     -fx-background-color: none;
 }
+
+
+.login_button{
+    -fx-background-color: transparent; /* No background color */
+    -fx-background-image: url('../Images/login.png'); /* Replace 'icon.png' with the path to your icon */
+    -fx-background-repeat: no-repeat; /* The image should not repeat */
+    -fx-background-position: center; /* The image should be centered */
+    -fx-background-size: contain; /* The image should scale to fit the button */
+    -fx-text-fill: transparent; /* No text color */
+    -fx-border-width: 0; /* No border */
+    -fx-padding: 10; /* Padding around the icon */
+    -fx-font-size: 20px; /* Increase text size */
+    -fx-font-weight: bold; /* Make text bold */
+
+}
+
+.login_button:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.2); /* Slight press effect */
+}
+
+.login_button .arrow {
+    -fx-shape: none;
+    -fx-background-color: none;
+}
+
