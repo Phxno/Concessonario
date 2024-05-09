@@ -53,7 +53,7 @@
          <left>
             <AnchorPane fx:id="slider" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox id="slider" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: E5DDC5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox id="slider" prefHeight="668.0" prefWidth="200.0" style="-fx-background-color: E5DDC5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Button mnemonicParsing="false" text="Marche" textFill="WHITE">
                            <font>
@@ -67,6 +67,34 @@
                </children>
             </AnchorPane>
          </left>
+         <center>
+            <AnchorPane fx:id="car_home" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="668.0" prefWidth="816.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="441.0" fitWidth="205.0" pickOnBounds="true" styleClass="image">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@../Images/immagini_auto_home/Audi%20Home.jpeg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="441.0" fitWidth="205.0" pickOnBounds="true" styleClass="image">
+                           <image>
+                              <Image url="@../Images/immagini_auto_home/Porsche%20Home.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="441.0" fitWidth="205.0" pickOnBounds="true" styleClass="image">
+                           <image>
+                              <Image url="@../Images/immagini_auto_home/Tesla%20Home.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="541d3eb3-850c-4a84-b62c-e1f0d8c621f7" name="Changes" comment="3° Commit : iniziato ad impostare l'interfaccia grafica della homepage, abbozzato il menu e l'header">
+    <list default="true" id="541d3eb3-850c-4a84-b62c-e1f0d8c621f7" name="Changes" comment="4° Commit: Menu slider creato, creato e posizionato logo e icona utente nell'header. Per chi volesse il logo è presente dentro /src/main/resources/Images. Manca da fare la tendina per il login e registrazione e sistemare i marchi di auto con la rispettiva auto di punta al centro della pagina">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/homepage/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/homepage/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/homepage/Homepage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/homepage/Homepage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/Homepage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/Homepage.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Styles/homepage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Styles/homepage.css" afterDir="false" />
     </list>
@@ -88,7 +89,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715086275354</updated>
-      <workItem from="1715086276928" duration="20168000" />
+      <workItem from="1715086276928" duration="31570000" />
     </task>
     <task id="LOCAL-00001" summary="2° Commit: Fix libraries Javafx">
       <option name="closed" value="true" />
@@ -114,7 +115,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715157166174</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="4° Commit: Menu slider creato, creato e posizionato logo e icona utente nell'header. Per chi volesse il logo è presente dentro /src/main/resources/Images. Manca da fare la tendina per il login e registrazione e sistemare i marchi di auto con la rispettiva auto di punta al centro della pagina">
+      <option name="closed" value="true" />
+      <created>1715192421929</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1715192421929</updated>
+    </task>
+    <task id="LOCAL-00005" summary="4° Commit: Menu slider creato, creato e posizionato logo e icona utente nell'header. Per chi volesse il logo è presente dentro /src/main/resources/Images. Manca da fare la tendina per il login e registrazione e sistemare i marchi di auto con la rispettiva auto di punta al centro della pagina">
+      <option name="closed" value="true" />
+      <created>1715192444647</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1715192444647</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -123,6 +140,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2° Commit: Fix libraries Javafx" />
     <MESSAGE value="3° Commit : iniziato ad impostare l'interfaccia grafica della homepage, abbozzato il menu e l'header" />
-    <option name="LAST_COMMIT_MESSAGE" value="3° Commit : iniziato ad impostare l'interfaccia grafica della homepage, abbozzato il menu e l'header" />
+    <MESSAGE value="4° Commit: Menu slider creato, creato e posizionato logo e icona utente nell'header. Per chi volesse il logo è presente dentro /src/main/resources/Images. Manca da fare la tendina per il login e registrazione e sistemare i marchi di auto con la rispettiva auto di punta al centro della pagina" />
+    <option name="LAST_COMMIT_MESSAGE" value="4° Commit: Menu slider creato, creato e posizionato logo e icona utente nell'header. Per chi volesse il logo è presente dentro /src/main/resources/Images. Manca da fare la tendina per il login e registrazione e sistemare i marchi di auto con la rispettiva auto di punta al centro della pagina" />
   </component>
 </project>

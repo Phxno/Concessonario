@@ -1,5 +1,5 @@
 .header{
-    -fx-background-color: #BED7DC; /* Header color */
+    -fx-background-color: #B3C8CF; /* Header color */
 }
 
 
@@ -51,6 +51,11 @@
     -fx-background-color: none;
 }
 
+.menu-button:hover {
+    -fx-background-color: #F1EEDC;
+    -fx-scale-y: 0.4; /* Imposta la scala in altezza a 0.4 quando il mouse vi passa sopra */
+}
+
 
 .login_button{
     -fx-background-color: transparent; /* No background color */
@@ -75,3 +80,22 @@
     -fx-background-color: none;
 }
 
+
+.login_button:hover {
+    -fx-background-color: #F1EEDC;
+    -fx-scale-y: 0.4; /* Imposta la scala in altezza a 0.4 quando il mouse vi passa sopra */
+}
+
+
+.image:hover {
+    -fx-scale-x: 1.1; /* Ingrandisci l'elemento del 10% in larghezza quando il mouse vi passa sopra */
+    -fx-scale-y: 1.1; /* Ingrandisci l'elemento del 10% in altezza quando il mouse vi passa sopra */
+    /*-fx-rotate: 5; /* Ruota l'elemento di 5 gradi quando il mouse vi passa sopra */
+}
+
+.image {
+    -fx-scale-x: 1; /* Riporta l'elemento alla dimensione originale in larghezza quando il mouse non è più sopra */
+    -fx-scale-y: 1; /* Riporta l'elemento alla dimensione originale in altezza quando il mouse non è più sopra */
+    -fx-rotate: 0; /* Riporta l'elemento alla rotazione originale quando il mouse non è più sopra */
+    -fx-transition: scale 2s ease-in-out, rotate 2s ease-in-out; /* Aggiungi una transizione alle proprietà scale e rotate che dura 1 secondo */
+}
