@@ -22,7 +22,6 @@ public class Homepage extends Application {
         stage.setMaxWidth(1024);
         stage.setMaxHeight(768);
 
-
         stage.show();
     }
 

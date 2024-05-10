@@ -90,7 +90,6 @@
 .image:hover {
     -fx-scale-x: 1.1; /* Ingrandisci l'elemento del 10% in larghezza quando il mouse vi passa sopra */
     -fx-scale-y: 1.1; /* Ingrandisci l'elemento del 10% in altezza quando il mouse vi passa sopra */
-    /*-fx-rotate: 5; /* Ruota l'elemento di 5 gradi quando il mouse vi passa sopra */
 }
 
 .image {
@@ -98,4 +97,31 @@
     -fx-scale-y: 1; /* Riporta l'elemento alla dimensione originale in altezza quando il mouse non è più sopra */
     -fx-rotate: 0; /* Riporta l'elemento alla rotazione originale quando il mouse non è più sopra */
     -fx-transition: scale 2s ease-in-out, rotate 2s ease-in-out; /* Aggiungi una transizione alle proprietà scale e rotate che dura 1 secondo */
+}
+
+.footer{
+    -fx-background-color: #B3C8CF; /* Footer color */
+    -fx-padding: 10px; /* Add a 10px padding around the footer */
+    -fx-text-fill: #FFFFFF; /* Text color */
+    -fx-font-size: 14px; /* Text size */
+    -fx-font-weight: bold; /* Make text bold */
+    -fx-alignment: center; /* Center text */
+
+}
+
+.login_label{
+    -fx-font-family: "Arial";  /* Sostituisci con il nome del tuo font preferito */
+    -fx-font-size: 23px;  /* Aumenta la dimensione del font */
+    -fx-text-fill: #ffffff;  /* Cambia il colore del testo a nero */
+    -fx-font-weight: bold;  /* Rendi il testo in grassetto */
+}
+
+.login_textfield{
+    -fx-font-family: "Arial";  /* Sostituisci con il nome del tuo font preferito */
+    -fx-font-size: 14px;  /* Aumenta la dimensione del font */
+    -fx-text-fill: #000000;  /* Cambia il colore del testo a nero */
+    -fx-background-color: #E5DDC5;  /* Cambia il colore di sfondo per abbinarlo al tuo menu slider */
+    -fx-border-color: #ffffff;  /* Cambia il colore del bordo a nero */
+    -fx-border-radius: 5px;  /* Aggiungi un po' di arrotondamento ai bordi */
+    -fx-padding: 10px;  /* Aggiungi un po' di spazio intorno al testo all'interno del TextField */
 }
