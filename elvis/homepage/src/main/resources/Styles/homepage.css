@@ -19,7 +19,7 @@
 }
 
 .button:hover {
-    -fx-background-color: #F1EEDC; /* Button color when hovered */
+    -fx-background-color: rgba(241, 238, 220, 0.51); /* Button color when hovered */
 }
 
 .button:pressed {
@@ -52,7 +52,7 @@
 }
 
 .menu-button:hover {
-    -fx-background-color: #F1EEDC;
+    -fx-background-color: rgba(241, 238, 220, 0.68);
     -fx-scale-y: 0.4; /* Imposta la scala in altezza a 0.4 quando il mouse vi passa sopra */
 }
 
@@ -82,7 +82,7 @@
 
 
 .login_button:hover {
-    -fx-background-color: #F1EEDC;
+    -fx-background-color: rgba(241, 238, 220, 0.68);
     -fx-scale-y: 0.4; /* Imposta la scala in altezza a 0.4 quando il mouse vi passa sopra */
 }
 

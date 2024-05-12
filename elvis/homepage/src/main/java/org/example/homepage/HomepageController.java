@@ -3,16 +3,13 @@ package org.example.homepage;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import javafx.scene.effect.BoxBlur;
+import com.google.gson.Gson;
 
-public class Controller  {
+public class HomepageController {
 
     @FXML
     private AnchorPane car_home;
@@ -36,6 +33,17 @@ public class Controller  {
 
     @FXML
     private Button loginback;
+
+    @FXML
+    private Button login_button;
+
+
+    @FXML
+    private TextField username;
+
+
+    @FXML
+    private PasswordField password;
 
 
     public void initialize(){
@@ -99,4 +107,26 @@ public class Controller  {
     }
 
 
+    @FXML
+    void login(ActionEvent event) {
+        String user = username.getText();
+        String pass = password.getText();
+
+        Gson gson = new Gson();
+ /*       try (Reader reader = new FileReader("loginInfo.json")) {
+            // Convert JSON File to Java Object
+            LoginInfo loginInfo = gson.fromJson(reader, LoginInfo.class);
+
+            // Comparing the username and password
+            if (loginInfo.getUsername().equals(user) && loginInfo.getPassword().equals(pass)) {
+                System.out.println("Login successful");
+            } else {
+                System.out.println("Invalid username or password");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+
 }
+

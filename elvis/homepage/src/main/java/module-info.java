@@ -2,6 +2,7 @@ module org.example.homepage {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires com.google.gson;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;

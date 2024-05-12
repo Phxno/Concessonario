@@ -1,0 +1,37 @@
+.data_textfield{
+    -fx-font-family: "Arial";  /* Sostituisci con il nome del tuo font preferito */
+    -fx-font-size: 14px;  /* Aumenta la dimensione del font */
+    -fx-text-fill: #000000;  /* Cambia il colore del testo a nero */
+    -fx-background-color: transparent;  /* Cambia il colore di sfondo per abbinarlo al tuo menu slider */
+    -fx-border-color: #ffffff;  /* Cambia il colore del bordo a nero */
+    -fx-border-radius: 5px;  /* Aggiungi un po' di arrotondamento ai bordi */
+    -fx-padding: 10px;  /* Aggiungi un po' di spazio intorno al testo all'interno del TextField */
+}
+
+
+.registration_anchorpane{
+    -fx-background-color: rgb(179, 200, 207);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
+}
+
+
+.registration_button {
+    -fx-background-color: transparent; /* Button color */
+    -fx-background-radius: 0; /* Rounded corners */
+    -fx-margin: 10px; /* Add a 10px margin around each button */
+    -fx-border-color: #E5DDC5; /* Border color */
+    -fx-border-width: 0; /* Border width */
+    -fx-text-fill: #FFFFFF; /* Text color */
+    -fx-font-size: 16px; /* Text size */
+    -fx-padding: 10 20; /* Padding around text */
+    -fx-font-weight: bold; /* Make text bold */
+}
+
+
+.registration_button:hover {
+    -fx-background-color: rgba(229, 221, 197, 0.21); /* Button color when hovered */
+}
+
+.registration_button:pressed {
+    -fx-background-color: rgba(229, 221, 197, 0.49); /* Button color when pressed */
+}

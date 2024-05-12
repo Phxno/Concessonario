@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="750.0" prefWidth="905.0" stylesheets="@../Styles/homepage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.homepage.Controller">
+<AnchorPane prefHeight="750.0" prefWidth="905.0" stylesheets="@../Styles/homepage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.homepage.HomepageController">
    <children>
       <BorderPane layoutX="9.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -112,19 +112,78 @@
                               <Insets left="70.0" top="20.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField promptText="Nome Utente" styleClass="login_textfield">
+                        <TextField fx:id="username" promptText="Nome Utente" styleClass="login_textfield">
                            <VBox.margin>
                               <Insets top="30.0" />
                            </VBox.margin>
                         </TextField>
-                        <PasswordField promptText="Password" styleClass="login_textfield">
+                        <PasswordField fx:id="password" promptText="Password" styleClass="login_textfield">
                            <VBox.margin>
                               <Insets top="40.0" />
                            </VBox.margin>
                         </PasswordField>
-                        <Button mnemonicParsing="false" text="login">
+                        <Button fx:id="login_button" mnemonicParsing="false" onAction="#login" text="login">
                            <VBox.margin>
                               <Insets top="40.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: E5DDC5;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label styleClass="login_label" text="Dati Utente">
+                           <VBox.margin>
+                              <Insets left="40.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox prefHeight="35.0" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets top="30.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label text="Nome:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="//">
+                                 <HBox.margin>
+                                    <Insets left="40.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="35.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Cognome:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="//">
+                                 <HBox.margin>
+                                    <Insets left="40.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="35.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Nome Utente:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="//">
+                                 <HBox.margin>
+                                    <Insets left="40.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Button mnemonicParsing="false" prefWidth="200.0" text="Logout">
+                           <VBox.margin>
+                              <Insets top="30.0" />
                            </VBox.margin>
                         </Button>
                      </children>
