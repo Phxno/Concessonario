@@ -16,7 +16,7 @@
 
 
 .registration_button {
-    -fx-background-color: transparent; /* Button color */
+    -fx-background-color: rgba(229, 221, 197, 0.21); /* Button color */
     -fx-background-radius: 0; /* Rounded corners */
     -fx-margin: 10px; /* Add a 10px margin around each button */
     -fx-border-color: #E5DDC5; /* Border color */
@@ -29,7 +29,7 @@
 
 
 .registration_button:hover {
-    -fx-background-color: rgba(229, 221, 197, 0.21); /* Button color when hovered */
+    -fx-background-color: rgba(229, 221, 197, 0.73); /* Button color when hovered */
 }
 
 .registration_button:pressed {

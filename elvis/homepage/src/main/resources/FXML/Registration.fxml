@@ -6,15 +6,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: E5DDC5;" stylesheets="@../Styles/registration.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.homepage.RegistrationController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/registration.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.homepage.RegistrationController">
    <children>
-      <Label layoutX="369.0" layoutY="27.0" text="Registrazione Utente" textFill="WHITE">
+      <Label layoutX="369.0" layoutY="27.0" text="Registrazione Utente" textFill="#79959c">
          <font>
             <Font size="34.0" />
          </font>
@@ -25,20 +25,20 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label prefHeight="60.0" prefWidth="100.0" text="Nome" textFill="WHITE">
+                        <Label prefHeight="60.0" prefWidth="116.0" text="Nome" textFill="WHITE">
                            <padding>
-                              <Insets left="30.0" top="40.0" />
+                              <Insets left="30.0" top="50.0" />
                            </padding>
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="nome" prefHeight="26.0" prefWidth="160.0" styleClass="data_textfield" text="Elvis">
+                        <TextField fx:id="nome" prefHeight="26.0" prefWidth="160.0" styleClass="data_textfield">
                            <HBox.margin>
                               <Insets top="35.0" />
                            </HBox.margin>
                         </TextField>
-                        <Label prefHeight="67.0" prefWidth="170.0" text="Cognome" textFill="WHITE">
+                        <Label prefHeight="67.0" prefWidth="182.0" text="Cognome" textFill="WHITE">
                            <padding>
                               <Insets left="90.0" top="40.0" />
                            </padding>
@@ -46,7 +46,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="cognome" prefHeight="26.0" prefWidth="200.0" styleClass="data_textfield" text="Ndokaj">
+                        <TextField fx:id="cognome" prefHeight="26.0" prefWidth="200.0" styleClass="data_textfield">
                            <HBox.margin>
                               <Insets top="35.0" />
                            </HBox.margin>
@@ -58,7 +58,7 @@
                         <Insets top="30.0" />
                      </VBox.margin>
                      <children>
-                        <Label prefHeight="60.0" prefWidth="100.0" text="Telefono" textFill="WHITE">
+                        <Label prefHeight="60.0" prefWidth="117.0" text="Telefono" textFill="WHITE">
                            <padding>
                               <Insets left="30.0" top="40.0" />
                            </padding>
@@ -66,7 +66,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="telefono" prefHeight="26.0" prefWidth="160.0" styleClass="data_textfield" text="Elvis">
+                        <TextField fx:id="telefono" prefHeight="38.0" prefWidth="160.0" styleClass="data_textfield">
                            <HBox.margin>
                               <Insets top="35.0" />
                            </HBox.margin>
@@ -91,26 +91,32 @@
                         <Insets top="40.0" />
                      </VBox.margin>
                      <children>
-                        <Label prefHeight="60.0" prefWidth="100.0" text="Utente" textFill="WHITE">
+                        <Label prefHeight="65.0" prefWidth="118.0" text="Nome Utente" textFill="WHITE">
                            <padding>
-                              <Insets left="30.0" top="40.0" />
+                              <Insets left="20.0" top="45.0" />
                            </padding>
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="user" prefHeight="26.0" prefWidth="160.0" styleClass="data_textfield" text="Elvis">
+                        <TextField fx:id="user" prefHeight="26.0" prefWidth="160.0" styleClass="data_textfield">
                            <HBox.margin>
                               <Insets top="35.0" />
                            </HBox.margin>
                         </TextField>
-                        <Label prefHeight="67.0" prefWidth="170.0" text="Password" textFill="WHITE">
+                        <Label prefHeight="67.0" prefWidth="181.0" text="Password" textAlignment="CENTER" textFill="WHITE">
                            <padding>
                               <Insets left="90.0" top="40.0" />
                            </padding>
                            <font>
                               <Font size="16.0" />
                            </font>
+                           <tooltip>
+                              <Tooltip text="8 caratteri, almeno una lettera maiuscola,una lettera minuscola,un numero e un carattere speciale" wrapText="true">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font></Tooltip>
+                           </tooltip>
                         </Label>
                         <PasswordField fx:id="password" prefHeight="26.0" prefWidth="200.0" styleClass="data_textfield">
                            <HBox.margin>
@@ -119,7 +125,7 @@
                         </PasswordField>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" onAction="#registration_function" styleClass="registration_button" text="Registrati">
+                  <Button fx:id="bottone_registrazione" mnemonicParsing="false" onAction="#registration_function" styleClass="registration_button" text="Registrati">
                      <VBox.margin>
                         <Insets left="270.0" top="20.0" />
                      </VBox.margin>

@@ -10,6 +10,7 @@ module org.example.homepage {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.desktop;
 
     opens org.example.homepage to javafx.fxml;
     exports org.example.homepage;

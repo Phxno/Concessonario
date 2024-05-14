@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="541d3eb3-850c-4a84-b62c-e1f0d8c621f7" name="Changes" comment="6° Commit: Creato slider login con rispettivi textfield e bottone, sistemati immagini auto(forse ancora un po da sistemare). Prossimi step: creare pagina registrazione con i rispettivi label e bottoni, creare json sulla quale salvare i dati, provare a rendere funzionate il logni">
+    <list default="true" id="541d3eb3-850c-4a84-b62c-e1f0d8c621f7" name="Changes" comment="7° Commit: homepage finita graficamente, manca solo il login da fare back-end, e da aggiungerci i collegamenti alle altre page. Creata pagina registrazione, con relativo form, manca da fixare la parte di back-end, anche se è praticamente finito. Creato il file JSON contenente tutti i dati, poi bho ho fatto altre robe che non ricordo.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dati_utente.json" beforeDir="false" afterPath="$PROJECT_DIR$/dati_utente.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/homepage/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/homepage/HomepageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/Homepage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/Homepage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Styles/homepage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Styles/homepage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/homepage/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/homepage/RegistrationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/Registration.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/Registration.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Styles/registration.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Styles/registration.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +92,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715086275354</updated>
-      <workItem from="1715086276928" duration="54587000" />
+      <workItem from="1715086276928" duration="68497000" />
     </task>
     <task id="LOCAL-00001" summary="2° Commit: Fix libraries Javafx">
       <option name="closed" value="true" />
@@ -150,7 +150,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715364796705</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="7° Commit: homepage finita graficamente, manca solo il login da fare back-end, e da aggiungerci i collegamenti alle altre page. Creata pagina registrazione, con relativo form, manca da fixare la parte di back-end, anche se è praticamente finito. Creato il file JSON contenente tutti i dati, poi bho ho fatto altre robe che non ricordo.">
+      <option name="closed" value="true" />
+      <created>1715507295176</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1715507295176</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,6 +170,7 @@
     <MESSAGE value="4° Commit: Menu slider creato, creato e posizionato logo e icona utente nell'header. Per chi volesse il logo è presente dentro /src/main/resources/Images. Manca da fare la tendina per il login e registrazione e sistemare i marchi di auto con la rispettiva auto di punta al centro della pagina" />
     <MESSAGE value="5° Commit: Creati stand per le macchine al centro della pagina, bloccata la dimensione della pagina a quella prestabilita(1024 x 768), fixato hover sui bottoni menu e login, blur e disattivazione dello sfondo quando si clicca il tasto menu,creato effetto ingrandimento quando si passa sopra allo stand di una macchina, lasciato lo spazio domani per il login che farò come slider da destra verso sinistra. Tutte le immagini sono all'interno della cartella images" />
     <MESSAGE value="6° Commit: Creato slider login con rispettivi textfield e bottone, sistemati immagini auto(forse ancora un po da sistemare). Prossimi step: creare pagina registrazione con i rispettivi label e bottoni, creare json sulla quale salvare i dati, provare a rendere funzionate il logni" />
-    <option name="LAST_COMMIT_MESSAGE" value="6° Commit: Creato slider login con rispettivi textfield e bottone, sistemati immagini auto(forse ancora un po da sistemare). Prossimi step: creare pagina registrazione con i rispettivi label e bottoni, creare json sulla quale salvare i dati, provare a rendere funzionate il logni" />
+    <MESSAGE value="7° Commit: homepage finita graficamente, manca solo il login da fare back-end, e da aggiungerci i collegamenti alle altre page. Creata pagina registrazione, con relativo form, manca da fixare la parte di back-end, anche se è praticamente finito. Creato il file JSON contenente tutti i dati, poi bho ho fatto altre robe che non ricordo." />
+    <option name="LAST_COMMIT_MESSAGE" value="7° Commit: homepage finita graficamente, manca solo il login da fare back-end, e da aggiungerci i collegamenti alle altre page. Creata pagina registrazione, con relativo form, manca da fixare la parte di back-end, anche se è praticamente finito. Creato il file JSON contenente tutti i dati, poi bho ho fatto altre robe che non ricordo." />
   </component>
 </project>
