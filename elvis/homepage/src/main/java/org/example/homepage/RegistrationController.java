@@ -86,7 +86,6 @@ public class RegistrationController {
         dati.addProperty("username", username);
         dati.addProperty("password", pass);
 
-        System.out.println("User data: " + dati);
 
 
 
@@ -108,8 +107,6 @@ public class RegistrationController {
 
             // aggiungiamo i dati dell'utente all'array
             dati_presenti.add(dati);
-            System.out.println("Updated user data: " + dati_presenti);
-
             //scriviamo i dati aggiornati nel file dati_utente.json
             try (FileWriter writer = new FileWriter("dati_utente.json")) {
                 writer.write(dati_presenti.toString());
