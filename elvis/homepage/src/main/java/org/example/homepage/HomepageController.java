@@ -1,13 +1,24 @@
 package org.example.homepage;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.effect.BoxBlur;
 import com.google.gson.Gson;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 
 public class HomepageController {
 
@@ -34,9 +45,6 @@ public class HomepageController {
     @FXML
     private Button loginback;
 
-    @FXML
-    private Button login_button;
-
 
     @FXML
     private TextField username;
@@ -45,8 +53,27 @@ public class HomepageController {
     @FXML
     private PasswordField password;
 
+    @FXML
+    private Button bottone_registrati_qui;
 
-    public void initialize(){
+    @FXML
+    private VBox vbox_dati_utente;
+
+    @FXML
+    private VBox vbox_login;
+
+
+    @FXML
+    private Label nome_login;
+
+    @FXML
+    private Label cognome_login;
+
+    @FXML
+    private Label nome_utente_login;
+
+
+    public void initialize() {
         slider_menu.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
         slider_login.setTranslateX(200);
         menuback.setVisible(false); //rendiamo invisibile il tasto menuback cosi che appena avviamo il codice non sia possibile cliccarlo
@@ -57,15 +84,13 @@ public class HomepageController {
     }
 
 
-
-
-    public void menu_slider(){
+    public void menu_slider() {
         BoxBlur blur = new BoxBlur(6, 6, 3); // Crea un'istanza di BoxBlur
-        menu.setOnMouseClicked(event -> slideMenuTo(0, false, true,blur)); //gestione degli eventi: quando clicchiamo il tasto menu spostiamo lo slider a 0 e rendiamo visibile il tasto menuback
-        menuback.setOnMouseClicked(event -> slideMenuTo(-200, true, false,null)); //gestione degli eventi: quando clicchiamo il tasto menuback spostiamo lo slider a -200 e rendiamo visibile il tasto menu
+        menu.setOnMouseClicked(event -> slideMenuTo(0, false, true, blur)); //gestione degli eventi: quando clicchiamo il tasto menu spostiamo lo slider a 0 e rendiamo visibile il tasto menuback
+        menuback.setOnMouseClicked(event -> slideMenuTo(-200, true, false, null)); //gestione degli eventi: quando clicchiamo il tasto menuback spostiamo lo slider a -200 e rendiamo visibile il tasto menu
     }
 
-    private void slideMenuTo(int x, boolean menuVisible, boolean menubackVisible, BoxBlur blurEffect){
+    private void slideMenuTo(int x, boolean menuVisible, boolean menubackVisible, BoxBlur blurEffect) {
         TranslateTransition slideMenu = new TranslateTransition(); //creiamo un'istanza di TranslateTransition
         slideMenu.setDuration(Duration.seconds(0.4)); //tempo di transizione
         slideMenu.setNode(slider_menu); //impostiamo il nodo su cui effettuare la transizione
@@ -73,7 +98,7 @@ public class HomepageController {
         slideMenu.setToX(x); //impostiamo la posizione finale dello slider
         slideMenu.play(); //avviamo la transizione
 
-        slideMenu.setOnFinished((ActionEvent e)-> {
+        slideMenu.setOnFinished((ActionEvent e) -> {
             car_home.setEffect(blurEffect); // Imposta l'effetto di sfocatura sulla pagina principale
             car_home.setDisable(blurEffect != null); // Disabilita car_home se l'effetto di sfocatura è applicato
             menu.setVisible(menuVisible);
@@ -82,15 +107,13 @@ public class HomepageController {
     }
 
 
-
-
-    public void login_slider(){
+    public void login_slider() {
         BoxBlur blur = new BoxBlur(6, 6, 3); // Crea un'istanza di BoxBlur
-        login.setOnMouseClicked(event -> slideLoginTo(0, false, true,blur)); //gestione degli eventi: quando clicchiamo il tasto menu spostiamo lo slider a 0 e rendiamo visibile il tasto menuback
-        loginback.setOnMouseClicked(event -> slideLoginTo(200, true, false,null)); //gestione degli eventi: quando clicchiamo il tasto menuback spostiamo lo slider a -200 e rendiamo visibile il tasto menu
+        login.setOnMouseClicked(event -> slideLoginTo(0, false, true, blur)); //gestione degli eventi: quando clicchiamo il tasto menu spostiamo lo slider a 0 e rendiamo visibile il tasto menuback
+        loginback.setOnMouseClicked(event -> slideLoginTo(200, true, false, null)); //gestione degli eventi: quando clicchiamo il tasto menuback spostiamo lo slider a -200 e rendiamo visibile il tasto menu
     }
 
-    private void slideLoginTo(int x, boolean menuVisible, boolean menubackVisible, BoxBlur blurEffect){
+    private void slideLoginTo(int x, boolean menuVisible, boolean menubackVisible, BoxBlur blurEffect) {
         TranslateTransition slideLogin = new TranslateTransition(); //creiamo un'istanza di TranslateTransition
         slideLogin.setDuration(Duration.seconds(0.4)); //tempo di transizione
         slideLogin.setNode(slider_login); //impostiamo il nodo su cui effettuare la transizione
@@ -98,7 +121,7 @@ public class HomepageController {
         slideLogin.setToX(x); //impostiamo la posizione finale dello slider
         slideLogin.play(); //avviamo la transizione
 
-        slideLogin.setOnFinished((ActionEvent e)-> {
+        slideLogin.setOnFinished((ActionEvent e) -> {
             car_home.setEffect(blurEffect); // Imposta l'effetto di sfocatura sulla pagina principale
             car_home.setDisable(blurEffect != null); // Disabilita car_home se l'effetto di sfocatura è applicato
             login.setVisible(menuVisible);
@@ -112,20 +135,78 @@ public class HomepageController {
         String user = username.getText();
         String pass = password.getText();
 
-        Gson gson = new Gson();
- /*       try (Reader reader = new FileReader("loginInfo.json")) {
-            // Convert JSON File to Java Object
-            LoginInfo loginInfo = gson.fromJson(reader, LoginInfo.class);
+        if (user.isEmpty() || pass.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Campi vuoti");
+            alert.setContentText("Inserisci username e password");
+            alert.showAndWait();
+            return;
+        }
 
-            // Comparing the username and password
-            if (loginInfo.getUsername().equals(user) && loginInfo.getPassword().equals(pass)) {
-                System.out.println("Login successful");
-            } else {
-                System.out.println("Invalid username or password");
+        Gson gson = new Gson();
+        boolean isAuthenticated = false; //variabile booleana per controllare se l'utente è autenticato
+
+
+        try (Reader reader = new FileReader("dati_utente.json")) {
+            // Convertiamo il file JSON in un oggetto Java
+            JsonArray usersArray = gson.fromJson(reader, JsonArray.class);
+
+            //Creiamo un oggetto JSON per ogni utente
+            for (JsonElement userElement : usersArray) {
+                JsonObject userObject = userElement.getAsJsonObject();
+
+                //compariamo per ogni utente il campo username e password con quelli inseriti dall'utente
+                if (userObject.has("username") && userObject.has("password")) {
+                    if (userObject.get("username").getAsString().equals(user) && userObject.get("password").getAsString().equals(pass)) {
+                        String nome = userObject.get("name").getAsString();
+                        String cognome = userObject.get("surname").getAsString();
+                        String username = userObject.get("username").getAsString();
+                        UserSession.getInstance(nome, cognome, username);
+                        nome_login.setText(nome);
+                        cognome_login.setText(cognome);
+                        nome_utente_login.setText(user);
+                        vbox_login.setVisible(false);
+                        vbox_dati_utente.setVisible(true);
+                        isAuthenticated = true;
+
+                    }
+                }
+            }
+            if (!isAuthenticated) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore");
+                alert.setHeaderText("Errore di login");
+                alert.setContentText("I dati inseriti non sono corretti. Riprova.");
+                alert.showAndWait();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
+    }
+
+    @FXML
+    void registration_button(ActionEvent event) throws IOException {
+        Stage stage = (Stage) bottone_registrati_qui.getScene().getWindow();
+        stage.close();
+
+        // Carica la scena della homepage
+        FXMLLoader fxmlLoader = new FXMLLoader(Registration.class.getResource("/FXML/Registration.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
+        stage.setTitle("Registrazione");
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    @FXML
+    void logout(ActionEvent event) {
+        UserSession.getInstance(null, null, null);
+        username.clear();
+        password.clear();
+        vbox_login.setVisible(true);
+        vbox_dati_utente.setVisible(false);
     }
 
 }

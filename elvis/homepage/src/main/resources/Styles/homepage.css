@@ -46,10 +46,6 @@
     -fx-background-color: rgba(0, 0, 0, 0.2); /* Slight press effect */
 }
 
-.menu-button .arrow {
-    -fx-shape: none;
-    -fx-background-color: none;
-}
 
 .menu-button:hover {
     -fx-background-color: rgba(241, 238, 220, 0.68);
@@ -75,10 +71,6 @@
     -fx-background-color: rgba(0, 0, 0, 0.2); /* Slight press effect */
 }
 
-.login_button .arrow {
-    -fx-shape: none;
-    -fx-background-color: none;
-}
 
 
 .login_button:hover {
@@ -124,4 +116,11 @@
     -fx-border-color: #ffffff;  /* Cambia il colore del bordo a nero */
     -fx-border-radius: 5px;  /* Aggiungi un po' di arrotondamento ai bordi */
     -fx-padding: 10px;  /* Aggiungi un po' di spazio intorno al testo all'interno del TextField */
+}
+
+
+.data_label {
+    -fx-text-fill: white; /* Colore del testo */
+    -fx-font-size: 14px; /* Dimensione del testo */
+    -fx-font-family: "Arial"; /* Tipo di carattere */
 }

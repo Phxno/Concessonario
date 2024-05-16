@@ -7,6 +7,8 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -14,11 +16,16 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/registration.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.homepage.RegistrationController">
    <children>
-      <Label layoutX="369.0" layoutY="27.0" text="Registrazione Utente" textFill="#79959c">
+      <Label layoutX="98.0" layoutY="33.0" prefHeight="42.0" prefWidth="348.0" text="Registrazione Utente" textFill="#79959c">
          <font>
-            <Font size="34.0" />
+            <Font name="System Bold" size="26.0" />
          </font>
       </Label>
+      <ImageView fitHeight="85.0" fitWidth="142.0" layoutX="438.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/Logo%20concessionario%20colorato.png" />
+         </image>
+      </ImageView>
       <AnchorPane layoutX="101.0" layoutY="119.0" prefHeight="568.0" prefWidth="817.0" styleClass="registration_anchorpane">
          <children>
             <VBox layoutX="66.0" layoutY="50.0" prefHeight="478.0" prefWidth="678.0" style="-fx-background-color: #79959c;" styleClass="registration_anchorpane">
@@ -53,7 +60,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <HBox fx:id="data" prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="100.0" prefWidth="200.0">
                      <VBox.margin>
                         <Insets top="30.0" />
                      </VBox.margin>
@@ -79,7 +86,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <DatePicker>
+                        <DatePicker fx:id="data" editable="false">
                            <HBox.margin>
                               <Insets top="40.0" />
                            </HBox.margin>
@@ -134,5 +141,6 @@
             </VBox>
          </children>
       </AnchorPane>
+      <Button fx:id="bottone_logo" layoutX="465.0" layoutY="35.0" mnemonicParsing="false" onAction="#back_home" prefHeight="33.0" prefWidth="106.0" styleClass="back_home_button" text="Button" />
    </children>
 </AnchorPane>

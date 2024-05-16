@@ -5,24 +5,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class RegistrationController {
     @FXML
     private TextField cognome;
 
     @FXML
-    private HBox data;
+    private DatePicker data;
 
     @FXML
     private TextField nome;
@@ -39,13 +35,17 @@ public class RegistrationController {
     @FXML
     private Button bottone_registrazione;
 
+    @FXML
+    private Button bottone_logo;
+
+
 
     @FXML
     void registration_function(ActionEvent event) throws IOException {
         String name = nome.getText();
         String surname = cognome.getText();
         String phone = telefono.getText();
-        String date = data.toString().getBytes().toString();
+        String date = data.toString();
         String username = user.getText();
         String pass = password.getText();
 
@@ -71,7 +71,7 @@ public class RegistrationController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setHeaderText("Password non valida");
-            alert.setContentText("Per favore, inserire una password valida");
+            alert.setContentText("Per favore, inserire una password valida.\nLa password deve contenere: \n\t- almeno 5 caratteri\n\t- almeno una lettera maiuscola\n\t- almeno una lettera minuscola\n\t- almeno un numero\n\t- almeno un carattere speciale");
             alert.showAndWait();
             return;
         }
@@ -139,6 +139,21 @@ public class RegistrationController {
         homepageStage.show();
     }
 
+    @FXML
+    void back_home(ActionEvent event) throws IOException {
+        Stage stage = (Stage) bottone_logo.getScene().getWindow();
+        stage.close();
+
+        // Carica la scena della homepage
+        FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Homepage.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
+        stage.setTitle("Concessionario");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+
     boolean controllo_campi(String name, String surname, String phone, String date, String username, String pass) { //controlla se ci sono campi vuoti
         return (name.isEmpty() || surname.isEmpty() || phone.isEmpty() || date.isEmpty() || username.isEmpty() || pass.isEmpty());
     }
@@ -148,8 +163,9 @@ public class RegistrationController {
     }
 
     boolean controlla_password(String pass) {
-        return pass.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"); //almeno 8 caratteri, almeno una lettera maiuscola, almeno una lettera minuscola, almeno un numero, almeno un carattere speciale
+        return pass.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!/£.;#&@%()$?*^+=])(?=\\S+$).{5,}$"); //controlla se la password contiene almeno 5 caratteri, una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale
     }
+
 
 }
 

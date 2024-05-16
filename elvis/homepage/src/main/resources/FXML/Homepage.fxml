@@ -105,7 +105,7 @@
          <right>
             <AnchorPane fx:id="slider_login" prefHeight="668.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="568.0" prefWidth="200.0" style="-fx-background-color: E5DDC5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox fx:id="vbox_login" prefHeight="568.0" prefWidth="200.0" style="-fx-background-color: E5DDC5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label styleClass="login_label" text="Login">
                            <VBox.margin>
@@ -122,66 +122,75 @@
                               <Insets top="40.0" />
                            </VBox.margin>
                         </PasswordField>
-                        <Button fx:id="login_button" mnemonicParsing="false" onAction="#login" text="login">
+                        <Button fx:id="login_button" mnemonicParsing="false" onAction="#login" text="Login">
                            <VBox.margin>
                               <Insets top="40.0" />
                            </VBox.margin>
                         </Button>
+                        <Label prefHeight="19.0" prefWidth="167.0" text="Non sei ancora registrato?" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets left="20.0" top="190.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="bottone_registrati_qui" mnemonicParsing="false" onAction="#registration_button" prefHeight="39.0" prefWidth="200.0" text="Registrati qui" underline="true" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: E5DDC5;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox fx:id="vbox_dati_utente" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: E5DDC5;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label styleClass="login_label" text="Dati Utente">
                            <VBox.margin>
                               <Insets left="40.0" top="20.0" />
                            </VBox.margin>
                         </Label>
-                        <HBox prefHeight="35.0" prefWidth="200.0">
+                        <HBox prefHeight="35.0" prefWidth="200.0" styleClass="data_label">
                            <VBox.margin>
                               <Insets top="30.0" />
                            </VBox.margin>
                            <children>
-                              <Label text="Nome:">
+                              <Label styleClass="data_label" text="Nome:">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label text="//">
+                              <Label fx:id="nome_login" styleClass="data_label">
                                  <HBox.margin>
-                                    <Insets left="40.0" />
+                                    <Insets left="15.0" />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
                         <HBox prefHeight="35.0" prefWidth="200.0">
                            <children>
-                              <Label text="Cognome:">
+                              <Label styleClass="data_label" text="Cognome:">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label text="//">
+                              <Label fx:id="cognome_login" styleClass="data_label">
                                  <HBox.margin>
-                                    <Insets left="40.0" />
+                                    <Insets left="10.0" />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
                         <HBox prefHeight="35.0" prefWidth="200.0">
                            <children>
-                              <Label text="Nome Utente:">
+                              <Label styleClass="data_label" text="Nome Utente:">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label text="//">
+                              <Label fx:id="nome_utente_login" styleClass="data_label">
                                  <HBox.margin>
-                                    <Insets left="40.0" />
+                                    <Insets left="10.0" />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
-                        <Button mnemonicParsing="false" prefWidth="200.0" text="Logout">
+                        <Button mnemonicParsing="false" onAction="#logout" prefWidth="200.0" text="Logout">
                            <VBox.margin>
                               <Insets top="30.0" />
                            </VBox.margin>

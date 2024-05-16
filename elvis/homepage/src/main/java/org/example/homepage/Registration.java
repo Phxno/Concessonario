@@ -14,6 +14,14 @@ public class Registration extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         stage.setTitle("Registrazione");
         stage.setScene(scene);
+
+
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
+        stage.setMaxWidth(1024);
+        stage.setMaxHeight(768);
+
+
         stage.show();
     }
 
