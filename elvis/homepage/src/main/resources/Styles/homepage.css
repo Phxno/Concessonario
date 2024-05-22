@@ -79,17 +79,19 @@
 }
 
 
-.image:hover {
-    -fx-scale-x: 1.1; /* Ingrandisci l'elemento del 10% in larghezza quando il mouse vi passa sopra */
-    -fx-scale-y: 1.1; /* Ingrandisci l'elemento del 10% in altezza quando il mouse vi passa sopra */
-}
 
 .image {
-    -fx-scale-x: 1; /* Riporta l'elemento alla dimensione originale in larghezza quando il mouse non è più sopra */
-    -fx-scale-y: 1; /* Riporta l'elemento alla dimensione originale in altezza quando il mouse non è più sopra */
-    -fx-rotate: 0; /* Riporta l'elemento alla rotazione originale quando il mouse non è più sopra */
-    -fx-transition: scale 2s ease-in-out, rotate 2s ease-in-out; /* Aggiungi una transizione alle proprietà scale e rotate che dura 1 secondo */
+    -fx-scale-x: 1; /* Imposta la scala in larghezza a 1 */
+    -fx-scale-y: 1; /* Imposta la scala in altezza a 1 */
+    -fx-transition: all 0.5s ease; /* Aggiungi un effetto di transizione a tutte le proprietà */
 }
+
+.image:hover {
+    -fx-scale-x: 1.1; /* Ingrandisci l'immagine del 20% in larghezza quando il mouse vi passa sopra */
+    -fx-scale-y: 1.1; /* Ingrandisci l'immagine del 20% in altezza quando il mouse vi passa sopra */
+    -fx-transition: all 0.5s ease
+}
+
 
 .footer{
     -fx-background-color: #B3C8CF; /* Footer color */
