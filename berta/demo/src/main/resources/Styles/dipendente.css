@@ -1,0 +1,30 @@
+.button {
+  -fx-font-family: "Arial";
+  -fx-effect: dropshadow( three-pass-box , black , 9 , 0.0 , 0 , 0 );
+  -fx-background-color: #E5DDC5;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-font-size: 25px;
+}
+
+.label_footer{
+  -fx-background-color: #B3C8CF;
+}
+.mainpage {
+  -fx-background-color: #fbf9f1;
+  /*E5E1DA*/
+}
+
+.info {
+  -fx-font-size: 40px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #79959c;
+
+}
+#Okay {
+  -fx-background-color: green;
+}
+
+#Nay {
+  -fx-background-color: #f36f53;
+}
