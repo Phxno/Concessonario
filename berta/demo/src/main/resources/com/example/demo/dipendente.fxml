@@ -38,7 +38,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="447.0" prefWidth="1024.0">
                <children>
-                  <Button fx:id="Ordini" layoutX="512.0" layoutY="89.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="254.0" text="Ordini" AnchorPane.rightAnchor="240.0" />
+                  <Button fx:id="Ordini" layoutX="512.0" layoutY="89.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="254.0 " text="Ordini" AnchorPane.rightAnchor="240.0" />
                   <Button fx:id="Preventivi" layoutX="258.0" layoutY="89.0" mnemonicParsing="false" onAction="#Prevs" prefHeight="108.0" prefWidth="254.0" text="Preventivi" AnchorPane.leftAnchor="240.0" />
                   <Button fx:id="Cliente" layoutX="385.0" layoutY="225.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="254.0" text="Cerca Cliente" />
                   <BorderPane fx:id="MenPrev" layoutX="317.0" layoutY="-45.0" prefHeight="377.0" prefWidth="390.0" visible="false">

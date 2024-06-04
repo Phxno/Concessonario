@@ -1,4 +1,5 @@
 package com.example.demo;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -6,6 +7,10 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.fxml.FXMLLoader;
+import com.google.gson.*;
+import java.io.FileReader;
+import java.io.Reader;
+
 
 public class DipendenteController {
 
@@ -32,7 +37,7 @@ public class DipendenteController {
 
     public void initialize(){
       MenPrev.setVisible(false);
-      UData.setText("Prova 123");
+      UData.setText(getUser());
     }
 
     private void spawnPrev(){
@@ -47,6 +52,27 @@ public class DipendenteController {
     @FXML
     void Prevs(ActionEvent event){
       spawnPrev();
+    }
+
+    private String getPreventivi(){
+      String file = "../../../../../../../UserData.json";
+      JsonObject dati = new JsonObject();
+            //proviamo a leggere il file dati_utente.json
+            JsonArray dati_presenti;
+            try (FileReader reader = new FileReader(file)) {
+                JsonElement parsed = JsonParser.parseReader(reader);
+                if (parsed.isJsonArray()) {
+                    dati_presenti = parsed.getAsJsonArray();
+                } else {
+                    dati_presenti = new JsonArray();
+                }
+                
+                //se il file esiste, leggiamo i dati, userData contiene i dati dell'utente sottoforma di oggetto JSON
+            } catch (IOException | JsonSyntaxException e) {
+                //se il file non esiste, creiamo un nuovo array vuoto
+                dati_presenti = new JsonArray();
+            }
+      return "";
     }
 
 }
