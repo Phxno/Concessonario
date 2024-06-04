@@ -32,6 +32,7 @@ public class DipendenteController {
 
     public void initialize(){
       MenPrev.setVisible(false);
+      UData.setText("Prova 123");
     }
 
     private void spawnPrev(){
