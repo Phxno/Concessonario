@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="541d3eb3-850c-4a84-b62c-e1f0d8c621f7" name="Changes" comment="9° Commit: Finito pagina registrazione, finito login, con tutto funzionante. In caso chi volesse può testarlo per curiosità. Prossimo passo, creare le pagine marche,modelli,sedi.">
+    <list default="true" id="541d3eb3-850c-4a84-b62c-e1f0d8c621f7" name="Changes" comment="10° Commit: aggiunte le nuove pagine con relativi FXML e basta">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dati_utente.json" beforeDir="false" afterPath="$PROJECT_DIR$/dati_utente.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/homepage/HomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/homepage/HomepageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Styles/homepage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Styles/homepage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/homepage/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/homepage/RegistrationController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +62,8 @@
     "Application.Registration.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "database.data.extractors.current.id": "Comma-separated (CSV)_id",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "list.type.of.created.stylesheet": "CSS",
@@ -95,7 +96,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715086275354</updated>
-      <workItem from="1715086276928" duration="97488000" />
+      <workItem from="1715086276928" duration="101855000" />
     </task>
     <task id="LOCAL-00001" summary="2° Commit: Fix libraries Javafx">
       <option name="closed" value="true" />
@@ -185,11 +186,30 @@
       <option name="project" value="LOCAL" />
       <updated>1715861060219</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="10° Commit: aggiunte le nuove pagine con relativi FXML e basta">
+      <option name="closed" value="true" />
+      <created>1716388516256</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1716388516256</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2° Commit: Fix libraries Javafx" />
@@ -200,6 +220,7 @@
     <MESSAGE value="7° Commit: homepage finita graficamente, manca solo il login da fare back-end, e da aggiungerci i collegamenti alle altre page. Creata pagina registrazione, con relativo form, manca da fixare la parte di back-end, anche se è praticamente finito. Creato il file JSON contenente tutti i dati, poi bho ho fatto altre robe che non ricordo." />
     <MESSAGE value="8° Commit: Creata e finita pagina registrazione, con tutti i suoi controlli ai campi(potrebbe mancare qualcosa ma sono problemi piccoli e risolvibili in fretta). La registrazione salva tutti i dati dentro un file JSON chiamato dati_utente. Una volta che ci siamo registrati correttamente veniamo reindirizzati alla homepaga (manca il collegamento dalla homepage alla pagina di registrazione, ma dovrebbe essere abbastanza veloce da fare)" />
     <MESSAGE value="9° Commit: Finito pagina registrazione, finito login, con tutto funzionante. In caso chi volesse può testarlo per curiosità. Prossimo passo, creare le pagine marche,modelli,sedi." />
-    <option name="LAST_COMMIT_MESSAGE" value="9° Commit: Finito pagina registrazione, finito login, con tutto funzionante. In caso chi volesse può testarlo per curiosità. Prossimo passo, creare le pagine marche,modelli,sedi." />
+    <MESSAGE value="10° Commit: aggiunte le nuove pagine con relativi FXML e basta" />
+    <option name="LAST_COMMIT_MESSAGE" value="10° Commit: aggiunte le nuove pagine con relativi FXML e basta" />
   </component>
 </project>
