@@ -8,6 +8,9 @@ import com.google.gson.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 
 
 public class DipendenteController {
@@ -19,23 +22,41 @@ public class DipendenteController {
     private BorderPane MenPrev;
 
     @FXML
+    private BorderPane FindUser;
+
+    @FXML
     private Button Ordini;
 
     @FXML
     private Button Preventivi;
 
     @FXML
-    private Button Nay;
+    private Button NayPrev;
 
     @FXML
-    private Button Okay;
+    private Button OkayPrev;
+
+    @FXML
+    private Button NayClient;
+
+    @FXML
+    private Button OkayClient;
 
     @FXML
     private Label UData;
 
+    @FXML
+    private TextField findUserTextField;
+
+    private ObservableList<String> names = FXCollections.observableArrayList();
+
+    @FXML
+    private ListView<String> userList = new ListView<String>(names);
+
     public void initialize(){
       MenPrev.setVisible(false);
-      UData.setText(getPreventivi());
+      FindUser.setVisible(false);
+      UData.setText(getDipendente());
     }
 
     private void spawnPrev(){
@@ -43,8 +64,13 @@ public class DipendenteController {
     }
     
     @FXML
-    void Okay(ActionEvent event) throws IOException{
+    void OkayPrev(ActionEvent event) throws IOException{
       MenPrev.setVisible(false);
+    }
+    @FXML
+    void OkayClient(ActionEvent event) throws IOException{
+      FindUser.setVisible(false);
+      names.clear();
     }
 
     @FXML
@@ -52,7 +78,7 @@ public class DipendenteController {
       spawnPrev();
     }
 
-    private String getPreventivi(){
+    private String getDipendente(){
       String file = "dati_utente.json";
       Gson gson = new Gson();
       String userData = "";
@@ -71,6 +97,40 @@ public class DipendenteController {
       }
       return userData;
 
+    }
+    private void showPreventivi(){
+      String file = "ordini.json";
+      Gson gson = new Gson();
+
+      try (Reader reader = new FileReader(file)){
+        JsonArray ordiniArray = gson.fromJson(reader, JsonArray.class);
+      } catch (IOException e){
+        e.printStackTrace();
+      }
+    }
+    @FXML
+    void getUserSearch(ActionEvent event){
+      FindUser.setVisible(true);
+      String file = "dati_utente.json";
+      Gson gson = new Gson();
+      ArrayList<JsonObject> gsonUserList = new ArrayList<JsonObject>();
+
+      try (Reader reader = new FileReader(file)){
+        JsonArray usersArray = gson.fromJson(reader, JsonArray.class);
+            //Creiamo un oggetto JSON per ogni utente
+        for (JsonElement userElement : usersArray) {
+
+          JsonObject userObject = userElement.getAsJsonObject();
+          gsonUserList.add(userObject);
+          if (userObject.get("type-user").getAsInt() == 2) {
+              String temp = userObject.get("name").getAsString().concat(" ").concat(userObject.get("surname").getAsString()); 
+              names.add(temp);
+          }
+        }
+        userList.setItems(names);
+      } catch (IOException e){
+        e.printStackTrace();
+      }
     }
 
 }

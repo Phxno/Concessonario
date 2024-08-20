@@ -1,1 +1,37 @@
-[{"name":"Matteo","surname":"Bertaiola","phone":"1111111111","data":"DatePicker[id=data, styleClass=combo-box-base date-picker]","username":"BRT","password":"ABC123%","type-user":0}]
+[
+  {"name":"Matteo",
+  "surname":"Bertaiola",
+  "phone":"1111111111",
+  "data":"DatePicker[id=data, styleClass=combo-box-base date-picker]",
+  "username":"BRT",
+  "password":"ABC123%",
+  "type-user":0
+  },
+  {
+    "name":"aa",
+    "surname":"aa",
+    "phone":"1111111111",
+    "data":"DatePicker[id=data, styleClass=combo-box-base date-picker]",
+    "username":"aa",
+    "password":"aa",
+    "type-user":2
+  },
+  {
+    "name":"bb",
+    "surname":"bb",
+    "phone":"0123456789",
+    "data":"DatePicker[id=data, styleClass=combo-box-base date-picker]",
+    "username":"bb",
+    "password":"bb",
+    "type-user":2
+  },
+  {
+    "name":"cc",
+    "surname":"cc",
+    "phone":"0123456789",
+    "data":"DatePicker[id=data, styleClass=combo-box-base date-picker]",
+    "username":"cc",
+    "password":"cc",
+    "type-user":2
+  }
+]
