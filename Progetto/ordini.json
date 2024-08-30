@@ -1,0 +1,12 @@
+[
+  {
+    "utente":"template",
+    "macchina":"template",
+    "configurazione":"template",
+    "dataFinalizzazione":"01/01/1900",
+    "prezzo":0,
+    "sconto":0,
+    "negozioConsegna":"template",
+    "dataConsegna":"01/02/1900"
+  }
+]
