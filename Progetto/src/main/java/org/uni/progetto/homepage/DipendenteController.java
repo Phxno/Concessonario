@@ -49,6 +49,7 @@ public class DipendenteController {
     private TextField findUserTextField;
 
     private ObservableList<String> names = FXCollections.observableArrayList();
+    private ArrayList<String> standbyNames = new ArrayList<String>();
 
     @FXML
     private ListView<String> userList = new ListView<String>(names);
@@ -108,6 +109,18 @@ public class DipendenteController {
         e.printStackTrace();
       }
     }
+
+    @FXML
+    void refreshUserList(){
+      names.clear();
+      for (String name: standbyNames){
+        if (name.contains(findUserTextField.getText())){
+          names.add(name);
+        }
+      }
+      userList.setItems(names);
+    }
+
     @FXML
     void getUserSearch(ActionEvent event){
       FindUser.setVisible(true);
@@ -124,10 +137,10 @@ public class DipendenteController {
           gsonUserList.add(userObject);
           if (userObject.get("type-user").getAsInt() == 2) {
               String temp = userObject.get("name").getAsString().concat(" ").concat(userObject.get("surname").getAsString()); 
-              names.add(temp);
+              standbyNames.add(temp);
           }
         }
-        userList.setItems(names);
+        refreshUserList();
       } catch (IOException e){
         e.printStackTrace();
       }
