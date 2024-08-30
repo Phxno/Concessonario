@@ -22,6 +22,7 @@ Ingegneria del Software 2023-2024
 Esercizio 3
 Si vuole progettare un sistema informatico per la vendita online di automobili di un gruppo multi-concessionaria, con
 la possibilità di configurare la versione di automobile desiderata.
+
 Il gruppo vende auto di diversi modelli, raggruppati per marca. Per ogni modello di auto il sistema memorizza: un
 nome univoco, una descrizione, le dimensioni (altezza, lunghezza, larghezza, peso, volume del bagagliaio), i possibili
 motori con i relativi tipi di alimentazione (gasolio, benzina, ibrida, elettrica, ibrida plug-in, e così via), e diverse
@@ -32,20 +33,25 @@ definisce il prezzo e se è applicabile al modello scelto.
 Per alcuni modelli uno sconto, che può variare da un mese all’altro, viene applicato direttamente in fase di costruzione
 del preventivo ed opportunamente indicato nel preventivo. Il cliente deve anche indicare dove intende, nel caso di
 acquisto, ritirare l’auto.
+
 Un generico utente può configurare, senza autenticarsi, l’auto per la quale pensa di richiedere un preventivo. Al
 momento in cui decide di richiedere un preventivo al gruppo, l’utente deve registrarsi (se non già registrato) e poi
 accedere al sistema. Solo in seguito, può richiedere la valutazione del suo usato, allegando delle fotografie dell’auto
 usata.
 Nel caso di valutazione dell’usato, il preventivo verrà finalizzato da una persona del negozio, che provvederà a
 valutare l’usato. Il preventivo potrà essere prodotto anche come file pdf.
+
 Il sistema memorizza i preventivi effettuati. Entro 20 giorni il potenziale acquirente può confermare il preventivo e
 pagare un acconto, per ordinare l’auto nella configurazione indicata. Il sistema provvederà a proporre una data di
 consegna (a un mese, più 10 giorni per ogni optional richiesto), entro la quale avere l’auto ordinata.
+
 Il gruppo ha diverse sedi in Italia, dove è possibile ritirare l’auto ordinata. Per ogni sede il sistema memorizza nome,
 indirizzo completo e tutti gli ordini relativi a quella sede.
+
 Il sistema deve permettere agli impiegati del gruppo di accedere con autenticazione al sistema e gestire i preventivi
 che richiedono la valutazione dell’usato. Gli impiegati potranno poi gestire gli ordini e avvisare i clienti quando l’auto
 ordinata è pronta per la consegna (dopo il pagamento dell’importo dovuto).
+
 La segreteria amministrativa del gruppo è responsabile dell’inserimento delle info su modelli e optional di ogni marca.
 Essa può accedere al sistema e visualizzare i preventivi per cliente, per marca e per negozio di consegna richiesto.
 Il sistema deve permettere all’utente di configurare l’auto avendo un controllo del prezzo finale dell’auto ad ogni
