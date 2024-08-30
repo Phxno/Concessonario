@@ -53,8 +53,8 @@
                         <AnchorPane prefHeight="57.0" prefWidth="390.0" BorderPane.alignment="CENTER">
                            <children>
                               <HBox prefHeight="100.0" styleClass="label_footer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <Button id="Okay" fx:id="OkayPrev" layoutX="248.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="140.0" text="Conferma" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                              <Button id="Nay" fx:id="NayPrev" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#OkayPrev" prefHeight="57.0" prefWidth="140.0" text="Ritorna" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                              <Button id="Okay" fx:id="OkayPrev" layoutX="248.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="140.0" text="Okay" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                              <Button id="Nay" fx:id="NayPrev" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#Nay" prefHeight="57.0" prefWidth="140.0" text="Ritorna" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
                            </children>
                         </AnchorPane>
                      </bottom>
@@ -73,8 +73,8 @@
                         <AnchorPane prefHeight="57.0" prefWidth="390.0" BorderPane.alignment="CENTER">
                            <children>
                               <HBox prefHeight="100.0" styleClass="label_footer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <Button id="Okay" fx:id="OkayClient" layoutX="248.0" layoutY="-3.0" mnemonicParsing="false" onAction="#OkayClient" prefHeight="72.0" prefWidth="140.0" text="Conferma" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                              <Button id="Nay" fx:id="NayClient" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#OkayClient" prefHeight="57.0" prefWidth="140.0" text="Ritorna" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                              <Button id="Okay" fx:id="OkayClient" layoutX="248.0" layoutY="-3.0" mnemonicParsing="false" onAction="#OkayClient" prefHeight="72.0" prefWidth="140.0" text="Okay" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                              <Button id="Nay" fx:id="NayClient" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#Nay" prefHeight="57.0" prefWidth="140.0" text="Ritorna" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
                            </children>
                         </AnchorPane>
                      </bottom>

@@ -48,8 +48,8 @@ public class DipendenteController {
     @FXML
     private TextField findUserTextField;
 
-    private ObservableList<String> names = FXCollections.observableArrayList();
-    private ArrayList<String> standbyNames = new ArrayList<String>();
+    private final ObservableList<String> names = FXCollections.observableArrayList();
+    private final ArrayList<String> standbyNames = new ArrayList<String>();
 
     @FXML
     private ListView<String> userList = new ListView<String>(names);
@@ -60,23 +60,27 @@ public class DipendenteController {
       UData.setText(getDipendente());
     }
 
-    private void spawnPrev(){
-      MenPrev.setVisible(true);
-    }
-    
     @FXML
     void OkayPrev(ActionEvent event) throws IOException{
       MenPrev.setVisible(false);
     }
     @FXML
     void OkayClient(ActionEvent event) throws IOException{
-      FindUser.setVisible(false);
+      System.out.println(userList.getSelectionModel().getSelectedItem());
       names.clear();
+      FindUser.setVisible(false);
+      findUserTextField.setText("");
+    }
+    @FXML 
+    void Nay(ActionEvent event) throws IOException{
+      MenPrev.setVisible(false);
+      FindUser.setVisible(false);
+      findUserTextField.setText("");
     }
 
     @FXML
     void Prevs(ActionEvent event){
-      spawnPrev();
+      MenPrev.setVisible(true);
     }
 
     private String getDipendente(){
@@ -124,6 +128,7 @@ public class DipendenteController {
     @FXML
     void getUserSearch(ActionEvent event){
       FindUser.setVisible(true);
+      standbyNames.clear();
       String file = "dati_utente.json";
       Gson gson = new Gson();
       ArrayList<JsonObject> gsonUserList = new ArrayList<JsonObject>();
