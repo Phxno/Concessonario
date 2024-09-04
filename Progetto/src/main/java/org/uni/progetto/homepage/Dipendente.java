@@ -12,6 +12,8 @@ public class Dipendente extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Dipendente.class.getResource("/FXML/Dipendente.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        DipendenteController controller = fxmlLoader.getController();
+        controller.initialize("Matteo Bertaiola");
         stage.setTitle("Concessionario - Dipendente");
         stage.setMinWidth(1024);
         stage.setMinHeight(768);
