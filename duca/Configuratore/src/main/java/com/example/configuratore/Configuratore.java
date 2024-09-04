@@ -4,11 +4,15 @@ import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.MeshView;
@@ -21,8 +25,7 @@ import java.net.URL;
 
 
 public class Configuratore extends Application {
-    private SmartGroup modelRoot;
-
+    private Group modelRoot;
     private double anchorY;
     //private double anchorX;
     //private double anchorAngleX = 0;
@@ -30,7 +33,7 @@ public class Configuratore extends Application {
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
 
-    private Scene createScene() throws IOException {
+    private SubScene createGroup() throws IOException {
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.setTranslateZ(-7);
         camera.setTranslateX(3);
@@ -41,18 +44,14 @@ public class Configuratore extends Application {
 
         Transform t = new Rotate(30, new Point3D(0,1,0));
         modelRoot.getTransforms().add(t);
-
-        Group root = new Group(modelRoot);
-
-        Scene scene = new Scene(root, 1024, 768, true);
-        scene.setCamera(camera);
-
-        return scene;
-
+        Group model = new Group(modelRoot);
+        SubScene subScene = new SubScene(model, 1024, 768, true, null);
+        subScene.setCamera(camera);
+        return subScene;
     }
 
-    private SmartGroup loadModel(URL url) throws IOException {
-        modelRoot = new SmartGroup();
+    private Group loadModel(URL url) throws IOException {
+        modelRoot = new Group();
 
         ObjModelImporter importer = new ObjModelImporter();
         importer.read(url);
@@ -65,9 +64,14 @@ public class Configuratore extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        stage.setScene(createScene());
-
+        FXMLLoader fxmlLoader = new FXMLLoader(Configuratore.class.getResource("prova.fxml"));
+        BorderPane root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        stage.setTitle("Configuratore");
+        controller.add3DModel(createGroup());
+        stage.setScene(new Scene(root, 1024, 768));
         initMouseControl(modelRoot, stage);
+
 
         //Rotare the model with keyboard WASD
 
@@ -95,7 +99,7 @@ public class Configuratore extends Application {
 
     }
 
-    private void initMouseControl(SmartGroup modelRoot, Stage stage) {
+    private void initMouseControl(Group modelRoot, Stage stage) {
         //Rotate xRotate;
         Rotate yRotate;
         modelRoot.getTransforms().addAll(
