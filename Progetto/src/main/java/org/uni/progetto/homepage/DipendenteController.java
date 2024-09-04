@@ -25,6 +25,9 @@ public class DipendenteController {
     private BorderPane FindUser;
 
     @FXML
+    private BorderPane MenOrdini;
+
+    @FXML
     private Button Ordini;
 
     @FXML
@@ -43,6 +46,12 @@ public class DipendenteController {
     private Button OkayClient;
 
     @FXML
+    private Button NayOrders;
+
+    @FXML
+    private Button OkayOrders;
+
+    @FXML
     private Label UData;
 
     @FXML
@@ -57,6 +66,7 @@ public class DipendenteController {
     public void initialize(){
       MenPrev.setVisible(false);
       FindUser.setVisible(false);
+      MenOrdini.setVisible(false);
       UData.setText(getDipendente());
     }
 
@@ -75,12 +85,18 @@ public class DipendenteController {
     void Nay(ActionEvent event) throws IOException{
       MenPrev.setVisible(false);
       FindUser.setVisible(false);
+      MenOrdini.setVisible(false);
       findUserTextField.setText("");
     }
 
     @FXML
-    void Prevs(ActionEvent event){
+    void Prevs(ActionEvent event) throws IOException{
       MenPrev.setVisible(true);
+    }
+
+    @FXML
+    void Orders(ActionEvent event) throws IOException{
+      MenOrdini.setVisible(true);
     }
 
     private String getDipendente(){
@@ -127,7 +143,6 @@ public class DipendenteController {
 
     @FXML
     void getUserSearch(ActionEvent event){
-      FindUser.setVisible(true);
       standbyNames.clear();
       String file = "dati_utente.json";
       Gson gson = new Gson();
