@@ -39,8 +39,8 @@
             </AnchorPane>
             <AnchorPane prefHeight="447.0" prefWidth="1024.0">
                <children>
-                  <Button fx:id="Ordini" layoutX="512.0" layoutY="89.0" mnemonicParsing="false" onAction="#Orders" prefHeight="108.0" prefWidth="254.0 " text="Ordini" AnchorPane.rightAnchor="240.0" />
-                  <Button fx:id="Preventivi" layoutX="258.0" layoutY="89.0" mnemonicParsing="false" onAction="#Prevs" prefHeight="108.0" prefWidth="254.0" text="Preventivi" AnchorPane.leftAnchor="240.0" />
+                  <Button fx:id="Ordini" layoutX="512.0" layoutY="89.0" mnemonicParsing="false" onAction="#getOrders" prefHeight="108.0" prefWidth="254.0 " text="Ordini" AnchorPane.rightAnchor="240.0" />
+                  <Button fx:id="Preventivi" layoutX="258.0" layoutY="89.0" mnemonicParsing="false" onAction="#getPreventivi" prefHeight="108.0" prefWidth="254.0" text="Preventivi" AnchorPane.leftAnchor="240.0" />
                   <Button fx:id="Cliente" layoutX="385.0" layoutY="225.0" mnemonicParsing="false" onAction="#getUserSearch" prefHeight="108.0" prefWidth="254.0" text="Cerca Cliente" />
                   <BorderPane fx:id="MenPrev" layoutX="312.0" layoutY="-56.0" prefHeight="400.0" prefWidth="400.0" visible="false">
                      <center>
@@ -58,6 +58,9 @@
                            </children>
                         </AnchorPane>
                      </bottom>
+                     <top>
+                        <TextField fx:id="MenPrevTextFIeld" BorderPane.alignment="CENTER" />
+                     </top>
                   </BorderPane>
                   <BorderPane fx:id="FindUser" layoutX="312.0" layoutY="-56.0" prefHeight="400.0" prefWidth="400.0" visible="false">
                      <center>
@@ -95,6 +98,9 @@
                            </children>
                         </AnchorPane>
                      </bottom>
+                     <top>
+                        <TextField fx:id="MenOrdiniTextFIeld" BorderPane.alignment="CENTER" />
+                     </top>
                   </BorderPane>
                </children>
             </AnchorPane>

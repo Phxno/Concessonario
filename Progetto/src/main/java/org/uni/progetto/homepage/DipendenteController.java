@@ -56,9 +56,16 @@ public class DipendenteController {
 
     @FXML
     private TextField findUserTextField;
+    
+    @FXML
+    private TextField MenPrevTextField;
+
+    @FXML
+    private TextField MenOrdiniTextField;
 
     private final ObservableList<String> names = FXCollections.observableArrayList();
     private final ArrayList<String> standbyNames = new ArrayList<String>();
+    private final ArrayList<JsonObject> gsonUserList = new ArrayList<JsonObject>();
 
     @FXML
     private ListView<String> userList = new ListView<String>(names);
@@ -90,12 +97,7 @@ public class DipendenteController {
     }
 
     @FXML
-    void Prevs(ActionEvent event) throws IOException{
-      MenPrev.setVisible(true);
-    }
-
-    @FXML
-    void Orders(ActionEvent event) throws IOException{
+    void getOrders(ActionEvent event) throws IOException{
       MenOrdini.setVisible(true);
     }
 
@@ -119,12 +121,14 @@ public class DipendenteController {
       return userData;
 
     }
-    private void showPreventivi(){
+    @FXML
+    private void getPreventivi() throws IOException{
+      MenPrev.setVisible(true);
       String file = "ordini.json";
       Gson gson = new Gson();
 
       try (Reader reader = new FileReader(file)){
-        JsonArray ordiniArray = gson.fromJson(reader, JsonArray.class);
+        JsonArray preventiviArray = gson.fromJson(reader, JsonArray.class);
       } catch (IOException e){
         e.printStackTrace();
       }
@@ -144,9 +148,10 @@ public class DipendenteController {
     @FXML
     void getUserSearch(ActionEvent event){
       standbyNames.clear();
+      FindUser.setVisible(true);
+      gsonUserList.clear();
       String file = "dati_utente.json";
       Gson gson = new Gson();
-      ArrayList<JsonObject> gsonUserList = new ArrayList<JsonObject>();
 
       try (Reader reader = new FileReader(file)){
         JsonArray usersArray = gson.fromJson(reader, JsonArray.class);
