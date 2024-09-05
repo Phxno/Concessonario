@@ -70,7 +70,6 @@
                            </font>
                         </Button>
                         <Button mnemonicParsing="false" text="Modelli" textFill="WHITE" />
-                        <Button mnemonicParsing="false" text="Sedi" textFill="WHITE" />
                      </children>
                   </VBox>
                </children>
