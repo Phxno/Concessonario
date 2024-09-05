@@ -72,6 +72,9 @@ public class HomepageController {
     @FXML
     private Label nome_utente_login;
 
+    @FXML
+    private Button marche_button;
+
 
     public void initialize() {
         slider_menu.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
@@ -80,7 +83,21 @@ public class HomepageController {
         loginback.setVisible(false);
         menu_slider();  //chiamiamo la funzione menu_slider
         login_slider(); //chiamiamo la funzione login_slider
-
+        UserSession userSession = UserSession.getInstance();
+        if (userSession != null) {
+            // Se esiste, l'utente è loggato
+            // Mostra i dati dell'utente
+            nome_login.setText(userSession.getFirstName());
+            cognome_login.setText(userSession.getLastName());
+            nome_utente_login.setText(userSession.getUsername());
+            vbox_login.setVisible(false);
+            vbox_dati_utente.setVisible(true);
+        } else {
+            // Se non esiste, l'utente non è loggato
+            // Mostra lo slider di login
+            vbox_login.setVisible(true);
+            vbox_dati_utente.setVisible(false);
+        }
     }
 
 
@@ -202,13 +219,27 @@ public class HomepageController {
 
     @FXML
     void logout(ActionEvent event) {
-        UserSession.getInstance(null, null, null);
+        UserSession.getInstance().logout();
         username.clear();
         password.clear();
         vbox_login.setVisible(true);
         vbox_dati_utente.setVisible(false);
     }
 
+    @FXML
+    void open_marche(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) marche_button.getScene().getWindow();
+        stage.close();
+        // Carica la scena della homepage
+        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Registration.class.getResource("/FXML/Marche.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
+        stage.setTitle("Marche");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
+
+
 
 
