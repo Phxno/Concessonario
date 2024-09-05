@@ -91,6 +91,9 @@ public class DipendenteController {
     @FXML
     void OkayPrev(ActionEvent event) throws IOException{
       MenPrev.setVisible(false);
+      System.out.println(prevList.getSelectionModel().getSelectedItem());
+      orders.clear();
+      MenPrevTextField.setText("");
     }
     @FXML
     void OkayClient(ActionEvent event) throws IOException{
@@ -102,6 +105,9 @@ public class DipendenteController {
     @FXML
     void OkayOrders(ActionEvent event) throws IOException {
       MenOrdini.setVisible(false);
+      System.out.println(ordersList.getSelectionModel().getSelectedItem());
+      orders.clear();
+      MenOrdiniTextField.setText("");
     }
     @FXML 
     void Nay(ActionEvent event) throws IOException{
