@@ -1,4 +1,4 @@
-package com.example.configuratore;
+package org.uni.progetto.homepage;
 
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import javafx.application.Application;
@@ -38,7 +38,7 @@ public class Configuratore extends Application {
         camera.setTranslateZ(-7);
         camera.setTranslateX(3);
         camera.setTranslateY(3);
-        modelRoot = loadModel(getClass().getResource("Tesla Cybertruck.obj"));
+        modelRoot = loadModel(getClass().getResource("/configuratore/Tesla Cybertruck.obj"));
         modelRoot.setTranslateX(3);
         modelRoot.setTranslateY(3);
 
@@ -64,9 +64,9 @@ public class Configuratore extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Configuratore.class.getResource("prova.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Configuratore.class.getResource("/FXML/Configuratore.fxml"));
         BorderPane root = fxmlLoader.load();
-        Controller controller = fxmlLoader.getController();
+        ConfiguratoreController controller = fxmlLoader.getController();
         stage.setTitle("Configuratore");
         controller.add3DModel(createGroup());
         stage.setScene(new Scene(root, 1024, 768));
