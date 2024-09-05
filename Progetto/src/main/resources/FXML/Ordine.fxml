@@ -11,19 +11,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/registration.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uni.progetto.homepage.RegistrationController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/registration.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uni.progetto.homepage.OrdineController">
    <children>
       <Label layoutX="98.0" layoutY="33.0" prefHeight="42.0" prefWidth="130.0" text="Ordine: " textFill="#79959c">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <Label layoutX="235.0" layoutY="33.0" prefHeight="42.0" prefWidth="142.0" text="01" textFill="#79959c">
+      <Label fx:id="orderNumber" layoutX="235.0" layoutY="33.0" prefHeight="42.0" prefWidth="142.0" text="01" textFill="#79959c">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <Button fx:id="bottone_logo" layoutX="465.0" layoutY="35.0" mnemonicParsing="false" onAction="#back_home" prefHeight="33.0" prefWidth="106.0" styleClass="back_home_button" text="BackButton" />
+      <Button fx:id="backButton" layoutX="465.0" layoutY="35.0" mnemonicParsing="false" onAction="#back" prefHeight="33.0" prefWidth="106.0" styleClass="back_home_button" text="BackButton" />
       <ImageView fitHeight="85.0" fitWidth="142.0" layoutX="438.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Images/Logo%20concessionario%20colorato.png" />
@@ -43,7 +43,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="45.0" prefWidth="560.0" style="-fx-text-fill: white;" text="Tizio Caio Sempronio">
+                        <Label fx:id="clientName" prefHeight="45.0" prefWidth="560.0" style="-fx-text-fill: white;" text="Tizio Caio Sempronio">
                            <HBox.margin>
                               <Insets top="35.0" />
                            </HBox.margin>
@@ -89,7 +89,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Label prefHeight="134.0" prefWidth="160.0" text="Ndokaj SRL" textFill="WHITE">
+                        <Label fx:id="shopName" prefHeight="134.0" prefWidth="160.0" text="Ndokaj SRL" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -102,7 +102,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <DatePicker fx:id="data" editable="false">
+                        <DatePicker fx:id="dataShipping" editable="false">
                            <HBox.margin>
                               <Insets top="40.0" />
                            </HBox.margin>
@@ -122,7 +122,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" prefHeight="146.0" prefWidth="158.0" text="€ 00" textFill="WHITE">
+                        <Label fx:id="price" alignment="CENTER" prefHeight="146.0" prefWidth="158.0" text="€ 00" textFill="WHITE">
                            <font>
                               <Font size="32.0" />
                            </font>
@@ -135,18 +135,19 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" prefHeight="146.0" prefWidth="158.0" text="30%" textFill="WHITE">
+                        <Label fx:id="sale" alignment="CENTER" prefHeight="146.0" prefWidth="158.0" text="30%" textFill="WHITE">
                            <font>
                               <Font size="32.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <Button fx:id="bottone_registrazione" mnemonicParsing="false" onAction="#registration_function" styleClass="registration_button" text="Conferma">
-                     <VBox.margin>
-                        <Insets left="270.0" top="20.0" />
-                     </VBox.margin>
-                  </Button>
+                  <AnchorPane prefHeight="106.0" prefWidth="678.0">
+                     <children>
+                        <Button fx:id="confirmButton" layoutX="406.0" layoutY="33.0" mnemonicParsing="false" onAction="#confirm" styleClass="registration_button" text="Conferma" />
+                        <Button fx:id="contactButton" layoutX="130.0" layoutY="33.0" mnemonicParsing="false" onAction="#contact" styleClass="registration_button" text="Contatta" />
+                     </children>
+                  </AnchorPane>
                </children>
             </VBox>
          </children>

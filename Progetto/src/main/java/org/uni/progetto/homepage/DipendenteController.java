@@ -1,5 +1,6 @@
 package org.uni.progetto.homepage;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.event.ActionEvent;
@@ -11,6 +12,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 
 public class DipendenteController {
@@ -107,7 +110,8 @@ public class DipendenteController {
       MenOrdini.setVisible(false);
       System.out.println(ordersList.getSelectionModel().getSelectedItem());
       orders.clear();
-      MenOrdiniTextField.setText("");
+      MenOrdiniTextField.setText(""); 
+      loadOrdini(1);
     }
     @FXML 
     void Nay(ActionEvent event) throws IOException{
@@ -245,5 +249,18 @@ public class DipendenteController {
         e.printStackTrace();
       }
     }
-
+  private void loadOrdini(int ID) throws IOException {
+    
+    Stage stage = (Stage) Ordini.getScene().getWindow();
+    stage.close();
+    FXMLLoader fxmlLoader = new FXMLLoader(Ordine.class.getResource("/FXML/Ordine.fxml"));
+    Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+    stage.setTitle("Concessionario - Ordine");
+    stage.setMinWidth(1024);
+    stage.setMinHeight(768);
+    stage.setMaxWidth(1024);
+    stage.setMaxHeight(768);
+    stage.setScene(scene);
+    stage.show();
+  }
 }
