@@ -56,8 +56,9 @@ public class OrdineController {
     private Label cellText;
 
     private OrderClass order;
+    private String dip;
     
-    public void initialize(OrderClass ord){
+    public void initialize(OrderClass ord, String dip){
       order = ord;
       clientName.setText(order.getUtente().getName());
       orderNumber.setText(order.getId());
@@ -66,6 +67,7 @@ public class OrdineController {
       shopName.setText(order.getNegozioConsegna());
       LocalDate data = LocalDate.parse(order.getDataConsegna());
       dataShipping.setValue(data);
+      this.dip = dip;
     }
 
     @FXML
@@ -90,7 +92,7 @@ public class OrdineController {
       FXMLLoader fxmlLoader = new FXMLLoader(Dipendente.class.getResource("/FXML/Dipendente.fxml"));
       Scene scene = new Scene(fxmlLoader.load(), 1024, 768);
       DipendenteController controller = fxmlLoader.getController();
-      controller.initialize("Matteo Bertaiola");
+      controller.initialize(dip, 0);
       stage.setTitle("Concessionario - Dipendente");
       stage.setScene(scene);
       stage.show();

@@ -13,7 +13,7 @@ public class Dipendente extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Dipendente.class.getResource("/FXML/Dipendente.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         DipendenteController controller = fxmlLoader.getController();
-        controller.initialize("Matteo Bertaiola");
+        controller.initialize("Matteo Bertaiola",1);
         stage.setTitle("Concessionario - Dipendente");
         stage.setMinWidth(1024);
         stage.setMinHeight(768);

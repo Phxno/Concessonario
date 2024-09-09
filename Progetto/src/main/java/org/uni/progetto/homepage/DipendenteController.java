@@ -19,13 +19,7 @@ import javafx.stage.Stage;
 public class DipendenteController {
 
     @FXML
-    private Button Cliente;
-
-    @FXML
     private BorderPane MenPrev;
-
-    @FXML
-    private BorderPane FindUser;
 
     @FXML
     private BorderPane MenOrdini;
@@ -40,16 +34,13 @@ public class DipendenteController {
     private Button Preventivi;
 
     @FXML
+    private Button autoButton;
+
+    @FXML
     private Button NayPrev;
 
     @FXML
     private Button OkayPrev;
-
-    @FXML
-    private Button NayClient;
-
-    @FXML
-    private Button OkayClient;
 
     @FXML
     private Button NayOrders;
@@ -59,9 +50,6 @@ public class DipendenteController {
 
     @FXML
     private Label UData;
-
-    @FXML
-    private TextField findUserTextField;
     
     @FXML
     private TextField MenPrevTextField;
@@ -69,17 +57,12 @@ public class DipendenteController {
     @FXML
     private TextField MenOrdiniTextField;
 
-    private final ObservableList<String> names = FXCollections.observableArrayList();
     private final ObservableList<String> orders = FXCollections.observableArrayList();
     private final ObservableList<String> prevs = FXCollections.observableArrayList();
-    private final ArrayList<String> standbyNames = new ArrayList<String>();
     private final ArrayList<String> standbyPrevs = new ArrayList<String>();
     private final ArrayList<String> standbyOrders = new ArrayList<String>();
-    private final ArrayList<JsonObject> gsonUserList = new ArrayList<JsonObject>();
     private final ArrayList<JsonObject> gsonPrevsList = new ArrayList<JsonObject>();
     private final ArrayList<JsonObject> gsonOrderList = new ArrayList<JsonObject>();
-    @FXML
-    private ListView<String> userList = new ListView<String>(names);
 
     @FXML
     private ListView<String> prevList = new ListView<String>(prevs);
@@ -87,11 +70,23 @@ public class DipendenteController {
     @FXML
     private ListView<String> ordersList = new ListView<String>(orders);
 
-    public void initialize(String dip){
+    private int t_user;
+    private String dip;
+
+    public void initialize(String dip, int t_user){
       MenPrev.setVisible(false);
-      FindUser.setVisible(false);
       MenOrdini.setVisible(false);
       UData.setText(dip);
+      this.t_user = t_user;
+      this.dip = dip;
+      switch (t_user) {
+        case 0: // dipendente
+          autoButton.setVisible(false);
+          break;
+        case 1: // segreteria
+          Ordini.setVisible(false);
+          break;
+      }
     }
 
     @FXML
@@ -116,13 +111,7 @@ public class DipendenteController {
       orders.clear();
       MenPrevTextField.setText("");
     }
-    @FXML
-    void OkayClient(ActionEvent event) throws IOException{
-      System.out.println(userList.getSelectionModel().getSelectedItem());
-      names.clear();
-      FindUser.setVisible(false);
-      findUserTextField.setText("");
-    }
+
     @FXML
     void OkayOrders(ActionEvent event) throws IOException {
       String ord = ordersList.getSelectionModel().getSelectedItem();
@@ -146,9 +135,7 @@ public class DipendenteController {
     @FXML 
     void Nay(ActionEvent event) throws IOException{
       MenPrev.setVisible(false);
-      FindUser.setVisible(false);
       MenOrdini.setVisible(false);
-      findUserTextField.setText("");
     }
 
     @FXML
@@ -220,54 +207,21 @@ public class DipendenteController {
     }
 
     @FXML
-    void refreshUserList(){
-      names.clear();
-      for (String name: standbyNames){
-        if (name.contains(findUserTextField.getText())){
-          names.add(name);
-        }
-      }
-      userList.setItems(names);
+    void showAuto(ActionEvent event) throws IOException{}
+
+    private void loadOrdini(OrderClass ord) throws IOException { 
+      Stage stage = (Stage) Ordini.getScene().getWindow();
+      stage.close();
+      FXMLLoader fxmlLoader = new FXMLLoader(Ordine.class.getResource("/FXML/Ordine.fxml"));
+      Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+      OrdineController controller = fxmlLoader.getController();
+      controller.initialize(ord, t_user, dip);
+      stage.setTitle("Concessionario - Ordine");
+      stage.setMinWidth(1024);
+      stage.setMinHeight(768);
+      stage.setMaxWidth(1024);
+      stage.setMaxHeight(768);
+      stage.setScene(scene);
+      stage.show();
     }
-
-    @FXML
-    void getUserSearch(ActionEvent event){
-      standbyNames.clear();
-      FindUser.setVisible(true);
-      gsonUserList.clear();
-      String file = "dati_utente.json";
-      Gson gson = new Gson();
-
-      try (Reader reader = new FileReader(file)){
-        JsonArray usersArray = gson.fromJson(reader, JsonArray.class);
-            //Creiamo un oggetto JSON per ogni utente
-        for (JsonElement userElement : usersArray) {
-
-          JsonObject userObject = userElement.getAsJsonObject();
-          gsonUserList.add(userObject);
-          if (userObject.get("type-user").getAsInt() == 2) {
-              String temp = userObject.get("name").getAsString().concat(" ").concat(userObject.get("surname").getAsString()); 
-              standbyNames.add(temp);
-          }
-        }
-        refreshUserList();
-      } catch (IOException e){
-        e.printStackTrace();
-      }
-    }
-  private void loadOrdini(OrderClass ord) throws IOException { 
-    Stage stage = (Stage) Ordini.getScene().getWindow();
-    stage.close();
-    FXMLLoader fxmlLoader = new FXMLLoader(Ordine.class.getResource("/FXML/Ordine.fxml"));
-    Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-    OrdineController controller = fxmlLoader.getController();
-    controller.initialize(ord);
-    stage.setTitle("Concessionario - Ordine");
-    stage.setMinWidth(1024);
-    stage.setMinHeight(768);
-    stage.setMaxWidth(1024);
-    stage.setMaxHeight(768);
-    stage.setScene(scene);
-    stage.show();
-  }
 }

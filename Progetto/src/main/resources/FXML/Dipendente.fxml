@@ -43,7 +43,6 @@
                <children>
                   <Button fx:id="Ordini" layoutX="512.0" layoutY="89.0" mnemonicParsing="false" onAction="#getOrders" prefHeight="108.0" prefWidth="254.0 " text="Ordini" AnchorPane.rightAnchor="240.0" />
                   <Button fx:id="Preventivi" layoutX="258.0" layoutY="89.0" mnemonicParsing="false" onAction="#getPreventivi" prefHeight="108.0" prefWidth="254.0" text="Preventivi" AnchorPane.leftAnchor="240.0" />
-                  <Button fx:id="Cliente" layoutX="385.0" layoutY="225.0" mnemonicParsing="false" onAction="#getUserSearch" prefHeight="108.0" prefWidth="254.0" text="Cerca Cliente" />
                   <BorderPane fx:id="MenPrev" layoutX="312.0" layoutY="-56.0" prefHeight="400.0" prefWidth="400.0" visible="false">
                      <center>
                         <ListView fx:id="prevList" editable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
@@ -63,26 +62,6 @@
                      <top>
                         <TextField fx:id="MenPrevTextField" onKeyTyped="#refreshPrevList" BorderPane.alignment="CENTER" />
                      </top>
-                  </BorderPane>
-                  <BorderPane fx:id="FindUser" layoutX="312.0" layoutY="-56.0" prefHeight="400.0" prefWidth="400.0" visible="false">
-                     <center>
-                        <ListView fx:id="userList" editable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                     </center>
-                     <top>
-                        <TextField fx:id="findUserTextField" onKeyTyped="#refreshUserList" prefHeight="28.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                     </top>
-                     <right>
-                        <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
-                     </right>
-                     <bottom>
-                        <AnchorPane prefHeight="57.0" prefWidth="390.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <HBox prefHeight="100.0" styleClass="label_footer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <Button id="Okay" fx:id="OkayClient" layoutX="248.0" layoutY="-3.0" mnemonicParsing="false" onAction="#OkayClient" prefHeight="72.0" prefWidth="140.0" text="Okay" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                              <Button id="Nay" fx:id="NayClient" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#Nay" prefHeight="57.0" prefWidth="140.0" text="Ritorna" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                           </children>
-                        </AnchorPane>
-                     </bottom>
                   </BorderPane>
                   <BorderPane fx:id="MenOrdini" layoutX="312.0" layoutY="-56.0" prefHeight="400.0" prefWidth="400.0" visible="false">
                      <center>
@@ -104,6 +83,7 @@
                         <TextField fx:id="MenOrdiniTextField" onKeyTyped="#refreshOrdersList" BorderPane.alignment="CENTER" />
                      </top>
                   </BorderPane>
+                  <Button fx:id="autoButton" layoutX="530.0" layoutY="89.0" mnemonicParsing="false" onAction="#showAuto" prefHeight="108.0" prefWidth="254.0 " text="Auto" textFill="WHITE" />
                </children>
             </AnchorPane>
          </children>
