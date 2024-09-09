@@ -45,7 +45,7 @@ public class Configuratore extends Application {
         Transform t = new Rotate(30, new Point3D(0,1,0));
         modelRoot.getTransforms().add(t);
         Group model = new Group(modelRoot);
-        SubScene subScene = new SubScene(model, 1024, 768, true, null);
+        SubScene subScene = new SubScene(model, 1024, 630, true, null);
         subScene.setCamera(camera);
         return subScene;
     }
@@ -69,12 +69,13 @@ public class Configuratore extends Application {
         ConfiguratoreController controller = fxmlLoader.getController();
         stage.setTitle("Configuratore");
         controller.add3DModel(createGroup());
-        stage.setScene(new Scene(root, 1024, 768));
+        Scene scene = new Scene(root, 1024, 768);
         initMouseControl(modelRoot, stage);
         stage.setMinWidth(1024);
         stage.setMinHeight(768);
         stage.setMaxWidth(1024);
         stage.setMaxHeight(768);
+        stage.setScene(scene);
 
         //Rotare the model with keyboard WASD
 
