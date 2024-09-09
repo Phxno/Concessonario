@@ -31,6 +31,9 @@ public class DipendenteController {
     private BorderPane MenOrdini;
 
     @FXML
+    private Button backHomepageButton;
+
+    @FXML
     private Button Ordini;
 
     @FXML
@@ -89,6 +92,21 @@ public class DipendenteController {
       FindUser.setVisible(false);
       MenOrdini.setVisible(false);
       UData.setText(dip);
+    }
+
+    @FXML
+    void backHomepage(ActionEvent event) throws IOException{
+      Stage stage = (Stage) backHomepageButton.getScene().getWindow();
+      stage.close();
+      FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Homepage.fxml"));
+      Scene scene = new Scene(fxmlLoader.load(), 1024, 768);
+      stage.setTitle("Concessionario - Homepage");
+      stage.setMinWidth(1024);
+      stage.setMinHeight(768);
+      stage.setMaxWidth(1024);
+      stage.setMaxHeight(768);
+      stage.setScene(scene);
+      stage.show();
     }
 
     @FXML
@@ -249,8 +267,7 @@ public class DipendenteController {
         e.printStackTrace();
       }
     }
-  private void loadOrdini(int ID) throws IOException {
-    
+  private void loadOrdini(int ID) throws IOException { 
     Stage stage = (Stage) Ordini.getScene().getWindow();
     stage.close();
     FXMLLoader fxmlLoader = new FXMLLoader(Ordine.class.getResource("/FXML/Ordine.fxml"));

@@ -28,3 +28,13 @@
 #Nay {
   -fx-background-color: #f36f53;
 }
+.back_home_button{
+    -fx-background-color: transparent; /* No background color */
+    -fx-background-repeat: no-repeat; /* The image should not repeat */
+    -fx-background-position: center; /* The image should be centered */
+    -fx-background-size: contain; /* The image should scale to fit the button */
+    -fx-text-fill: transparent; /* No text color */
+    -fx-border-width: 0; /* No border */
+    -fx-font-weight: bold; /* Make text bold */
+
+}
