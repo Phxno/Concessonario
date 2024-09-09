@@ -36,7 +36,7 @@ public class Configuratore extends Application {
     private SubScene createGroup() throws IOException {
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.setTranslateZ(-7);
-        camera.setTranslateX(3);
+        camera.setTranslateX(3.5);
         camera.setTranslateY(3);
         modelRoot = loadModel(getClass().getResource("/configuratore/Tesla Cybertruck.obj"));
         modelRoot.setTranslateX(3);
@@ -71,7 +71,10 @@ public class Configuratore extends Application {
         controller.add3DModel(createGroup());
         stage.setScene(new Scene(root, 1024, 768));
         initMouseControl(modelRoot, stage);
-
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
+        stage.setMaxWidth(1024);
+        stage.setMaxHeight(768);
 
         //Rotare the model with keyboard WASD
 

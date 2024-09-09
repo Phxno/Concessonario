@@ -27,18 +27,18 @@
 }
 
 
-.menu-button {
-    -fx-background-color: transparent; /* No background color */
-    -fx-background-image: url('../Images/icon.png'); /* Replace 'icon.png' with the path to your icon */
-    -fx-background-repeat: no-repeat; /* The image should not repeat */
-    -fx-background-position: center; /* The image should be centered */
-    -fx-background-size: contain; /* The image should scale to fit the button */
-    -fx-text-fill: transparent; /* No text color */
-    -fx-border-width: 0; /* No border */
-    -fx-padding: 10; /* Padding around the icon */
-    -fx-font-size: 20px; /* Increase text size */
-    -fx-font-weight: bold; /* Make text bold */
-}
+        .menu-button {
+            -fx-background-color: transparent; /* No background color */
+            -fx-background-image: url('../Images/icon.png'); /* Replace 'icon.png' with the path to your icon */
+            -fx-background-repeat: no-repeat; /* The image should not repeat */
+            -fx-background-position: center; /* The image should be centered */
+            -fx-background-size: contain; /* The image should scale to fit the button */
+            -fx-text-fill: transparent; /* No text color */
+            -fx-border-width: 0; /* No border */
+            -fx-padding: 10; /* Padding around the icon */
+            -fx-font-size: 20px; /* Increase text size */
+            -fx-font-weight: bold; /* Make text bold */
+        }
 
 
 

@@ -1,41 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uni.progetto.homepage.ConfiguratoreController">
    <top>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #B3C8CF;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="menu_button" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #B3C8CF;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="224.0" />
          </BorderPane.margin>
          <children>
-            <Label alignment="CENTER" graphicTextGap="0.0" layoutX="-1.0" layoutY="47.0" prefHeight="89.0" prefWidth="411.0" text="Modello genova f 49" textFill="WHITE">
+            <Label alignment="CENTER" graphicTextGap="0.0" layoutX="112.0" layoutY="16.0" prefHeight="89.0" prefWidth="411.0" text="Modello genova f 49" textFill="WHITE">
                <font>
                   <Font size="44.0" />
                </font>
             </Label>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="497.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="552.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/Logo%20concessionario.png" />
+                  <Image url="@../Images/Logo concessionario.png" />
                </image>
             </ImageView>
+            <Button fx:id="butt_men" layoutX="41.0" layoutY="36.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" styleClass="menu-button" stylesheets="@../Styles/configuratore.css" />
+            <Button fx:id="butt_men_back" layoutX="45.0" layoutY="36.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="45.0" styleClass="menu-button" stylesheets="@../Styles/configuratore.css" />
          </children>
       </AnchorPane>
    </top>
    <right>
-      <AnchorPane prefHeight="696.0" prefWidth="224.0" style="-fx-background-color: #E5DDC5;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="768.0" prefWidth="224.0" style="-fx-background-color: #E5DDC5;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets top="-200.0" />
          </BorderPane.margin>
+         <children>
+            <ColorPicker layoutX="46.0" layoutY="428.0" />
+            <CheckBox fx:id="base" layoutX="88.0" layoutY="128.0" mnemonicParsing="false" text="Base" />
+            <CheckBox fx:id="full_optional" layoutX="69.0" layoutY="193.0" mnemonicParsing="false" text="Full Optional" />
+            <CheckBox layoutX="68.0" layoutY="508.0" mnemonicParsing="false" text="Finestrini neri" />
+            <ChoiceBox fx:id="motore_batteria" layoutX="32.0" layoutY="329.0" prefWidth="150.0" />
+            <CheckBox layoutX="54.0" layoutY="579.0" mnemonicParsing="false" text="telecamera posteriore" />
+            <CheckBox layoutX="82.0" layoutY="643.0" mnemonicParsing="false" text="Tetto Vetro" />
+            <CheckBox layoutX="71.0" layoutY="709.0" mnemonicParsing="false" text="Sedili Riscaldati" />
+            <Label layoutX="56.0" layoutY="301.0" text="Motore/ batteria" />
+         </children>
       </AnchorPane>
    </right>
    <center>
       <AnchorPane fx:id="auto" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
+   <left>
+      <VBox id="slider" fx:id="slider_men" focusTraversable="true" prefHeight="655.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Button" textFill="WHITE" />
+            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Button" textFill="WHITE" />
+         </children>
+      </VBox>
+   </left>
 </BorderPane>
