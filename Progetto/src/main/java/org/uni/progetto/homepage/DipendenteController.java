@@ -125,11 +125,23 @@ public class DipendenteController {
     }
     @FXML
     void OkayOrders(ActionEvent event) throws IOException {
-      MenOrdini.setVisible(false);
-      System.out.println(ordersList.getSelectionModel().getSelectedItem());
-      orders.clear();
-      MenOrdiniTextField.setText(""); 
-      loadOrdini(1);
+      String ord = ordersList.getSelectionModel().getSelectedItem();
+      System.out.println(ord);
+      int id = -1;
+      if (ord != null){
+        OrderClass ordTemp = null;
+        MenOrdini.setVisible(false);
+        for (JsonObject orderObject : gsonOrderList) {
+          String temp = orderObject.get("id").getAsString() + " - "+ orderObject.get("utente").getAsString();
+          if (temp.equals(ord)){
+            ordTemp = new OrderClass(orderObject);
+            break;
+          }
+        }
+        orders.clear();
+        MenOrdiniTextField.setText("");
+        if (ordTemp != null) loadOrdini(ordTemp);
+      }
     }
     @FXML 
     void Nay(ActionEvent event) throws IOException{
@@ -138,30 +150,6 @@ public class DipendenteController {
       MenOrdini.setVisible(false);
       findUserTextField.setText("");
     }
-
-/*
-    private String getDipendente(String dip){
-      String file = "dati_utente.json";
-      Gson gson = new Gson();
-      String userData = "";
-
-      try (Reader reader = new FileReader(file)){
-        JsonArray usersArray = gson.fromJson(reader, JsonArray.class);
-            //Creiamo un oggetto JSON per ogni utente
-        for (JsonElement userElement : usersArray) {
-          JsonObject userObject = userElement.getAsJsonObject();
-          if (userObject.get("type-user").getAsInt() == 0){
-            userData = userObject.get("name").getAsString().concat(" ").concat(userObject.get("surname").getAsString());
-            if (userData.compareTo(dip) != 0) userData = "";
-            break;
-          }
-        }
-      } catch (IOException e){
-        e.printStackTrace();
-      }
-      return userData;
-    }
-*/
 
     @FXML
     void refreshOrdersList(){
@@ -189,7 +177,7 @@ public class DipendenteController {
 
           JsonObject orderObject = orderElement.getAsJsonObject();
           gsonOrderList.add(orderObject);
-          standbyOrders.add(orderObject.get("utente").getAsString());
+          standbyOrders.add(orderObject.get("id").getAsString() + " - "+ orderObject.get("utente").getAsString());
         }
         refreshOrdersList();
       } catch (IOException e){
@@ -267,11 +255,13 @@ public class DipendenteController {
         e.printStackTrace();
       }
     }
-  private void loadOrdini(int ID) throws IOException { 
+  private void loadOrdini(OrderClass ord) throws IOException { 
     Stage stage = (Stage) Ordini.getScene().getWindow();
     stage.close();
     FXMLLoader fxmlLoader = new FXMLLoader(Ordine.class.getResource("/FXML/Ordine.fxml"));
     Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+    OrdineController controller = fxmlLoader.getController();
+    controller.initialize(ord);
     stage.setTitle("Concessionario - Ordine");
     stage.setMinWidth(1024);
     stage.setMinHeight(768);
