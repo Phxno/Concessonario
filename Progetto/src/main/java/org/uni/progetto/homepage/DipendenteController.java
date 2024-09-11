@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
+import java.util.Collections;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -64,6 +65,13 @@ public class DipendenteController {
     private final ArrayList<JsonObject> gsonPrevsList = new ArrayList<JsonObject>();
     private final ArrayList<JsonObject> gsonOrderList = new ArrayList<JsonObject>();
 
+    private final ObservableList<String> filters = FXCollections.observableArrayList("Data","Cliente","Negozio","Marca");
+    @FXML
+    private ChoiceBox<String> filterBox;
+
+
+    private JsonArray preventiviArray;
+
     @FXML
     private ListView<String> prevList = new ListView<String>(prevs);
 
@@ -77,6 +85,8 @@ public class DipendenteController {
       MenPrev.setVisible(false);
       MenOrdini.setVisible(false);
       UData.setText(dip);
+      filterBox.getItems().addAll(filters);
+      filterBox.setValue(filters.get(0));
       this.t_user = t_user;
       this.dip = dip;
       switch (t_user) {
@@ -86,6 +96,15 @@ public class DipendenteController {
         case 1: // segreteria
           Ordini.setVisible(false);
           break;
+      }
+    }
+
+    @FXML
+    void showFilters(ActionEvent event){
+      if (filterBox.isShowing()){
+        filterBox.hide();
+      } else {
+        filterBox.show();
       }
     }
 
@@ -106,10 +125,23 @@ public class DipendenteController {
 
     @FXML
     void OkayPrev(ActionEvent event) throws IOException{
-      MenPrev.setVisible(false);
-      System.out.println(prevList.getSelectionModel().getSelectedItem());
-      orders.clear();
-      MenPrevTextField.setText("");
+      String prev = ordersList.getSelectionModel().getSelectedItem();
+      System.out.println(prev);
+      int id = -1;
+      if (prev != null){
+        PrevClass prevTemp = null;
+        MenPrev.setVisible(false);
+        for (JsonObject prevObject : gsonPrevsList) {
+          String temp = prevObject.get("id").getAsString() + " - "+ prevObject.get("utente").getAsString();
+          if (temp.equals(prev)){
+            prevTemp = new PrevClass(prevObject);
+            break;
+          }
+        }
+        prevs.clear();
+        MenPrevTextField.setText("");
+        if (prevTemp != null) loadPreventivi(prevTemp);
+      } 
     }
 
     @FXML
@@ -175,6 +207,7 @@ public class DipendenteController {
     @FXML
     void refreshPrevList(){
       prevs.clear();
+      Collections.sort(standbyPrevs);
       for (String prev: standbyPrevs){
         if (prev.contains(MenPrevTextField.getText())){
           prevs.add(prev);
@@ -184,23 +217,58 @@ public class DipendenteController {
     }
 
     @FXML
-    void getPreventivi(ActionEvent event){
+    void sortCliente(){
       standbyPrevs.clear();
+      for (JsonElement prevElement : preventiviArray) {
+        JsonObject prevObject = prevElement.getAsJsonObject();
+        gsonPrevsList.add(prevObject);
+        standbyPrevs.add(prevObject.get("utente").getAsString() + " - id: " + prevObject.get("id").getAsString());
+      }
+      refreshPrevList();
+    }
+
+    @FXML
+    void sortMarca(){
+      standbyPrevs.clear();
+      for (JsonElement prevElement : preventiviArray) {
+        JsonObject prevObject = prevElement.getAsJsonObject();
+        gsonPrevsList.add(prevObject);
+        standbyPrevs.add(prevObject.get("macchina").getAsString() + " - id: " + prevObject.get("id").getAsString());
+      }
+      refreshPrevList();
+    }
+
+    @FXML
+    void sortConsegna(){
+      standbyPrevs.clear();
+      for (JsonElement prevElement : preventiviArray) {
+        JsonObject prevObject = prevElement.getAsJsonObject();
+        gsonPrevsList.add(prevObject);
+        standbyPrevs.add(prevObject.get("negozioConsegna").getAsString() + " - id: " + prevObject.get("id").getAsString());
+      }
+      refreshPrevList();
+    }
+
+    @FXML
+    void sortID(){
+      standbyPrevs.clear();
+      for (JsonElement prevElement : preventiviArray) {
+        JsonObject prevObject = prevElement.getAsJsonObject();
+        gsonPrevsList.add(prevObject);
+        standbyPrevs.add(prevObject.get("id").getAsString() + " - " + prevObject.get("utente").getAsString());
+      }
+      refreshPrevList();
+    }
+    @FXML
+    void getPreventivi(ActionEvent event){
       MenPrev.setVisible(true);
       gsonPrevsList.clear();
       String file = "preventivi.json";
       Gson gson = new Gson();
 
       try (Reader reader = new FileReader(file)){
-        JsonArray preventiviArray = gson.fromJson(reader, JsonArray.class);
-
-        for (JsonElement prevElement : preventiviArray) {
-
-          JsonObject prevObject = prevElement.getAsJsonObject();
-          gsonPrevsList.add(prevObject);
-          standbyPrevs.add(prevObject.get("utente").getAsString());
-        }
-        refreshPrevList();
+        preventiviArray = gson.fromJson(reader, JsonArray.class);
+        sortID();
       } catch (IOException e){
         e.printStackTrace();
       }
@@ -215,7 +283,7 @@ public class DipendenteController {
       FXMLLoader fxmlLoader = new FXMLLoader(Ordine.class.getResource("/FXML/Ordine.fxml"));
       Scene scene = new Scene(fxmlLoader.load(), 320, 240);
       OrdineController controller = fxmlLoader.getController();
-      controller.initialize(ord, t_user, dip);
+      controller.initialize(ord, dip);
       stage.setTitle("Concessionario - Ordine");
       stage.setMinWidth(1024);
       stage.setMinHeight(768);
@@ -224,4 +292,5 @@ public class DipendenteController {
       stage.setScene(scene);
       stage.show();
     }
+    private void loadPreventivi(PrevClass prev) throws IOException {}
 }

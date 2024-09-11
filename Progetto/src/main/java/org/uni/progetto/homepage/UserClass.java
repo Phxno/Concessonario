@@ -1,11 +1,11 @@
 package org.uni.progetto.homepage;
 
-public class userClass {
+public class UserClass {
     private String name;
     private String surname;
     private String phone;
     private String email;
-    public userClass(String nome, String cognome, String cell, String mail){
+    public UserClass(String nome, String cognome, String cell, String mail){
         this.name = nome;
         this.surname = cognome;
         this.phone = cell;

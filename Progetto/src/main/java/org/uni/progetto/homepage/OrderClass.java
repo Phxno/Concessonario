@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class OrderClass {
-  private userClass utente;
+  private UserClass utente;
   private String macchina;
   private String configurazione;
   private String dataFinalizzazione;
@@ -26,7 +26,7 @@ public class OrderClass {
     this.dataConsegna = OrderObject.get("dataConsegna").getAsString();
     this.id = OrderObject.get("id").getAsString();
   }
-  private userClass recoverUser(String utente){
+  private UserClass recoverUser(String utente){
     String tempName = "";
     String tempSurname = "";
     String tempCell = "";
@@ -50,10 +50,10 @@ public class OrderClass {
     } catch (IOException e){
       e.printStackTrace();
     }
-    userClass user = new userClass(tempName, tempSurname, tempCell, tempEmail);
+    UserClass user = new UserClass(tempName, tempSurname, tempCell, tempEmail);
     return user;
   }
-  public userClass getUtente(){
+  public UserClass getUtente(){
     return this.utente;
   }
   public String getMacchina(){
