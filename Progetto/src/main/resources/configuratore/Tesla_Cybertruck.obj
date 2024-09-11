@@ -1,6 +1,8 @@
 # Blender v2.93.1 OBJ File: 'tesla cyber truck.blend'
 # www.blender.org
-mtllib Tesla Cybertruck.mtl
+
+mtllib Tesla_Cybertruck.mtl
+
 o Cube_Cube.001
 v 0.541835 -0.394002 0.609747
 v 0.381096 -0.187106 1.392966
