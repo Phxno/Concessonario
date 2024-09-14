@@ -15,7 +15,6 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 
@@ -30,7 +29,8 @@ public class Configuratore extends Application {
         stage.setTitle("Configuratore");
         Scene scene = new Scene(root, 1024, 768);
         ConfiguratoreController controller = fxmlLoader.getController();
-        controller.initialize();
+        controller.initMacchina();
+
         stage.setMinWidth(1024);
         stage.setMinHeight(768);
         stage.setMaxWidth(1024);
@@ -60,8 +60,6 @@ public class Configuratore extends Application {
 
         });
         */
-
-
     }
 }
 

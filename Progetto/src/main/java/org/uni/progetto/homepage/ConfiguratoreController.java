@@ -18,11 +18,15 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Material;
+import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.net.URL;
@@ -33,6 +37,7 @@ import java.util.Objects;
 import static javafx.application.Application.launch;
 
 public class ConfiguratoreController {
+    private Group Gmodel;
     private double anchorY;
     //private double anchorX;
     //private double anchorAngleX = 0;
@@ -71,6 +76,8 @@ public class ConfiguratoreController {
     private String[] type = {"Base", "Custom", "Full Optional"};
     private String[] Motore_batteria = {"Base", "Medio", "Massimo"};
 
+    ObjModelImporter importer = new ObjModelImporter();
+
 
 
     private void add3DModel(SubScene model) {
@@ -80,16 +87,14 @@ public class ConfiguratoreController {
 
     }
 
-    public void initialize()throws IOException {
-        Platform.runLater(() -> {
-            SubScene subScene;
-            try {
-                subScene = createGroup();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            add3DModel(subScene);
-        });
+    public void initMacchina()throws IOException {
+        SubScene subScene;
+        try {
+            subScene = createGroup();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        add3DModel(subScene);
         slider_men.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
         butt_men_back.setVisible(false); //rendiamo invisibile il tasto menuback cosi che appena avviamo il codice non sia possibile cliccarlo
         menu_slider();
@@ -102,6 +107,7 @@ public class ConfiguratoreController {
                 choice.setValue(Motore_batteria[0]);
                 tele_pos.setSelected(false);
                 fin_oscu.setSelected(false);
+                setFinLight();
                 tetto_vetro.setSelected(false);
                 sed_ris.setSelected(false);
             }
@@ -109,6 +115,7 @@ public class ConfiguratoreController {
                 choice.setValue(Motore_batteria[2]);
                 tele_pos.setSelected(true);
                 fin_oscu.setSelected(true);
+                setFinOscu();
                 tetto_vetro.setSelected(true);
                 sed_ris.setSelected(true);
             }
@@ -133,7 +140,9 @@ public class ConfiguratoreController {
             }
         });
         fin_oscu.setOnAction(e -> {
+            ;
             if (fin_oscu.isSelected()) {
+                setFinOscu();
                 addPrice(1000);
                 if (tele_pos.isSelected() && tetto_vetro.isSelected() && sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
                     shortcut.setValue(type[2]);
@@ -143,6 +152,7 @@ public class ConfiguratoreController {
                 }
             }
             else {
+                setFinLight();
                 if(!tele_pos.isSelected() && !tetto_vetro.isSelected() && !sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[0])) {
                     shortcut.setValue(type[0]);
                 }
@@ -191,51 +201,37 @@ public class ConfiguratoreController {
         });
         color_picker.setOnAction(e -> {
             //addPrice(1000);
-            String filePath = "src/main/resources/configuratore/Tesla_Cybertruck.mtl";
             Color newColor = color_picker.getValue();
-            String red = (int) (newColor.getRed() * 255) + "";
-            String green = (int) (newColor.getGreen() * 255) + "";
-            String blue = (int) (newColor.getBlue() * 255) + "";
-
-
-            try {
-                List<String> lines = new ArrayList<>();
-                int trovato = 0;
-                try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        if (line.startsWith("#colore"))
-                            trovato = 1;
-
-                        if (trovato == 1 && line.startsWith("Kd")) {
-                            line = "Kd " + red + " " + green + " " + blue; // Replace the line with the new color
-                            trovato = 0;
-
-
-                        }
-                        lines.add(line);
-                    }
-                }
-
-                // Write the new content to the file
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-                    for (String line : lines) {
-                        writer.write(line);
-                        writer.newLine();
-                    }
-
-                }
-
-            } catch (IOException ex) {
-                System.err.println("Error modifying file: " + ex.getMessage());
-            }
-            Platform.runLater(this::reload3DModel);
+            reload3DModel(newColor);
         });
+
 
 
 
     }
 
+    private void reload3DModel(Color newColor){
+        PhongMaterial material = new PhongMaterial();
+        material.setDiffuseColor(newColor);
+        material.setSpecularColor(newColor);
+        ((MeshView) Gmodel.getChildren().get(0)).setMaterial(material);
+    }
+
+    private void setFinOscu() {
+        PhongMaterial material = new PhongMaterial();
+        material.setDiffuseColor(Color.BLACK);
+        material.setSpecularColor(Color.BLACK);
+        ((MeshView) Gmodel.getChildren().get(1)).setMaterial(material);
+    }
+    private void setFinLight() {
+        PhongMaterial material = new PhongMaterial();
+        material.setDiffuseColor(Color.WHITE);
+        material.setSpecularColor(Color.WHITE);
+        ((MeshView) Gmodel.getChildren().get(1)).setMaterial(material);
+    }
+
+
+ /*
     private void reload3DModel() {
         //modelRoot = null;
 
@@ -249,6 +245,13 @@ public class ConfiguratoreController {
 
          DoubleProperty angleY = new SimpleDoubleProperty(0);
         try {
+            for (MeshView view : importer.getImport()) {
+                view.setMesh(null);
+                Gmodel.getChildren().remove(view);
+            }
+            importer.clear();
+            importer = null;
+            System.gc();
             newSubscene = createGroup();
             System.out.println("Model reloaded");
             auto.getChildren().add(newSubscene);
@@ -259,7 +262,7 @@ public class ConfiguratoreController {
 
         System.out.printf(auto.getChildren().toString());
     }
-
+*/
     public void menu_slider() {
             BoxBlur blur = new BoxBlur(6, 6, 3); // Crea un'istanza di BoxBlur
             butt_men.setOnMouseClicked(event -> slideMenuTo(0, false, true, blur)); //gestione degli eventi: quando clicchiamo il tasto menu spostiamo lo slider a 0 e rendiamo visibile il tasto menuback
@@ -281,7 +284,6 @@ public class ConfiguratoreController {
                 butt_men_back.setVisible(menubackVisible);
             });
         }
-
         private void addPrice(int priceToAdd) {
             int currentPrice = Integer.parseInt(price.getText());
             price.setText(String.valueOf(currentPrice + priceToAdd + " €"));
@@ -293,6 +295,28 @@ public class ConfiguratoreController {
         camera.setTranslateZ(-7);
         camera.setTranslateX(3.5);
         camera.setTranslateY(3);
+        String filePath = "src/main/resources/configuratore/Tesla_Cybertruck.mtl";
+     /*   try {
+            List<String> lines = new ArrayList<>();
+            int trovato = 0;
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.startsWith("#colore"))
+                        trovato = 1;
+
+                    if (trovato == 1 && line.startsWith("Kd")) {
+                        System.out.println(line);
+                        trovato = 0;
+                    }
+
+                }
+            }
+        } catch (IOException ex) {
+            System.err.println("Error modifying file: " + ex.getMessage());
+        }
+      */
+
         modelRoot = loadModel(getClass().getResource("/configuratore/Tesla_Cybertruck.obj"));
         modelRoot.setTranslateX(3);
         modelRoot.setTranslateY(3);
@@ -305,17 +329,23 @@ public class ConfiguratoreController {
         return subScene;
     }
 
-    private Group loadModel(URL url) throws IOException {
-        Group model = new Group();
+private Group loadModel(URL url) throws IOException {
+     Gmodel = new Group();
+    // Rinomina il file .obj per forzare il rilevamento delle modifiche
 
-        ObjModelImporter importer = new ObjModelImporter();
-        importer.read(url);
+    importer = new ObjModelImporter();
+    importer.read(url);
 
-        for (MeshView view : importer.getImport()){
-            model.getChildren().add(view);
-        }
-        return model;
+    for (MeshView view : importer.getImport()){
+        Gmodel.getChildren().add(view);
     }
+    System.out.println(Gmodel.getChildren());
+    // Rinomina il file .obj al suo nome originale
+
+
+    return Gmodel;
+}
+
 
     private void initMouseControl(SubScene subScene, Group modelRoot){
         //Rotate xRotate;
