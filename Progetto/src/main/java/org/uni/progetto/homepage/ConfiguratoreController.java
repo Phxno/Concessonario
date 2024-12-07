@@ -73,8 +73,9 @@ public class ConfiguratoreController {
     @FXML
     private Button send;
 
+
     private String[] type = {"Base", "Custom", "Full Optional"};
-    private String[] Motore_batteria = {"Base", "Medio", "Massimo"};
+    private String[] Motore_batteria = {"Base", "Massimo"};
 
     private Integer[] PezCol = {0,1,2,3,4,5,6,7,8,9,10,11};
     private Integer[] PezFin ={13,14,16};
@@ -91,11 +92,13 @@ public class ConfiguratoreController {
 
     public void initMacchina()throws IOException {
         SubScene subScene;
+        Optionals optttt = new Optionals();
         try {
             subScene = createGroup();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         add3DModel(subScene);
         slider_men.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
         butt_men_back.setVisible(false); //rendiamo invisibile il tasto menuback cosi che appena avviamo il codice non sia possibile cliccarlo
@@ -107,24 +110,53 @@ public class ConfiguratoreController {
         shortcut.setOnAction(e -> {
             if (Objects.equals(shortcut.getValue(), type[0])) {
                 choice.setValue(Motore_batteria[0]);
+                optttt.setEngine(0);
                 tele_pos.setSelected(false);
+                optttt.setTel_pos(0);
                 fin_oscu.setSelected(false);
+                optttt.setMirror(0);
                 setFinLight();
                 tetto_vetro.setSelected(false);
+                optttt.setRoofGlass(0);
                 sed_ris.setSelected(false);
+                optttt.setHeat_seats(0);
             }
             else if (Objects.equals(shortcut.getValue(), type[2])) {
-                choice.setValue(Motore_batteria[2]);
+                choice.setValue(Motore_batteria[1]);
+                optttt.setEngine(1);
                 tele_pos.setSelected(true);
+                optttt.setTel_pos(1);
                 fin_oscu.setSelected(true);
+                optttt.setMirror(1);
                 setFinOscu();
                 tetto_vetro.setSelected(true);
+                optttt.setRoofGlass(1);
                 sed_ris.setSelected(true);
+                optttt.setHeat_seats(1);
+            }
+        });
+        choice.setOnAction(e ->{
+            if(Objects.equals(choice.getValue(), Motore_batteria[0])){
+                optttt.setEngine(0);
+                if(!fin_oscu.isSelected() && !tetto_vetro.isSelected() && !sed_ris.isSelected() && !tele_pos.isSelected()){
+                    shortcut.setValue(type[0]);
+                }
+                else {
+                    shortcut.setValue(type[1]);
+                }
+            }
+            else{
+                if(fin_oscu.isSelected() && tetto_vetro.isSelected() && sed_ris.isSelected() && tele_pos.isSelected()){
+                    shortcut.setValue(type[2]);
+                }
+                else {
+                    shortcut.setValue(type[1]);
+                }
             }
         });
         tele_pos.setOnAction(e -> {
             if (tele_pos.isSelected()) {
-                addPrice(5000);
+                optttt.setTel_pos(1);
                 if (fin_oscu.isSelected() && tetto_vetro.isSelected() && sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
                     shortcut.setValue(type[2]);
                 }
@@ -145,7 +177,6 @@ public class ConfiguratoreController {
             ;
             if (fin_oscu.isSelected()) {
                 setFinOscu();
-                addPrice(1000);
                 if (tele_pos.isSelected() && tetto_vetro.isSelected() && sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
                     shortcut.setValue(type[2]);
                 }
@@ -165,7 +196,7 @@ public class ConfiguratoreController {
         });
         tetto_vetro.setOnAction(e -> {
             if (tetto_vetro.isSelected()) {
-                addPrice(3000);
+
                 if (tele_pos.isSelected() && fin_oscu.isSelected() && sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
                     shortcut.setValue(type[2]);
                 }
@@ -184,7 +215,6 @@ public class ConfiguratoreController {
         });
         sed_ris.setOnAction(e -> {
             if (sed_ris.isSelected()) {
-                addPrice(2000);
                 if (tele_pos.isSelected() && fin_oscu.isSelected() && tetto_vetro.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
                     shortcut.setValue(type[2]);
                 }
@@ -202,7 +232,6 @@ public class ConfiguratoreController {
             }
         });
         color_picker.setOnAction(e -> {
-            addPrice(1000);
             Color newColor = color_picker.getValue();
             reload3DModel(newColor);
         });
