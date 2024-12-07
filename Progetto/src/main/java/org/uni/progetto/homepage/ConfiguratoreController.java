@@ -76,6 +76,8 @@ public class ConfiguratoreController {
     private String[] type = {"Base", "Custom", "Full Optional"};
     private String[] Motore_batteria = {"Base", "Medio", "Massimo"};
 
+    private Integer[] PezCol = {0,1,2,3,4,5,6,7,8,9,10,11};
+    private Integer[] PezFin ={13,14,16};
     ObjModelImporter importer = new ObjModelImporter();
 
 
@@ -200,7 +202,7 @@ public class ConfiguratoreController {
             }
         });
         color_picker.setOnAction(e -> {
-            //addPrice(1000);
+            addPrice(1000);
             Color newColor = color_picker.getValue();
             reload3DModel(newColor);
         });
@@ -210,59 +212,47 @@ public class ConfiguratoreController {
 
     }
 
-    private void reload3DModel(Color newColor){
+    private void reload3DModel(Color newColor) {
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseColor(newColor);
         material.setSpecularColor(newColor);
-        ((MeshView) Gmodel.getChildren().get(0)).setMaterial(material);
-    }
+        /*((MeshView) Gmodel.getChildren().get(var)).setMaterial(material);
+        System.out.println(var);
+        var++;
+
+         */
+        for (int a : PezCol){
+            ((MeshView) Gmodel.getChildren().get(a)).setMaterial(material);
+            }
+
+        }
+
+
+
+
+
+
 
     private void setFinOscu() {
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseColor(Color.BLACK);
         material.setSpecularColor(Color.BLACK);
-        ((MeshView) Gmodel.getChildren().get(1)).setMaterial(material);
+        for(int a : PezFin){
+            ((MeshView) Gmodel.getChildren().get(a)).setMaterial(material);
+        }
+
     }
     private void setFinLight() {
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseColor(Color.WHITE);
         material.setSpecularColor(Color.WHITE);
-        ((MeshView) Gmodel.getChildren().get(1)).setMaterial(material);
-    }
-
-
- /*
-    private void reload3DModel() {
-        //modelRoot = null;
-
-        auto.getChildren().clear();
-        System.out.printf(auto.getChildren().toString());
-        SubScene newSubscene = null;
-         double anchorY;
-        //private double anchorX;
-        //private double anchorAngleX = 0;
-         double anchorAngleY = 0;
-
-         DoubleProperty angleY = new SimpleDoubleProperty(0);
-        try {
-            for (MeshView view : importer.getImport()) {
-                view.setMesh(null);
-                Gmodel.getChildren().remove(view);
-            }
-            importer.clear();
-            importer = null;
-            System.gc();
-            newSubscene = createGroup();
-            System.out.println("Model reloaded");
-            auto.getChildren().add(newSubscene);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        for(int a : PezFin){
+            ((MeshView) Gmodel.getChildren().get(a)).setMaterial(material);
         }
-
-        System.out.printf(auto.getChildren().toString());
     }
-*/
+
+
+
     public void menu_slider() {
             BoxBlur blur = new BoxBlur(6, 6, 3); // Crea un'istanza di BoxBlur
             butt_men.setOnMouseClicked(event -> slideMenuTo(0, false, true, blur)); //gestione degli eventi: quando clicchiamo il tasto menu spostiamo lo slider a 0 e rendiamo visibile il tasto menuback
@@ -284,42 +274,23 @@ public class ConfiguratoreController {
                 butt_men_back.setVisible(menubackVisible);
             });
         }
-        private void addPrice(int priceToAdd) {
-            int currentPrice = Integer.parseInt(price.getText());
-            price.setText(String.valueOf(currentPrice + priceToAdd + " €"));
+        private void addPrice(double priceToAdd) {
+            String text = price.getText().replace("€", "").trim();
+            double currentPrice = Double.parseDouble(text);
+            price.setText((currentPrice + priceToAdd) + " €");
         }
 
     private SubScene createGroup() throws IOException {
         Group modelRoot;
         PerspectiveCamera camera = new PerspectiveCamera(true);
-        camera.setTranslateZ(-7);
+        camera.setTranslateZ(-8);
         camera.setTranslateX(3.5);
         camera.setTranslateY(3);
-        String filePath = "src/main/resources/configuratore/Tesla_Cybertruck.mtl";
-     /*   try {
-            List<String> lines = new ArrayList<>();
-            int trovato = 0;
-            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (line.startsWith("#colore"))
-                        trovato = 1;
 
-                    if (trovato == 1 && line.startsWith("Kd")) {
-                        System.out.println(line);
-                        trovato = 0;
-                    }
-
-                }
-            }
-        } catch (IOException ex) {
-            System.err.println("Error modifying file: " + ex.getMessage());
-        }
-      */
-
-        modelRoot = loadModel(getClass().getResource("/configuratore/Tesla_Cybertruck.obj"));
+        modelRoot = loadModel(getClass().getResource("/configuratore/Tesla Model.obj"));
         modelRoot.setTranslateX(3);
-        modelRoot.setTranslateY(3);
+        modelRoot.setTranslateY(4);
+
 
         Transform t = new Rotate(30, new Point3D(0,1,0));
         modelRoot.getTransforms().add(t);
