@@ -99,7 +99,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </CheckBox>
-            <CheckBox fx:id="tetto_vetro" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Tetto vetro">
+            <CheckBox fx:id="adas" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Adas Avanzati">
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>

@@ -63,7 +63,7 @@ public class ConfiguratoreController {
     @FXML
     private CheckBox fin_oscu;
     @FXML
-    private CheckBox tetto_vetro;
+    private CheckBox adas;
     @FXML
     private CheckBox sed_ris;
     @FXML
@@ -74,9 +74,9 @@ public class ConfiguratoreController {
     private Button send;
 
 
-    private String[] type = {"Base", "Custom", "Full Optional"};
+    private String[] type = {"Base", "Full Optional"};
     private String[] Motore_batteria = {"Base", "Massimo"};
-
+    private double Base_price = 80000;
     private Integer[] PezCol = {0,1,2,3,4,5,6,7,8,9,10,11};
     private Integer[] PezFin ={13,14,16};
     ObjModelImporter importer = new ObjModelImporter();
@@ -92,7 +92,6 @@ public class ConfiguratoreController {
 
     public void initMacchina()throws IOException {
         SubScene subScene;
-        Optionals optttt = new Optionals();
         try {
             subScene = createGroup();
         } catch (IOException e) {
@@ -107,127 +106,129 @@ public class ConfiguratoreController {
         shortcut.getItems().addAll(type);
         shortcut.setValue(type[0]);
         choice.setValue(Motore_batteria[0]);
+        price.setText(Base_price + " € ");
         shortcut.setOnAction(e -> {
             if (Objects.equals(shortcut.getValue(), type[0])) {
-                choice.setValue(Motore_batteria[0]);
-                optttt.setEngine(0);
+                if (tele_pos.isSelected())removePrice(Optionals.TEL_POS.getOptionals());
                 tele_pos.setSelected(false);
-                optttt.setTel_pos(0);
+                if (fin_oscu.isSelected())removePrice(Optionals.MIRRORS.getOptionals());
                 fin_oscu.setSelected(false);
-                optttt.setMirror(0);
                 setFinLight();
-                tetto_vetro.setSelected(false);
-                optttt.setRoofGlass(0);
+                if(adas.isSelected())removePrice(Optionals.ADAS.getOptionals());
+                adas.setSelected(false);
+                if(sed_ris.isSelected())removePrice(Optionals.HEATS_SEATS.getOptionals());
                 sed_ris.setSelected(false);
-                optttt.setHeat_seats(0);
+                choice.setValue(Motore_batteria[0]);
+
             }
-            else if (Objects.equals(shortcut.getValue(), type[2])) {
-                choice.setValue(Motore_batteria[1]);
-                optttt.setEngine(1);
+            else if (Objects.equals(shortcut.getValue(), type[1])) {
+                if(!tele_pos.isSelected())addPrice(Optionals.TEL_POS.getOptionals());
                 tele_pos.setSelected(true);
-                optttt.setTel_pos(1);
+                if(!fin_oscu.isSelected())addPrice(Optionals.MIRRORS.getOptionals());
                 fin_oscu.setSelected(true);
-                optttt.setMirror(1);
                 setFinOscu();
-                tetto_vetro.setSelected(true);
-                optttt.setRoofGlass(1);
+                if(!adas.isSelected())addPrice(Optionals.ADAS.getOptionals());
+                adas.setSelected(true);
+                if(!sed_ris.isSelected())addPrice(Optionals.HEATS_SEATS.getOptionals());
                 sed_ris.setSelected(true);
-                optttt.setHeat_seats(1);
+                choice.setValue(Motore_batteria[1]);
             }
         });
         choice.setOnAction(e ->{
-            if(Objects.equals(choice.getValue(), Motore_batteria[0])){
-                optttt.setEngine(0);
-                if(!fin_oscu.isSelected() && !tetto_vetro.isSelected() && !sed_ris.isSelected() && !tele_pos.isSelected()){
-                    shortcut.setValue(type[0]);
-                }
-                else {
-                    shortcut.setValue(type[1]);
-                }
+            if(choice.getValue().equals(Motore_batteria[0])){
+                if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !adas.isSelected() && !sed_ris.isSelected())shortcut.setValue(type[0]);
+                else if (tele_pos.isSelected() && fin_oscu.isSelected() && adas.isSelected() && sed_ris.isSelected())shortcut.setValue("Custom");
+                removePrice(Optionals.ENGINE.getOptionals());
             }
             else{
-                if(fin_oscu.isSelected() && tetto_vetro.isSelected() && sed_ris.isSelected() && tele_pos.isSelected()){
-                    shortcut.setValue(type[2]);
-                }
-                else {
-                    shortcut.setValue(type[1]);
-                }
+                if(tele_pos.isSelected() && fin_oscu.isSelected() && adas.isSelected() && sed_ris.isSelected())shortcut.setValue(type[1]);
+                else if (!tele_pos.isSelected() && !fin_oscu.isSelected() && !adas.isSelected() && !sed_ris.isSelected())shortcut.setValue("Custom");
+                addPrice(Optionals.ENGINE.getOptionals());
             }
         });
+
         tele_pos.setOnAction(e -> {
             if (tele_pos.isSelected()) {
-                optttt.setTel_pos(1);
-                if (fin_oscu.isSelected() && tetto_vetro.isSelected() && sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
-                    shortcut.setValue(type[2]);
+                addPrice(Optionals.TEL_POS.getOptionals());
+                if (fin_oscu.isSelected() && adas.isSelected() && sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[1])) {
+                    shortcut.setValue(type[1]);
                 }
                 else {
-                    shortcut.setValue(type[1]);
+                    shortcut.setValue("Custom");
                 }
             }
             else {
-                if(!fin_oscu.isSelected() && !tetto_vetro.isSelected() && !sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[0])) {
+                removePrice(Optionals.TEL_POS.getOptionals());
+                if(!fin_oscu.isSelected() && !adas.isSelected() && !sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[0])) {
                     shortcut.setValue(type[0]);
                 }
                 else {
-                    shortcut.setValue(type[1]);
+                    shortcut.setValue("Custom");
                 }
             }
+
         });
         fin_oscu.setOnAction(e -> {
-            ;
             if (fin_oscu.isSelected()) {
                 setFinOscu();
-                if (tele_pos.isSelected() && tetto_vetro.isSelected() && sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
-                    shortcut.setValue(type[2]);
+                addPrice(Optionals.MIRRORS.getOptionals());
+                if (tele_pos.isSelected() && adas.isSelected() && sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[1])) {
+                    shortcut.setValue(type[1]);
                 }
                 else {
-                    shortcut.setValue(type[1]);
+                    shortcut.setValue("Custom");
                 }
             }
             else {
+                removePrice(Optionals.MIRRORS.getOptionals());
                 setFinLight();
-                if(!tele_pos.isSelected() && !tetto_vetro.isSelected() && !sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[0])) {
+                if(!tele_pos.isSelected() && !adas.isSelected() && !sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[0])) {
                     shortcut.setValue(type[0]);
                 }
                 else {
-                    shortcut.setValue(type[1]);
+                    shortcut.setValue("Custom");
                 }
             }
-        });
-        tetto_vetro.setOnAction(e -> {
-            if (tetto_vetro.isSelected()) {
 
-                if (tele_pos.isSelected() && fin_oscu.isSelected() && sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
-                    shortcut.setValue(type[2]);
+        });
+        adas.setOnAction(e -> {
+            if (adas.isSelected()) {
+                addPrice(Optionals.ADAS.getOptionals());
+                if (tele_pos.isSelected() && fin_oscu.isSelected() && sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[1])) {
+                    shortcut.setValue(type[1]);
                 }
                 else {
-                    shortcut.setValue(type[1]);
+                    shortcut.setValue("Custom");
                 }
             }
             else {
-                if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !sed_ris.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[0])) {
+                removePrice(Optionals.ADAS.getOptionals());
+                if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[0])) {
                     shortcut.setValue(type[0]);
                 }
                 else {
-                    shortcut.setValue(type[1]);
+                    shortcut.setValue("Custom");
                 }
             }
         });
         sed_ris.setOnAction(e -> {
+
             if (sed_ris.isSelected()) {
-                if (tele_pos.isSelected() && fin_oscu.isSelected() && tetto_vetro.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[2])) {
-                    shortcut.setValue(type[2]);
+                addPrice(Optionals.HEATS_SEATS.getOptionals());
+                if (tele_pos.isSelected() && fin_oscu.isSelected() && adas.isSelected() && choice.getValue().equals(Motore_batteria[1])) {
+                    shortcut.setValue(type[1]);
                 }
                 else {
-                    shortcut.setValue(type[1]);
+                    shortcut.setValue("Custom");
                 }
             }
             else {
-                if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !tetto_vetro.isSelected() && Objects.equals(choice.getValue(), Motore_batteria[0])) {
+                removePrice(Optionals.HEATS_SEATS.getOptionals());
+                if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !adas.isSelected() && choice.getValue().equals(Motore_batteria[0])) {
                     shortcut.setValue(type[0]);
                 }
                 else {
-                    shortcut.setValue(type[1]);
+                    shortcut.setValue("Custom");
                 }
             }
         });
@@ -288,26 +289,35 @@ public class ConfiguratoreController {
             butt_men_back.setOnMouseClicked(event -> slideMenuTo(-200, true, false, null)); //gestione degli eventi: quando clicchiamo il tasto menuback spostiamo lo slider a -200 e rendiamo visibile il tasto menu
         }
 
-        private void slideMenuTo(int x, boolean menuVisible, boolean menubackVisible, BoxBlur blurEffect) {
-            TranslateTransition slideMenu = new TranslateTransition(); //creiamo un'istanza di TranslateTransition
-            slideMenu.setDuration(Duration.seconds(0.4)); //tempo di transizione
-            slideMenu.setNode(slider_men); //impostiamo il nodo su cui effettuare la transizione
+    private void slideMenuTo(int x, boolean menuVisible, boolean menubackVisible, BoxBlur blurEffect) {
+        TranslateTransition slideMenu = new TranslateTransition(); //creiamo un'istanza di TranslateTransition
+        slideMenu.setDuration(Duration.seconds(0.4)); //tempo di transizione
+        slideMenu.setNode(slider_men); //impostiamo il nodo su cui effettuare la transizione
 
-            slideMenu.setToX(x); //impostiamo la posizione finale dello slider
-            slideMenu.play(); //avviamo la transizione
+        slideMenu.setToX(x); //impostiamo la posizione finale dello slider
+        slideMenu.play(); //avviamo la transizione
 
-            slideMenu.setOnFinished((ActionEvent e) -> {
-                auto.setEffect(blurEffect); // Imposta l'effetto di sfocatura sulla pagina principale
-                auto.setDisable(blurEffect != null); // Disabilita car_home se l'effetto di sfocatura è applicato
-                butt_men.setVisible(menuVisible);
-                butt_men_back.setVisible(menubackVisible);
-            });
-        }
-        private void addPrice(double priceToAdd) {
-            String text = price.getText().replace("€", "").trim();
-            double currentPrice = Double.parseDouble(text);
-            price.setText((currentPrice + priceToAdd) + " €");
-        }
+        slideMenu.setOnFinished((ActionEvent e) -> {
+            auto.setEffect(blurEffect); // Imposta l'effetto di sfocatura sulla pagina principale
+            auto.setDisable(blurEffect != null); // Disabilita car_home se l'effetto di sfocatura è applicato
+            butt_men.setVisible(menuVisible);
+            butt_men_back.setVisible(menubackVisible);
+        });
+    }
+
+    private void addPrice(int optional) {
+        String text = price.getText().replace("€", "").trim();
+        double currentPrice = Double.parseDouble(text);
+        price.setText((currentPrice + optional) + " €");
+    }
+    private void removePrice(int optional) {
+        String text = price.getText().replace("€", "").trim();
+        double currentPrice = Double.parseDouble(text);
+        price.setText((currentPrice - optional) + " €");
+    }
+
+
+
 
     private SubScene createGroup() throws IOException {
         Group modelRoot;
@@ -316,7 +326,7 @@ public class ConfiguratoreController {
         camera.setTranslateX(3.5);
         camera.setTranslateY(3);
 
-        modelRoot = loadModel(getClass().getResource("/configuratore/Tesla Model.obj"));
+        modelRoot = loadModel(getClass().getResource("/configuratore/Porsche 918 Spyder 2016.obj"));
         modelRoot.setTranslateX(3);
         modelRoot.setTranslateY(4);
 
@@ -329,22 +339,15 @@ public class ConfiguratoreController {
         return subScene;
     }
 
-private Group loadModel(URL url) throws IOException {
-     Gmodel = new Group();
-    // Rinomina il file .obj per forzare il rilevamento delle modifiche
-
-    importer = new ObjModelImporter();
-    importer.read(url);
-
-    for (MeshView view : importer.getImport()){
-        Gmodel.getChildren().add(view);
+    private Group loadModel(URL url) throws IOException {
+        Gmodel = new Group();
+        importer = new ObjModelImporter();
+        importer.read(url);
+        for (MeshView view : importer.getImport()){
+            Gmodel.getChildren().add(view);
+        }
+        return Gmodel;
     }
-    System.out.println(Gmodel.getChildren());
-    // Rinomina il file .obj al suo nome originale
-
-
-    return Gmodel;
-}
 
 
     private void initMouseControl(SubScene subScene, Group modelRoot){
@@ -380,9 +383,6 @@ private Group loadModel(URL url) throws IOException {
 
 
          */
-
-
-
     }
 
 /*

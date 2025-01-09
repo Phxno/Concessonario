@@ -30,7 +30,6 @@ public class Configuratore extends Application {
         Scene scene = new Scene(root, 1024, 768);
         ConfiguratoreController controller = fxmlLoader.getController();
         controller.initMacchina();
-
         stage.setMinWidth(1024);
         stage.setMinHeight(768);
         stage.setMaxWidth(1024);
