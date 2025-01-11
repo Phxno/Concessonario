@@ -38,7 +38,13 @@ public class PreventivoController {
     private DatePicker dataShipping;
 
     @FXML
+    private Label prevLabel;
+
+    @FXML
     private Label prevNumber;
+
+    @FXML
+    private Label dataCreazione;
 
     @FXML
     private Label price;
@@ -49,6 +55,9 @@ public class PreventivoController {
     @FXML
     private Label shopName;
 
+    @FXML
+    private Label model;
+
     private PrevClass prev;
     private String dip;
     private int t_user;
@@ -57,12 +66,20 @@ public class PreventivoController {
         this.t_user = t_user;
         this.prev = prev;
         clientName.setText(prev.getUtente().getName());
-        prevNumber.setText(prev.getId());
         price.setText(prev.getPrezzo());
         sale.setText(prev.getSconto() + "%");
+        model.setText(prev.getMacchina());
         shopName.setText(prev.getNegozioConsegna());
+        String dataC = prev.getDataCreazione();
+        dataCreazione.setText(dataC.replace("-","/"));
         LocalDate data = LocalDate.parse(prev.getDataConsegna());
         dataShipping.setValue(data);
+        if (t_user == 2){
+          prevLabel.setText("");
+          prevNumber.setText("");
+          usedButton.setVisible(false);
+          dataShipping.setDisable(true);
+        } else prevNumber.setText(prev.getId());
         this.dip = dip;
     }
 

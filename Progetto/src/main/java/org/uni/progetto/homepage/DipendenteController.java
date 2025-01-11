@@ -41,7 +41,7 @@ public class DipendenteController {
     private Button NayPrev;
 
     @FXML
-    private Button OkayPrev;
+    private Button okayPrev;
 
     @FXML
     private Button NayOrders;
@@ -87,6 +87,12 @@ public class DipendenteController {
       UData.setText(dip);
       filterBox.getItems().addAll(filters);
       filterBox.setValue(filters.get(0));
+      filterBox.setOnAction(e -> {
+        if (filterBox.getValue().equals("Data")) sortID();
+        else if (filterBox.getValue().equals("Cliente")) sortCliente();
+        else if (filterBox.getValue().equals("Negozio")) sortConsegna();
+        else if (filterBox.getValue().equals("Marca")) sortMarca();
+      });
       this.t_user = t_user;
       this.dip = dip;
       switch (t_user) {
@@ -125,20 +131,24 @@ public class DipendenteController {
 
     @FXML
     void OkayPrev(ActionEvent event) throws IOException{
-      String prev = ordersList.getSelectionModel().getSelectedItem();
-      System.out.println(prev);
+      String prev = prevList.getSelectionModel().getSelectedItem();
       int id = -1;
       if (prev != null){
         PrevClass prevTemp = null;
         MenPrev.setVisible(false);
+        String temp = "";
         for (JsonObject prevObject : gsonPrevsList) {
-          String temp = prevObject.get("id").getAsString() + " - "+ prevObject.get("utente").getAsString();
+          if (filterBox.getValue().equals("Data")) temp = prevObject.get("id").getAsString() + " - "+ prevObject.get("utente").getAsString();
+          else if (filterBox.getValue().equals("Cliente")) temp = prevObject.get("utente").getAsString() + " - id: " + prevObject.get("id").getAsString();
+          else if (filterBox.getValue().equals("Negozio")) temp = prevObject.get("negozioConsegna").getAsString() + " - id: " + prevObject.get("id").getAsString();
+          else if (filterBox.getValue().equals("Marca")) temp = prevObject.get("macchina").getAsString() + " - id: " + prevObject.get("id").getAsString();
           if (temp.equals(prev)){
             prevTemp = new PrevClass(prevObject);
             break;
           }
         }
         prevs.clear();
+        filterBox.setValue(filterBox.getItems().get(0));
         MenPrevTextField.setText("");
         if (prevTemp != null) loadPreventivi(prevTemp);
       } 
@@ -147,7 +157,6 @@ public class DipendenteController {
     @FXML
     void OkayOrders(ActionEvent event) throws IOException {
       String ord = ordersList.getSelectionModel().getSelectedItem();
-      System.out.println(ord);
       int id = -1;
       if (ord != null){
         OrderClass ordTemp = null;
@@ -168,6 +177,7 @@ public class DipendenteController {
     void Nay(ActionEvent event) throws IOException{
       MenPrev.setVisible(false);
       MenOrdini.setVisible(false);
+      filterBox.setValue(filterBox.getItems().get(0));
     }
 
     @FXML
@@ -292,5 +302,19 @@ public class DipendenteController {
       stage.setScene(scene);
       stage.show();
     }
-    private void loadPreventivi(PrevClass prev) throws IOException {}
+    private void loadPreventivi(PrevClass prev) throws IOException {
+      Stage stage = (Stage) Preventivi.getScene().getWindow();
+      stage.close();
+      FXMLLoader fxmlLoader = new FXMLLoader(Preventivo.class.getResource("/FXML/Preventivo.fxml"));
+      Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+      PreventivoController controller = fxmlLoader.getController();
+      controller.initialize(prev, dip, t_user);
+      stage.setTitle("Concessionario - Preventivo");
+      stage.setMinWidth(1024);
+      stage.setMinHeight(768);
+      stage.setMaxWidth(1024);
+      stage.setMaxHeight(768);
+      stage.setScene(scene);
+      stage.show();
+    }
 }

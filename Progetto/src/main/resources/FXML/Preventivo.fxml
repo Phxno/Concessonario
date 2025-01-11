@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/registration.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uni.progetto.homepage.PreventivoController">
    <children>
-      <Label layoutX="98.0" layoutY="33.0" prefHeight="42.0" prefWidth="239.0" text="Preventivo: " textFill="#79959c">
+      <Label fx:id="prevLabel" layoutX="98.0" layoutY="33.0" prefHeight="42.0" prefWidth="239.0" text="Preventivo: " textFill="#79959c">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
@@ -175,5 +175,15 @@
             </VBox>
          </children>
       </AnchorPane>
+      <Label layoutX="640.0" layoutY="33.0" prefHeight="42.0" prefWidth="84.0" text="Data:" textFill="#79959c">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label fx:id="dataCreazione" alignment="CENTER" layoutX="723.0" layoutY="33.0" prefHeight="42.0" prefWidth="200.0" text="01/01/2000" textFill="#79959c">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
