@@ -1,5 +1,8 @@
 package org.uni.progetto.homepage;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -7,36 +10,35 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
-import javafx.scene.control.skin.CellSkinBase;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Material;
-import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.paint.Color;
+import com.google.gson.*;
+
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import static javafx.application.Application.launch;
 
-public class ConfiguratoreController {
+public class ConfiguratoreController{
     private Group Gmodel;
     private double anchorY;
     //private double anchorX;
@@ -69,29 +71,65 @@ public class ConfiguratoreController {
     @FXML
     private Label price;
     @FXML
+    private Label User;
+    @FXML
     private Button save;
     @FXML
     private Button send;
 
-
     private String[] type = {"Base", "Full Optional"};
+
+
     private String[] Motore_batteria = {"Base", "Massimo"};
     private double Base_price = 80000;
     private Integer[] PezCol = {0,1,2,3,4,5,6,7,8,9,10,11};
     private Integer[] PezFin ={13,14,16};
+    private Boolean isLooggedIn;
+
     ObjModelImporter importer = new ObjModelImporter();
+    private final ArrayList<JsonObject> gsonMacchine = new ArrayList<JsonObject>();
 
 
+
+
+
+    public ConfiguratoreController() throws FileNotFoundException {
+    }
 
     private void add3DModel(SubScene model) {
     Platform.runLater(() -> {
         auto.getChildren().add(model);
     });
-
     }
 
     public void initMacchina()throws IOException {
         SubScene subScene;
+        String file = "configuratore.json";
+        Gson gson = new Gson();
+        UserSession userSession = UserSession.getInstance();
+        if (userSession != null) {
+            // Se esiste, l'utente è loggato
+            // Mostra i dati dell'utente
+            User.setText(UserSession.getInstance().getUsername());
+            isLooggedIn = true;
+
+        } else {
+            // Se non esiste, l'utente non è loggato
+            // Mostra lo slider di login
+            User.setText("Guest");
+            isLooggedIn = false;
+        }
+
+        try(Reader reader = new FileReader(file)){
+            JsonArray ordersArray = gson.fromJson(reader, JsonArray.class);
+            for(JsonElement orderElement : ordersArray){
+                JsonObject orderObject = orderElement.getAsJsonObject();
+                gsonMacchine.add(orderObject);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
         try {
             subScene = createGroup();
         } catch (IOException e) {
@@ -107,6 +145,7 @@ public class ConfiguratoreController {
         shortcut.setValue(type[0]);
         choice.setValue(Motore_batteria[0]);
         price.setText(Base_price + " € ");
+
         shortcut.setOnAction(e -> {
             if (Objects.equals(shortcut.getValue(), type[0])) {
                 if (tele_pos.isSelected())removePrice(Optionals.TEL_POS.getOptionals());
@@ -236,10 +275,6 @@ public class ConfiguratoreController {
             Color newColor = color_picker.getValue();
             reload3DModel(newColor);
         });
-
-
-
-
     }
 
     private void reload3DModel(Color newColor) {
@@ -256,11 +291,6 @@ public class ConfiguratoreController {
             }
 
         }
-
-
-
-
-
 
 
     private void setFinOscu() {
@@ -280,8 +310,6 @@ public class ConfiguratoreController {
             ((MeshView) Gmodel.getChildren().get(a)).setMaterial(material);
         }
     }
-
-
 
     public void menu_slider() {
             BoxBlur blur = new BoxBlur(6, 6, 3); // Crea un'istanza di BoxBlur
@@ -316,9 +344,6 @@ public class ConfiguratoreController {
         price.setText((currentPrice - optional) + " €");
     }
 
-
-
-
     private SubScene createGroup() throws IOException {
         Group modelRoot;
         PerspectiveCamera camera = new PerspectiveCamera(true);
@@ -326,7 +351,7 @@ public class ConfiguratoreController {
         camera.setTranslateX(3.5);
         camera.setTranslateY(3);
 
-        modelRoot = loadModel(getClass().getResource("/configuratore/Porsche 918 Spyder 2016.obj"));
+        modelRoot = loadModel(getClass().getResource("/configuratore/Porsche_918_Spyder_2016.obj"));
         modelRoot.setTranslateX(3);
         modelRoot.setTranslateY(4);
 
@@ -380,12 +405,9 @@ public class ConfiguratoreController {
         rt.setInterpolator(Interpolator.LINEAR);
         rt.setCycleCount(RotateTransition.INDEFINITE);
         rt.play();
-
-
          */
     }
-
-/*
+    /*
 class SmartGroup extends Group{
     Rotate r;
     Transform t = new Rotate();

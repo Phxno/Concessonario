@@ -256,7 +256,7 @@ public class HomepageController {
         FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Dipendente.class.getResource("/FXML/Dipendente.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         DipendenteController controller = fxmlLoader.getController();
-        controller.initialize(dip);
+        controller.initialize(dip,2);
         stage.setTitle("Dipendente");
         stage.setScene(scene);
         stage.show();
