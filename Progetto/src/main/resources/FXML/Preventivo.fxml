@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/registration.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uni.progetto.homepage.PreventivoController">
+   <children>
+      <Label fx:id="prevLabel" layoutX="98.0" layoutY="33.0" prefHeight="42.0" prefWidth="239.0" text="Preventivo: " textFill="#79959c">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label fx:id="prevNumber" layoutX="277.0" layoutY="33.0" prefHeight="42.0" prefWidth="100.0" text="01" textFill="#79959c">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Button fx:id="backButton" layoutX="465.0" layoutY="35.0" mnemonicParsing="false" onAction="#back" prefHeight="33.0" prefWidth="106.0" styleClass="back_home_button" text="BackButton" />
+      <ImageView fitHeight="85.0" fitWidth="142.0" layoutX="438.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/Logo%20concessionario%20colorato.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="101.0" layoutY="119.0" prefHeight="568.0" prefWidth="817.0" styleClass="registration_anchorpane">
+         <children>
+            <VBox layoutX="66.0" layoutY="50.0" prefHeight="478.0" prefWidth="678.0" style="-fx-background-color: #79959c;" styleClass="registration_anchorpane">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label prefHeight="60.0" prefWidth="116.0" text="Cliente" textFill="WHITE">
+                           <padding>
+                              <Insets left="30.0" top="50.0" />
+                           </padding>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="clientName" prefHeight="45.0" prefWidth="560.0" style="-fx-text-fill: white;" text="Tizio Caio Sempronio">
+                           <HBox.margin>
+                              <Insets top="35.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="32.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                     <children>
+                        <VBox prefHeight="76.0" prefWidth="119.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="39.0" prefWidth="119.0" text="Negozio" textFill="WHITE" textOverrun="WORD_ELLIPSIS">
+                                 <padding>
+                                    <Insets left="30.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="TOP_CENTER" prefHeight="25.0" prefWidth="119.0" text="di" textFill="WHITE" textOverrun="WORD_ELLIPSIS">
+                                 <padding>
+                                    <Insets left="30.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="TOP_CENTER" prefHeight="36.0" prefWidth="129.0" text="consegna" textFill="WHITE" textOverrun="WORD_ELLIPSIS">
+                                 <padding>
+                                    <Insets left="30.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <Label fx:id="shopName" prefHeight="134.0" prefWidth="160.0" text="Ndokaj SRL" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="67.0" prefWidth="190.0" text="Data di consegna" textFill="WHITE">
+                           <padding>
+                              <Insets left="30.0" top="40.0" />
+                           </padding>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="dataShipping" editable="false">
+                           <HBox.margin>
+                              <Insets top="40.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                     <children>
+                        <VBox prefHeight="99.0" prefWidth="100.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefHeight="69.0" prefWidth="100.0" text="Prezzo" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="100.0" text="Sconto" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="80.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="price" alignment="CENTER" prefHeight="71.0" prefWidth="100.0" text="€ 00" textFill="WHITE">
+                                 <font>
+                                    <Font size="32.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="sale" alignment="CENTER" prefHeight="52.0" prefWidth="100.0" text="30%" textFill="WHITE">
+                                 <font>
+                                    <Font size="32.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <Label prefHeight="119.0" prefWidth="96.0" text="Modello: " textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="model" prefHeight="100.0" prefWidth="187.0" text="Telsa Cybertruck" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="configButton" mnemonicParsing="false" onAction="#config" prefHeight="40.0" prefWidth="194.0" styleClass="registration_button" text="Configurazione">
+                           <HBox.margin>
+                              <Insets top="30.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <AnchorPane prefHeight="106.0" prefWidth="678.0">
+                     <children>
+                        <Button fx:id="confirmButton" layoutX="275.0" layoutY="33.0" mnemonicParsing="false" onAction="#confirm" styleClass="registration_button" text="Conferma" />
+                        <Button fx:id="usedButton" layoutX="527.0" layoutY="33.0" mnemonicParsing="false" onAction="#used" styleClass="registration_button" text="USATO" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <Label layoutX="640.0" layoutY="33.0" prefHeight="42.0" prefWidth="84.0" text="Data:" textFill="#79959c">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label fx:id="dataCreazione" alignment="CENTER" layoutX="723.0" layoutY="33.0" prefHeight="42.0" prefWidth="200.0" text="01/01/2000" textFill="#79959c">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

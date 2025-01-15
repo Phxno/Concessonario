@@ -59,6 +59,7 @@
          <children>
             <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Modelli" textFill="WHITE" />
             <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Home" textFill="WHITE" />
+            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Le mie Configurazioni" textFill="WHITE" />
          </children>
       </VBox>
    </left>
@@ -68,46 +69,64 @@
             <Insets top="-140.0" />
          </BorderPane.margin>
          <children>
-            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="92.0" prefWidth="144.0" text="Base">
+            <ChoiceBox fx:id="shortcut" prefHeight="27.0" prefWidth="184.0" style="-fx-background-color: #ccc1a1;">
                <VBox.margin>
-                  <Insets left="70.0" />
+                  <Insets bottom="50.0" left="20.0" right="20.0" top="50.0" />
+               </VBox.margin>
+            </ChoiceBox>
+            <ColorPicker fx:id="color_picker" cache="true" prefHeight="26.0" prefWidth="184.0" style="-fx-background-color: #ccc1a1;">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="35.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin></ColorPicker>
+            <Label alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="224.0" text="                        Motore/Batteria" />
+            <ChoiceBox fx:id="choice" prefHeight="26.0" prefWidth="269.0" style="-fx-background-color: #CCC1A1;">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin></ChoiceBox>
+            <CheckBox fx:id="tele_pos" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Telecamera Posteriore">
+               <VBox.margin>
+                  <Insets left="40.0" />
                </VBox.margin>
             </CheckBox>
-            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="72.0" prefWidth="144.0" text="Full Optional">
+            <CheckBox fx:id="fin_oscu" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Finestrini Oscurati">
                <VBox.margin>
-                  <Insets left="70.0" />
+                  <Insets left="40.0" />
                </VBox.margin>
             </CheckBox>
-            <ColorPicker prefHeight="64.0" prefWidth="224.0" />
-            <Label alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="224.0" text="Motore/Batteria" />
-            <ChoiceBox prefHeight="26.0" prefWidth="236.0" />
-            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Telecamera Posteriore">
+            <CheckBox fx:id="adas" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Adas Avanzati">
                <VBox.margin>
-                  <Insets left="70.0" />
+                  <Insets left="40.0" />
                </VBox.margin>
             </CheckBox>
-            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Finestrini Oscurati">
+            <CheckBox fx:id="sed_ris" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Sedili Riscaldati">
                <VBox.margin>
-                  <Insets left="70.0" />
+                  <Insets left="40.0" />
                </VBox.margin>
             </CheckBox>
-            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Tetto vetro">
-               <VBox.margin>
-                  <Insets left="70.0" />
-               </VBox.margin>
-            </CheckBox>
-            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="90.0" prefWidth="154.0" text="Sedili Riscaldati">
-               <VBox.margin>
-                  <Insets left="70.0" />
-               </VBox.margin>
-            </CheckBox>
+            <Label fx:id="price" alignment="BOTTOM_RIGHT" prefHeight="58.0" prefWidth="224.0" text="0.0 € ">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
             <HBox prefHeight="80.0" prefWidth="224.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="112.0" text="Button" />
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="112.0" text="Button" />
+                  <Button fx:id="save" mnemonicParsing="false" prefHeight="50.0" prefWidth="112.0" style="-fx-background-color: #ccc1a1;" stylesheets="@../Styles/configuratore.css" text="Salva">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="send" mnemonicParsing="false" prefHeight="50.0" prefWidth="112.0" style="-fx-background-color: #ccc1a1;" stylesheets="@../Styles/configuratore.css" text="Invia Richiesta">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
          </children>
