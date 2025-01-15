@@ -1,0 +1,24 @@
+[
+  {
+    "marca":"Porsche",
+    "modello":"918 Spyder",
+    "immagine":"/Images/immagini_auto_modelli/porsche_918_spyder.jpg",
+    "prezzo":"793.000",
+    "descrizione":"La Porsche 918 Spyder è una supercar ibrida plug-in prodotta dalla casa automobilistica tedesca Porsche a partire dal 2013. È stata presentata al Salone dell'automobile di Ginevra 2010. La 918 Spyder è stata sviluppata inizialmente come concept car, ma il successo ottenuto ha portato la Porsche a produrla in serie limitata. La produzione è iniziata nel settembre 2013 e si è conclusa nel giugno 2015. La 918 Spyder è stata prodotta in 918 esemplari, come omaggio alla Porsche 917, che vinse la 24 Ore di Le Mans nel 1970 e nel 1971. La 918 Spyder è stata la prima vettura ibrida plug-in prodotta in serie dalla Porsche."
+  },
+  {
+    "marca":"Porsche",
+    "modello":"911",
+    "immagine":"/Images/immagini_auto_modelli/porsche_911.jpg",
+    "prezzo":"143.000",
+    "descrizione":"La Porsche 911 è un'autovettura sportiva prodotta dalla Porsche a partire dal 1964. È tuttora in produzione. È disponibile sia con carrozzeria coupé che cabriolet, e con motorizzazione posteriore. La 911 è stata prodotta in numerose versioni, che si differenziano per motorizzazione, allestimento e carrozzeria. La 911 è stata prodotta in sette generazioni, denominate con numeri progressivi, dalla 911 (1964) alla 991 (2011). La 911 è stata prodotta in oltre un milione di esemplari."
+  },
+
+  {
+    "marca":"Tesla",
+    "modello":"Model 3",
+    "immagine":"/Images/immagini_auto_modelli/porsche_911.jpg",
+    "prezzo":"41.000",
+    "descrizione":"La tesla è per froci :D"
+  }
+]

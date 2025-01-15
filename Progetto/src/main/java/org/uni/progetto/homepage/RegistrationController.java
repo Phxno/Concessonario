@@ -46,7 +46,7 @@ public class RegistrationController {
         String date = data.toString();
         String username = user.getText();
         String pass = password.getText();
-        int id = 0;
+        int id = 2;
 
         if (controllo_campi(name, surname, phone, date, username, pass)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -1,11 +1,20 @@
 package org.uni.progetto.homepage;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 public class Homepage extends Application {
     @Override
@@ -29,3 +38,7 @@ public class Homepage extends Application {
         launch();
     }
 }
+
+
+
+

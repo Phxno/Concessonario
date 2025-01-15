@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/homepage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uni.progetto.homepage.MarcheController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../Styles/marche.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uni.progetto.homepage.MarcheController">
     <children>
         <BorderPane layoutX="9.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
@@ -64,12 +64,13 @@
                         <Pane prefHeight="450.0" prefWidth="200.0" style="-fx-background-color: B3C8CF;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <VBox id="slider" focusTraversable="true" prefHeight="568.0" prefWidth="200.0" style="-fx-background-color: E5DDC5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <Button fx:id="homapage_button" mnemonicParsing="false" onAction="#return_home" text="Homepage" textFill="WHITE">
+                                <Button fx:id="homapage_button" mnemonicParsing="false" onAction="#open_home" text="Homepage" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="modelli_button" mnemonicParsing="false" text="Modelli" textFill="WHITE" />
+                                <Button disable="true" mnemonicParsing="false" text="Marche" textFill="WHITE" />
+                        <Button fx:id="modelli_button" mnemonicParsing="false" onAction="#open_modelli" text="Modelli" textFill="WHITE" />
                             </children>
                         </VBox>
                     </children>
@@ -78,27 +79,19 @@
             <center>
                 <AnchorPane fx:id="car_home" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane disable="true" layoutX="74.0" layoutY="62.0" prefHeight="190.0" prefWidth="190.0">
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="69.0" layoutY="57.0" onMouseClicked="#open_filter1" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Images/immagini_auto__marche/Audi%20Marche.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="351.0" layoutY="56.0" onMouseClicked="#open_filter2" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Images/immagini_auto__marche/Marche%20Porsche.png" />
+                     </image>
+                  </ImageView>
+                  <Pane layoutX="212.0" layoutY="296.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: B3C8CF;">
                      <children>
-                        <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-5.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/immagini_auto__marche/Audi%20Marche.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="362.0" layoutY="59.0" prefHeight="190.0" prefWidth="190.0">
-                     <children>
-                        <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-11.0" layoutY="-3.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@../Images/immagini_auto__marche/Marche%20Porsche.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="218.0" layoutY="301.0" prefHeight="190.0" prefWidth="190.0" style="-fx-background-color: #B3C8CF;">
-                     <children>
-                        <ImageView fitHeight="150.0" fitWidth="287.0" layoutX="36.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="196.0" layoutX="43.0" layoutY="25.0" onMouseClicked="#open_filter3" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/immagini_auto__marche/Marche%20Tesla.png" />
                            </image>
