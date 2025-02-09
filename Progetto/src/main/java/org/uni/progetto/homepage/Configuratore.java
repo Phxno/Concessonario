@@ -23,6 +23,7 @@ public class Configuratore extends Application {
 
 
     @Override
+
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Configuratore.class.getResource("/FXML/Configuratore.fxml"));
         BorderPane root = fxmlLoader.load();

@@ -6,11 +6,15 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -52,7 +56,47 @@
       <AnchorPane fx:id="auto" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets left="-180.0" />
-         </BorderPane.margin></AnchorPane>
+         </BorderPane.margin>
+         <children>
+            <Pane fx:id="login_popup" layoutX="213.0" layoutY="282.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3C8cf;">
+               <children>
+                  <Button fx:id="login" layoutX="74.0" layoutY="128.0" mnemonicParsing="false" styleClass="../Styles/configuratore.css" text="accedi" />
+                  <Button fx:id="registrati" layoutX="68.0" layoutY="158.0" mnemonicParsing="false" style="-fx-background-color: #b3C8cf;" text="registrati" underline="true" />
+                  <Label alignment="CENTER" layoutX="6.0" layoutY="12.0" prefHeight="36.0" prefWidth="179.0" text="Non hai eseguito l'accesso" textAlignment="CENTER" />
+                  <PasswordField fx:id="password" layoutX="20.0" layoutY="88.0" promptText="Password" />
+                  <TextField fx:id="username" layoutX="20.0" layoutY="52.0" promptText="Username" />
+               </children>
+            </Pane>
+            <Pane fx:id="validation_popup" layoutX="333.0" layoutY="29.0" prefHeight="153.0" prefWidth="252.0" style="-fx-background-color: E5DDC5;">
+               <children>
+                  <Button fx:id="back" layoutX="19.0" layoutY="113.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="66.0" stylesheets="@../Styles/configuratore.css" text="Annulla" />
+                  <Button fx:id="confirim" layoutX="156.0" layoutY="113.0" mnemonicParsing="false" stylesheets="@../Styles/configuratore.css" text="Conferma" />
+                  <Label layoutX="29.0" layoutY="13.0" prefHeight="17.0" prefWidth="89.0" text="hai un usato ?" />
+                  <ChoiceBox fx:id="sede" layoutX="20.0" layoutY="64.0" prefHeight="26.0" prefWidth="212.0" />
+                  <Label layoutX="19.0" layoutY="47.0" prefHeight="17.0" prefWidth="51.0" text="Sede" />
+                  <CheckBox fx:id="si" layoutX="131.0" layoutY="13.0" mnemonicParsing="false" text="si" />
+                  <CheckBox fx:id="no" layoutX="187.0" layoutY="13.0" mnemonicParsing="false" text="no" />
+               </children>
+            </Pane>
+            <Pane fx:id="form_used" layoutX="269.0" layoutY="217.0" prefHeight="365.0" prefWidth="535.0" style="-fx-background-color: #79959c;" stylesheets="@../Styles/configuratore.css">
+               <children>
+                  <Label alignment="CENTER" layoutX="119.0" layoutY="3.0" prefHeight="22.0" prefWidth="293.0" text="Inserisci le immagini del tuo usato" textFill="WHITE">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="car_info" layoutX="47.0" layoutY="215.0" promptText="Marca e Modello" />
+                  <TextField fx:id="date_info" layoutX="335.0" layoutY="215.0" promptText="anno di immatricolaioe" />
+                  <TextField fx:id="km_info" layoutX="48.0" layoutY="265.0" promptText="kilometraggio" />
+                  <CheckBox fx:id="II_mano" layoutX="342.0" layoutY="256.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="140.0" text="2° mano" textFill="WHITE" />
+                  <CheckBox fx:id="III_mano" layoutX="342.0" layoutY="278.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="113.0" text="3° mano o +" textFill="WHITE" />
+                  <Button fx:id="back" layoutX="65.0" layoutY="315.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="63.0" text="Annulla" />
+                  <Button fx:id="confirm" layoutX="380.0" layoutY="315.0" mnemonicParsing="false" text="Conferma" />
+                  <Button fx:id="load_img" layoutX="212.0" layoutY="170.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="112.0" text="carica immagini" />
+                  <FlowPane fx:id="imageContainer" layoutX="15.0" layoutY="29.0" prefHeight="136.0" prefWidth="505.0" />
+               </children>
+            </Pane>
+         </children></AnchorPane>
    </center>
    <left>
       <VBox id="slider" fx:id="slider_men" focusTraversable="true" prefHeight="630.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" BorderPane.alignment="CENTER">
@@ -71,7 +115,7 @@
          <children>
             <Label fx:id="User" alignment="CENTER" prefHeight="17.0" prefWidth="161.0" text="Guest" textAlignment="CENTER">
                <VBox.margin>
-                  <Insets bottom="-20.0" left="50.0" right="50.0" top="10.0" />
+                  <Insets bottom="-20.0" left="50.0" right="50.0" top="20.0" />
                </VBox.margin>
             </Label>
             <ChoiceBox fx:id="shortcut" prefHeight="27.0" prefWidth="184.0" style="-fx-background-color: #ccc1a1;">

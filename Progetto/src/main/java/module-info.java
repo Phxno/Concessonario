@@ -4,6 +4,7 @@ module org.uni.progetto {
     requires com.google.gson;
     requires jimObjModelImporterJFX;
     requires java.compiler;
+    requires java.desktop;
 
 
     opens org.uni.progetto.homepage to javafx.fxml;
