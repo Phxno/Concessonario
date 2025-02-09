@@ -160,7 +160,12 @@ public class ModelliController {
         // Add an action to the button
         button.setOnAction(event -> {
             // replace with the actual action
-            System.out.println("Button clicked!");
+            //System.out.println("Button clicked!");
+            try {
+                open_configuratore(auto.getModello());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         button.getStyleClass().add("button");
 
@@ -342,6 +347,19 @@ public class ModelliController {
         DipendenteController controller = fxmlLoader.getController();
         controller.initialize(dip,0);
         stage.setTitle("Dipendente");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    void open_configuratore(String nome) throws IOException {
+        Stage stage = (Stage) marche_button.getScene().getWindow();
+        stage.close();
+        // Carica la scena della homepage
+        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Configuratore.class.getResource("/FXML/Configuratore.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
+        ConfiguratoreController controller = fxmlLoader.getController();
+        controller.initMacchina(nome);
+        stage.setTitle("Configuratore");
         stage.setScene(scene);
         stage.show();
     }

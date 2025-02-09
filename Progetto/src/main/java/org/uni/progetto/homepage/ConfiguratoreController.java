@@ -10,9 +10,11 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -91,7 +93,7 @@ public class ConfiguratoreController{
     @FXML
     private Button login;
     @FXML
-    private Button Registrati;
+    private Button registrati;
     @FXML
     private Pane validation_popup;
     @FXML
@@ -128,7 +130,7 @@ public class ConfiguratoreController{
     private double Base_price = 80000;
     private Integer[] PezCol = {0,1,2,3,4,5,6,7,8,9,10,11};
     private Integer[] PezFin ={13,14,16};
-    private Boolean isLooggedIn;
+    private Boolean isAuthenticated;
 
     ObjModelImporter importer = new ObjModelImporter();
     private final ArrayList<JsonObject> gsonMacchine = new ArrayList<JsonObject>();
@@ -140,7 +142,7 @@ public class ConfiguratoreController{
     });
     }
 
-    public void initMacchina()throws IOException {
+    public void initMacchina(String nome)throws IOException {
         login_popup.setVisible(false);
         validation_popup.setVisible(false);
         form_used.setVisible(false);
@@ -152,13 +154,13 @@ public class ConfiguratoreController{
             // Se esiste, l'utente è loggato
             // Mostra i dati dell'utente
             User.setText(UserSession.getInstance().getUsername());
-            isLooggedIn = true;
+            isAuthenticated = true;
 
         } else {
             // Se non esiste, l'utente non è loggato
             // Mostra lo slider di login
             User.setText("Guest");
-            isLooggedIn = false;
+            isAuthenticated = false;
         }
 
         try(Reader reader = new FileReader(file)){
@@ -176,7 +178,7 @@ public class ConfiguratoreController{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        isLooggedIn = true;
+
         add3DModel(subScene);
         slider_men.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
         butt_men_back.setVisible(false); //rendiamo invisibile il tasto menuback cosi che appena avviamo il codice non sia possibile cliccarlo
@@ -330,17 +332,15 @@ public class ConfiguratoreController{
     }
 
     private void SaveFunc(SubScene subscene){
-        if (!isLooggedIn){
-            login_popup.setVisible(true);
+        if (!isAuthenticated){
+            showLoginPopup(subscene);
         }
     }
 
     private void sendfunc(SubScene subscene){
         AtomicInteger id_usato = new AtomicInteger();
-        if (!isLooggedIn){
-            login_popup.setVisible(true);
-            subscene.toBack();
-
+        if (!isAuthenticated){
+            showLoginPopup(subscene);
         }
         else{
             validation_popup.setVisible(true);
@@ -364,6 +364,75 @@ public class ConfiguratoreController{
             });
         }
 
+    }
+
+    private void showLoginPopup(SubScene subscene){
+        login_popup.setVisible(true);
+        subscene.toBack();
+        login.setOnAction(event -> {
+            String user = username.getText();
+            String pass = password.getText();
+            if (user.isEmpty() || pass.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore");
+                alert.setHeaderText("Campi vuoti");
+                alert.setContentText("Inserisci username e password");
+                alert.showAndWait();
+                return;
+            }
+            Gson gson = new Gson();
+            boolean isAuthenticated = false; //variabile booleana per controllare se l'utente è autenticato
+
+            try (Reader reader = new FileReader("dati_utente.json")) {
+                // Convertiamo il file JSON in un oggetto Java
+                JsonArray usersArray = gson.fromJson(reader, JsonArray.class);
+
+                //Creiamo un oggetto JSON per ogni utente
+                for (JsonElement userElement : usersArray) {
+                    JsonObject userObject = userElement.getAsJsonObject();
+
+                    //compariamo per ogni utente il campo username e password con quelli inseriti dall'utente
+                    if (userObject.has("username") && userObject.has("password")) {
+                        if (userObject.get("username").getAsString().equals(user) && userObject.get("password").getAsString().equals(pass)) {
+                            String nome = userObject.get("name").getAsString();
+                            String cognome = userObject.get("surname").getAsString();
+                            String username = userObject.get("username").getAsString();
+                            UserSession.getInstance(nome, cognome, username);
+                            User.setText(username); //aggiorniamo il campo User con il nome dell'utente
+                            isAuthenticated = true;
+                            login_popup.setVisible(false);
+                        }
+                    }
+                }
+
+                
+
+                if (!isAuthenticated) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Errore");
+                    alert.setHeaderText("Errore di login");
+                    alert.setContentText("I dati inseriti non sono corretti. Riprova.");
+                    alert.showAndWait();
+
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
+        });
+        registrati.setOnAction(event -> {
+            try {
+                Stage stage = (Stage) login.getScene().getWindow();
+                stage.close();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Registration.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 1024, 768);
+                stage.setTitle("Registrazione");
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private int createFormUsed() {
