@@ -37,7 +37,7 @@
                         <Insets left="-50.0" right="30.0" />
                      </HBox.margin>
                   </Button>
-                  <Label alignment="CENTER" graphicTextGap="0.0" prefHeight="89.0" prefWidth="411.0" text="Modello genova f 49" textFill="WHITE">
+                  <Label fx:id="car_name" alignment="CENTER" graphicTextGap="0.0" prefHeight="89.0" prefWidth="411.0" text="Modello genova f 49" textFill="WHITE">
                      <font>
                         <Font size="44.0" />
                      </font>
@@ -58,19 +58,10 @@
             <Insets left="-180.0" />
          </BorderPane.margin>
          <children>
-            <Pane fx:id="login_popup" layoutX="213.0" layoutY="282.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3C8cf;">
+            <Pane fx:id="validation_popup" layoutX="344.0" layoutY="22.0" prefHeight="153.0" prefWidth="252.0" style="-fx-background-color: E5DDC5;">
                <children>
-                  <Button fx:id="login" layoutX="74.0" layoutY="128.0" mnemonicParsing="false" styleClass="../Styles/configuratore.css" text="accedi" />
-                  <Button fx:id="registrati" layoutX="68.0" layoutY="158.0" mnemonicParsing="false" style="-fx-background-color: #b3C8cf;" text="registrati" underline="true" />
-                  <Label alignment="CENTER" layoutX="6.0" layoutY="12.0" prefHeight="36.0" prefWidth="179.0" text="Non hai eseguito l'accesso" textAlignment="CENTER" />
-                  <PasswordField fx:id="password" layoutX="20.0" layoutY="88.0" promptText="Password" />
-                  <TextField fx:id="username" layoutX="20.0" layoutY="52.0" promptText="Username" />
-               </children>
-            </Pane>
-            <Pane fx:id="validation_popup" layoutX="333.0" layoutY="29.0" prefHeight="153.0" prefWidth="252.0" style="-fx-background-color: E5DDC5;">
-               <children>
-                  <Button fx:id="back" layoutX="19.0" layoutY="113.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="66.0" stylesheets="@../Styles/configuratore.css" text="Annulla" />
-                  <Button fx:id="confirim" layoutX="156.0" layoutY="113.0" mnemonicParsing="false" stylesheets="@../Styles/configuratore.css" text="Conferma" />
+                  <Button fx:id="back_conf" layoutX="19.0" layoutY="113.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="66.0" stylesheets="@../Styles/configuratore.css" text="Annulla" />
+                  <Button fx:id="send_conf" layoutX="156.0" layoutY="113.0" mnemonicParsing="false" stylesheets="@../Styles/configuratore.css" text="Conferma" />
                   <Label layoutX="29.0" layoutY="13.0" prefHeight="17.0" prefWidth="89.0" text="hai un usato ?" />
                   <ChoiceBox fx:id="sede" layoutX="20.0" layoutY="64.0" prefHeight="26.0" prefWidth="212.0" />
                   <Label layoutX="19.0" layoutY="47.0" prefHeight="17.0" prefWidth="51.0" text="Sede" />
@@ -78,7 +69,7 @@
                   <CheckBox fx:id="no" layoutX="187.0" layoutY="13.0" mnemonicParsing="false" text="no" />
                </children>
             </Pane>
-            <Pane fx:id="form_used" layoutX="269.0" layoutY="217.0" prefHeight="365.0" prefWidth="535.0" style="-fx-background-color: #79959c;" stylesheets="@../Styles/configuratore.css">
+            <Pane fx:id="form_used" layoutX="233.0" layoutY="-5.0" prefHeight="365.0" prefWidth="535.0" style="-fx-background-color: #79959c;" stylesheets="@../Styles/configuratore.css">
                <children>
                   <Label alignment="CENTER" layoutX="119.0" layoutY="3.0" prefHeight="22.0" prefWidth="293.0" text="Inserisci le immagini del tuo usato" textFill="WHITE">
                      <font>
@@ -93,7 +84,16 @@
                   <Button fx:id="back" layoutX="65.0" layoutY="315.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="63.0" text="Annulla" />
                   <Button fx:id="confirm" layoutX="380.0" layoutY="315.0" mnemonicParsing="false" text="Conferma" />
                   <Button fx:id="load_img" layoutX="212.0" layoutY="170.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="112.0" text="carica immagini" />
-                  <FlowPane fx:id="imageContainer" layoutX="15.0" layoutY="29.0" prefHeight="136.0" prefWidth="505.0" />
+                  <FlowPane fx:id="imageContainer" layoutX="20.0" layoutY="30.0" prefHeight="130.0" prefWidth="495.0" />
+               </children>
+            </Pane>
+            <Pane fx:id="login_popup" layoutX="371.0" layoutY="28.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3C8cf;">
+               <children>
+                  <Button fx:id="login" layoutX="74.0" layoutY="128.0" mnemonicParsing="false" styleClass="../Styles/configuratore.css" text="accedi" />
+                  <Button fx:id="registrati" layoutX="68.0" layoutY="158.0" mnemonicParsing="false" style="-fx-background-color: #b3C8cf;" text="registrati" underline="true" />
+                  <Label alignment="CENTER" layoutX="6.0" layoutY="12.0" prefHeight="36.0" prefWidth="179.0" text="Non hai eseguito l'accesso" textAlignment="CENTER" />
+                  <PasswordField fx:id="password" layoutX="20.0" layoutY="88.0" promptText="Password" />
+                  <TextField fx:id="username" layoutX="20.0" layoutY="52.0" promptText="Username" />
                </children>
             </Pane>
          </children></AnchorPane>
@@ -101,9 +101,9 @@
    <left>
       <VBox id="slider" fx:id="slider_men" focusTraversable="true" prefHeight="630.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Modelli" textFill="WHITE" />
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Home" textFill="WHITE" />
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Le mie Configurazioni" textFill="WHITE" />
+            <Button fx:id="home" mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Home" textFill="WHITE" />
+            <Button fx:id="marche" mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Marche" textFill="WHITE" />
+            <Button fx:id="my_conf" mnemonicParsing="false" prefHeight="42.0" prefWidth="159.0" style="-fx-background-color: E5DDC5;" text="Le mie Configurazioni" textFill="WHITE" />
          </children>
       </VBox>
    </left>

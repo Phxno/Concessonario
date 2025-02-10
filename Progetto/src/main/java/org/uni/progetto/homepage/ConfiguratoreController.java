@@ -36,7 +36,6 @@ import javafx.scene.paint.PhongMaterial;
 import com.google.gson.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -44,7 +43,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
 
 public class ConfiguratoreController{
     private Group Gmodel;
@@ -103,6 +101,10 @@ public class ConfiguratoreController{
     @FXML
     private ChoiceBox<String> sede;
     @FXML
+    private Button back_conf;
+    @FXML
+    private Button send_conf;
+    @FXML
     private Button back;
     @FXML
     private Button confirm;
@@ -122,6 +124,14 @@ public class ConfiguratoreController{
     private CheckBox II_mano;
     @FXML
     private CheckBox III_mano;
+    @FXML
+    private Button home;
+    @FXML
+    private Button marche;
+    @FXML
+    private Button my_conf;
+    @FXML
+    private Label car_name;
 
 
     private String[] concessionari = {"Verona", "Milano", "Aosta"};
@@ -143,6 +153,7 @@ public class ConfiguratoreController{
     }
 
     public void initMacchina(String nome)throws IOException {
+        //car_name.setText(nome);
         login_popup.setVisible(false);
         validation_popup.setVisible(false);
         form_used.setVisible(false);
@@ -174,7 +185,7 @@ public class ConfiguratoreController{
         }
 
         try {
-            subScene = createGroup();
+            subScene = createGroup();//TODO Con Elvis sistemare le macchine con chiamata json
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -189,6 +200,7 @@ public class ConfiguratoreController{
         choice.setValue(Motore_batteria[0]);
         price.setText(Base_price + " € ");
         sede.getItems().addAll(concessionari);
+
         shortcut.setOnAction(e -> setShortcut());
         choice.setOnAction(e -> setChoice());
         tele_pos.setOnAction(e -> setTelePos());
@@ -197,7 +209,43 @@ public class ConfiguratoreController{
         sed_ris.setOnAction(e -> setSedRis());
         color_picker.setOnAction(e -> setColo());
         save.setOnAction(e -> SaveFunc(subScene));
-        send.setOnAction((e -> sendfunc(subScene)));
+        send.setOnAction(e -> sendfunc(subScene));
+        home.setOnAction(event -> {
+            try {
+                openHome();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        marche.setOnAction(event -> {
+            try {
+                openMod();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void openMod() throws IOException {
+        Stage stage = (Stage) marche.getScene().getWindow();
+        stage.close();
+        // Carica la scena della homepage
+        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Registration.class.getResource("/FXML/Marche.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
+        stage.setTitle("Marche");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void openHome() throws IOException {
+        Stage stage = (Stage) home.getScene().getWindow();
+        stage.close();
+        // Carica la scena della homepage
+        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Registration.class.getResource("/FXML/Homepage.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
+        stage.setTitle("Homepage");
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void setShortcut(){
@@ -226,6 +274,7 @@ public class ConfiguratoreController{
             choice.setValue(Motore_batteria[1]);
         }
     }
+
     private void setChoice() {
         if(choice.getValue().equals(Motore_batteria[0])){
             if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !adas.isSelected() && !sed_ris.isSelected())shortcut.setValue(type[0]);
@@ -354,13 +403,23 @@ public class ConfiguratoreController{
             no.setOnAction(event -> {
                 if(no.isSelected()){
                     si.setSelected(false);
+                    try {
+                        deleteUsed(id_usato);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
-            confirm.setOnAction(event -> {
-
+            send_conf.setOnAction(event -> {
+                //TODO
             });
-            back.setOnAction(event -> {
-
+            back_conf.setOnAction(event -> {
+                validation_popup.setVisible(false);
+                try {
+                    deleteUsed(id_usato);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
         }
 
@@ -381,7 +440,6 @@ public class ConfiguratoreController{
                 return;
             }
             Gson gson = new Gson();
-            boolean isAuthenticated = false; //variabile booleana per controllare se l'utente è autenticato
 
             try (Reader reader = new FileReader("dati_utente.json")) {
                 // Convertiamo il file JSON in un oggetto Java
@@ -404,9 +462,6 @@ public class ConfiguratoreController{
                         }
                     }
                 }
-
-                
-
                 if (!isAuthenticated) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Errore");
@@ -500,7 +555,7 @@ public class ConfiguratoreController{
 
             JsonObject dati = new JsonObject();
 
-            dati.addProperty("Id", finalId);
+            dati.addProperty("id", finalId);
             dati.addProperty("img", imageContainer.getChildren().toString());
             dati.addProperty("car" , car_infoText);
             dati.addProperty("date", date_infoText);
@@ -545,6 +600,40 @@ public class ConfiguratoreController{
         return id;
     }
 
+    private void deleteUsed(AtomicInteger id) throws IOException {
+        int idToRemove = id.get();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonArray jsonArray;
+
+        // Leggi il file JSON esistente
+        File file = new File("usato.json");
+        if (!file.exists() || file.length() == 0) {
+            return; // Nessun file, nulla da rimuovere
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
+        } catch (JsonSyntaxException e) {
+            throw new IOException("Formato JSON non valido", e);
+        }
+
+        // Filtra gli oggetti, rimuovendo quello con l'ID specifico
+        JsonArray newArray = new JsonArray();
+        boolean removed = false;
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject obj = jsonArray.get(i).getAsJsonObject();
+            if (obj.has("id") && obj.get("id").getAsInt() == idToRemove) {
+                removed = true; // Oggetto rimosso
+            } else {
+                newArray.add(obj); // Aggiungi solo gli oggetti che non hanno l'ID da rimuovere
+            }
+        }
+        // Scrivi l'array aggiornato nel file JSON
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(newArray, writer);
+        }
+    }
+
     private void clearUsedForm(){
         car_info.clear();
         km_info.clear();
@@ -553,7 +642,8 @@ public class ConfiguratoreController{
         III_mano.setSelected(false);
         imageContainer.getChildren().clear();
     }
-    private int createId() throws IOException{
+
+    private synchronized int createId() throws IOException {
         Set<Integer> existingIds = new HashSet<>();
         File file = new File("usato.json");
 
@@ -581,16 +671,17 @@ public class ConfiguratoreController{
         }
 
         // Trova il primo ID disponibile
-        return IntStream.iterate(1, i -> i + 1)
-                .filter(id -> !existingIds.contains(id))
-                .findFirst()
-                .orElse(1);
+        int newId = 1;
+        while (existingIds.contains(newId)) {
+            newId++;
+        }
+
+        return newId;
     }
 
     private boolean controllaCampi(String car, String date, String km){
         return (car.isEmpty() || date.isEmpty() || km.isEmpty());
     }
-
 
     private void reload3DModel(Color newColor) {
         PhongMaterial material = new PhongMaterial();
@@ -607,8 +698,6 @@ public class ConfiguratoreController{
         }
     }
 
-
-
     private void setFinOscu() {
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseColor(Color.BLACK);
@@ -618,6 +707,7 @@ public class ConfiguratoreController{
         }
 
     }
+
     private void setFinLight() {
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseColor(Color.WHITE);
@@ -654,13 +744,14 @@ public class ConfiguratoreController{
         double currentPrice = Double.parseDouble(text);
         price.setText((currentPrice + optional) + " €");
     }
+
     private void removePrice(int optional) {
         String text = price.getText().replace("€", "").trim();
         double currentPrice = Double.parseDouble(text);
         price.setText((currentPrice - optional) + " €");
     }
 
-    private SubScene createGroup() throws IOException {
+    private SubScene createGroup() throws IOException {//TODO modificare tutto con variabili della chiamata json
         Group modelRoot;
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.setTranslateZ(-8);
@@ -689,7 +780,6 @@ public class ConfiguratoreController{
         }
         return Gmodel;
     }
-
 
     private void initMouseControl(SubScene subScene, Group modelRoot){
         //Rotate xRotate;
@@ -724,23 +814,23 @@ public class ConfiguratoreController{
          */
     }
     /*
-class SmartGroup extends Group{
-    Rotate r;
-    Transform t = new Rotate();
+    class SmartGroup extends Group{
+        Rotate r;
+        Transform t = new Rotate();
 
-    void rotateByX(int angle){
-        r = new Rotate(angle, Rotate.X_AXIS);
-        t = t.createConcatenation(r);
-        this.getTransforms().clear();
-        this.getTransforms().addAll(t);
+        void rotateByX(int angle){
+            r = new Rotate(angle, Rotate.X_AXIS);
+            t = t.createConcatenation(r);
+            this.getTransforms().clear();
+            this.getTransforms().addAll(t);
+        }
+        void rotateByY(int angle){
+            r = new Rotate(angle, Rotate.Y_AXIS);
+            t = t.createConcatenation(r);
+            this.getTransforms().clear();
+            this.getTransforms().addAll(t);
+        }
     }
-    void rotateByY(int angle){
-        r = new Rotate(angle, Rotate.Y_AXIS);
-        t = t.createConcatenation(r);
-        this.getTransforms().clear();
-        this.getTransforms().addAll(t);
-    }
-}
 */
 
 }   // End of class ConfiguratoreController
