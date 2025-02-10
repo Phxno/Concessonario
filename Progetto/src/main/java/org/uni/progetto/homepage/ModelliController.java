@@ -25,6 +25,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ModelliController {
@@ -114,14 +115,14 @@ public class ModelliController {
 
         Gson gson = new Gson();
         try (FileReader reader = new FileReader("modelli_auto.json")) {
-            List<AutoBase> autoList = gson.fromJson(reader, new TypeToken<List<Auto>>() {
+            List<AutoBase> autoList = gson.fromJson(reader, new TypeToken<List<AutoBase>>() {
             }.getType());
 
             // Filtra la lista di auto per includere solo quelle della marca selezionata
             if (!marca.equals("All")) {
                 autoList = autoList.stream()
                         .filter(auto -> auto.getMarca().equalsIgnoreCase(marca))
-                        .collect(Collectors.toList());
+                        .toList();
             }
             for (AutoBase auto : autoList) {
                 VBox banner = creaBanner(auto);
@@ -139,7 +140,7 @@ public class ModelliController {
         banner.setAlignment(Pos.CENTER);
         banner.getStyleClass().add("banner");
 
-        String imageUrl = getClass().getResource(auto.getImmagine()).toExternalForm();
+        String imageUrl = Objects.requireNonNull(getClass().getResource(auto.getImmagine())).toExternalForm();
         ImageView immagine = new ImageView(new Image(imageUrl));
 
         immagine.setFitWidth(1024 * 0.33);  // 25% della larghezza della pagina
