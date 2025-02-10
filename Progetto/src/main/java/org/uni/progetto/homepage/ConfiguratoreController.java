@@ -45,6 +45,8 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -146,11 +148,12 @@ public class ConfiguratoreController{
     private Boolean isAuthenticated;
     private double[] posizioneCamera;
     private String car;
+    private int sconto;
 
     ObjModelImporter importer = new ObjModelImporter();
 
     public void initMacchina(int id)throws IOException {
-        //car_name.setText(nome);
+        sconto = (id == 2) ? 5 : 0;
         login_popup.setVisible(false);
         validation_popup.setVisible(false);
         form_used.setVisible(false);
@@ -232,20 +235,12 @@ public class ConfiguratoreController{
             Gson gson = new Gson();
             AutoConf auto = gson.fromJson(jsonObject, AutoConf.class);
 
-
-
-
             // Salva i valori nelle variabili globali
             car = auto.getMarca() + " " + auto.getModello();
-            System.out.println(car);
             Motore_batteria = auto.getListaMotori();
-            System.out.println(Arrays.toString(Motore_batteria));
             Base_price = auto.getPrezzo();
-            System.out.println(Base_price);
             PezFin = auto.getFinestrini();
-            System.out.println(Arrays.toString(PezFin));
             PezCol = auto.getListaPezziAutoColorati();
-            System.out.println(Arrays.toString(PezCol));
             posizioneCamera = auto.getPosizioneCamera();
 
         } catch (IOException e) {
@@ -443,6 +438,7 @@ public class ConfiguratoreController{
         }
         else{
             showValidationPopup();
+
         }
 
     }
@@ -532,7 +528,33 @@ public class ConfiguratoreController{
             }
         });
         send_conf.setOnAction(event -> {
-            //TODO
+            ArrayList<Object> conf = saveConf();
+            try {
+                saveInJson("preventivi.json", creaJsonObject(
+                        "utente", UserSession.getInstance().getFirstName() + " " + UserSession.getInstance().getLastName(),
+                        "macchina", car,
+                        "configurazione", conf,
+                        "usato", id_usato,
+                        "dataCreazione", getDataDiOggi(),
+                        "prezzo", price.getText(),
+                        "sconto", sconto + "%",
+                        "negozioConsegna", sede.getValue(),
+                        "dataConsegna", calculateDataConsegna(conf),
+                        "id", createId("preventivi.json")
+                ));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Operazione Riuscita");
+            alert.setHeaderText("L'operazione è stata completata con successo!");
+            alert.setContentText("Puoi procedere con le prossime azioni.");
+            alert.showAndWait();
+            try {
+                openHome();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         back_conf.setOnAction(event -> {
             validation_popup.setVisible(false);
@@ -544,10 +566,42 @@ public class ConfiguratoreController{
         });
     }
 
+    private ArrayList<Object> saveConf(){
+        ArrayList<Object> conf = new ArrayList<>();
+        conf.add(color_picker.getValue());
+        conf.add(choice.getValue());
+        conf.add(tele_pos.isSelected());
+        conf.add(fin_oscu.isSelected());
+        conf.add(adas.isSelected());
+        conf.add(sed_ris.isSelected());
+
+        return conf;
+    }
+
+    private String calculateDataConsegna(ArrayList<Object> conf){
+        // Ottieni la data di oggi
+        LocalDate data = LocalDate.now();
+        data.plusMonths(1);
+
+        // Itera attraverso l'ArrayList
+        for (Object condizione : conf) {
+            if ((condizione instanceof Boolean && (Boolean) condizione) ||
+                    (condizione instanceof String && condizione.equals(Motore_batteria[1])) ||
+                    (condizione instanceof Color && !condizione.equals(Color.WHITE) && !condizione.equals(Color.BLACK))){
+                // Se la condizione è true, aggiungi 10 giorni
+                data = data.plusDays(10);
+            }
+        }
+
+        // Formatta la data nel formato yyyy-MM-dd
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return data.format(formatter);
+    }
+
     private int createFormUsed() {
-        int id = 0;
+        int id;
         try {
-            id = createId();
+            id = createId("usato.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -592,7 +646,6 @@ public class ConfiguratoreController{
             }
         });
 
-        int finalId = id;
         confirm.setOnAction(event -> {
             String car_infoText = car_info.getText();
             String date_infoText = date_info.getText();
@@ -609,16 +662,6 @@ public class ConfiguratoreController{
                 alert.showAndWait();
                 return; // Esci dal metodo se i campi non sono validi
             }
-
-            // Crea un oggetto JSON per i dati
-            JsonObject dati = new JsonObject();
-            dati.addProperty("id", finalId);
-            dati.addProperty("car", car_infoText);
-            dati.addProperty("date", date_infoText);
-            dati.addProperty("km", km_infoText);
-            dati.addProperty("usata", II_mano.isSelected() ? "2°mano" : "3 mano o +");
-
-            // Converti le immagini in Base64 e aggiungile al JSON
             JsonArray immaginiBase64 = new JsonArray();
             for (Node node : imageContainer.getChildren()) {
                 if (node instanceof ImageView) {
@@ -630,26 +673,14 @@ public class ConfiguratoreController{
                     }
                 }
             }
-            dati.add("img", immaginiBase64); // Aggiungi l'array di immagini al JSON
-
-            // Salva i dati nel file JSON
-            try {
-                JsonArray dati_presenti;
-                try (FileReader reader = new FileReader("usato.json")) {
-                    JsonElement parsed = JsonParser.parseReader(reader);
-                    dati_presenti = parsed.isJsonArray() ? parsed.getAsJsonArray() : new JsonArray();
-                } catch (IOException | JsonSyntaxException e) {
-                    dati_presenti = new JsonArray();
-                }
-
-                dati_presenti.add(dati); // Aggiungi i nuovi dati all'array esistente
-
-                try (FileWriter writer = new FileWriter("usato.json")) {
-                    writer.write(dati_presenti.toString()); // Scrivi i dati aggiornati nel file
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            saveInJson("usato.json", creaJsonObject(
+                    "id", id,
+                    "car", car_infoText,
+                    "date", date_infoText,
+                    "km", km_infoText,
+                    "usata", II_mano.isSelected() ? "2°mano" : "3 mano o +",
+                    "img", immaginiBase64
+            ));
             form_used.setVisible(false);
             clearUsedForm();
         });
@@ -660,6 +691,68 @@ public class ConfiguratoreController{
         });
 
         return id;
+    }
+
+    private String getDataDiOggi() {
+        // Ottieni la data di oggi
+        LocalDate oggi = LocalDate.now();
+        // Definisci il formato desiderato
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        // Formatta la data nel formato yyyy-MM-dd
+        return oggi.format(formatter);
+    }
+
+    private static JsonObject creaJsonObject(Object... args) {
+        // Verifica che il numero di argomenti sia pari
+        if (args.length % 2 != 0) {
+            throw new IllegalArgumentException("Il numero di argomenti deve essere pari (chiavi e valori).");
+        }
+
+        // Creazione del JsonObject
+        JsonObject jsonObject = new JsonObject();
+
+        // Aggiunta delle coppie chiave-valore al JsonObject
+        for (int i = 0; i < args.length; i += 2) {
+            if (!(args[i] instanceof String)) {
+                throw new IllegalArgumentException("Le chiavi devono essere di tipo String.");
+            }
+            String chiave = (String) args[i];
+            Object valore = args[i + 1];
+
+            // Gestione dei tipi di valore
+            if (valore instanceof String) {
+                jsonObject.addProperty(chiave, (String) valore);
+            } else if (valore instanceof Number) {
+                jsonObject.addProperty(chiave, (Number) valore);
+            } else if (valore instanceof Boolean) {
+                jsonObject.addProperty(chiave, (Boolean) valore);
+            } else {
+                // Se il valore non è di un tipo supportato, lo convertiamo in stringa
+                jsonObject.addProperty(chiave, valore.toString());
+            }
+        }
+
+        return jsonObject;
+    }
+
+    private void saveInJson(String filePath, JsonObject dati) {
+        try {
+            JsonArray dati_presenti;
+            try (FileReader reader = new FileReader(filePath)) {
+                JsonElement parsed = JsonParser.parseReader(reader);
+                dati_presenti = parsed.isJsonArray() ? parsed.getAsJsonArray() : new JsonArray();
+            } catch (IOException | JsonSyntaxException e) {
+                dati_presenti = new JsonArray();
+            }
+
+            dati_presenti.add(dati); // Aggiungi i nuovi dati all'array esistente
+
+            try (FileWriter writer = new FileWriter(filePath)) {
+                writer.write(dati_presenti.toString()); // Scrivi i dati aggiornati nel file
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String convertImageToBase64(Image image) {
@@ -717,9 +810,9 @@ public class ConfiguratoreController{
         imageContainer.getChildren().clear();
     }
 
-    private synchronized int createId() throws IOException {
+    private synchronized int createId(String filepath) throws IOException {
         Set<Integer> existingIds = new HashSet<>();
-        File file = new File("usato.json");
+        File file = new File(filepath);
 
         // Se il file esiste e non è vuoto, leggere gli ID esistenti
         if (file.exists() && file.length() > 0) {
@@ -825,7 +918,7 @@ public class ConfiguratoreController{
         price.setText((currentPrice - optional) + " €");
     }
 
-    private SubScene createGroup() throws IOException {//TODO modificare tutto con variabili della chiamata json
+    private SubScene createGroup() throws IOException {
         Group modelRoot;
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.setTranslateZ(posizioneCamera[0]);
