@@ -5,7 +5,9 @@ ELVIS
 BELLE'
 1- Inserimento preventivi in json dal configuratore
 2- Salvare le configurazione
+3- Generare sconto per preventivo in costruzione
 BERTA
 1- Visualizzare preventivi con/senza usato e valutare l'usato se c'è
 2- Inviare conferma preventivo e generare pdf
-3- Memorizzare sedi in json con relativi ordini
+3- Memorizzare sedi in json con relativi ordini e sistemare ricerca ordini per sedi
+4- Info modelli maybe(?)
