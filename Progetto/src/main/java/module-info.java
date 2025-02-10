@@ -5,8 +5,11 @@ module org.uni.progetto {
     requires jimObjModelImporterJFX;
     requires java.compiler;
     requires java.desktop;
+    requires javafx.swing;
 
 
-    opens org.uni.progetto.homepage to javafx.fxml;
+    opens org.uni.progetto.homepage to javafx.fxml,com.google.gson;
+
     exports org.uni.progetto.homepage;
+
 }

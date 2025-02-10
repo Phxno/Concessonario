@@ -8,14 +8,12 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
-import javafx.scene.SubScene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,11 +34,17 @@ import javafx.scene.paint.PhongMaterial;
 import com.google.gson.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import javax.imageio.ImageIO;
+import javax.imageio.plugins.jpeg.JPEGImageReadParam;
+import java.awt.image.BufferedImage;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -133,64 +137,28 @@ public class ConfiguratoreController{
     @FXML
     private Label car_name;
 
-
     private String[] concessionari = {"Verona", "Milano", "Aosta"};
     private String[] type = {"Base", "Full Optional"};
-    private String[] Motore_batteria = {"Base", "Massimo"};
-    private double Base_price = 80000;
-    private Integer[] PezCol = {0,1,2,3,4,5,6,7,8,9,10,11};
-    private Integer[] PezFin ={13,14,16};
+    private String[] Motore_batteria;
+    private double Base_price;
+    private int[] PezCol;
+    private int[] PezFin;
     private Boolean isAuthenticated;
+    private double[] posizioneCamera;
+    private String car;
 
     ObjModelImporter importer = new ObjModelImporter();
-    private final ArrayList<JsonObject> gsonMacchine = new ArrayList<JsonObject>();
 
-
-    private void add3DModel(SubScene model) {
-    Platform.runLater(() -> {
-        auto.getChildren().add(model);
-    });
-    }
-
-    public void initMacchina(String nome)throws IOException {
+    public void initMacchina(int id)throws IOException {
         //car_name.setText(nome);
         login_popup.setVisible(false);
         validation_popup.setVisible(false);
         form_used.setVisible(false);
-        SubScene subScene;
-        String file = "configuratore.json";
-        Gson gson = new Gson();
-        UserSession userSession = UserSession.getInstance();
-        if (userSession != null) {
-            // Se esiste, l'utente è loggato
-            // Mostra i dati dell'utente
-            User.setText(UserSession.getInstance().getUsername());
-            isAuthenticated = true;
+        checkUserSession();
+        searchCar(id);
+        car_name.setText(car);
+        createCar();
 
-        } else {
-            // Se non esiste, l'utente non è loggato
-            // Mostra lo slider di login
-            User.setText("Guest");
-            isAuthenticated = false;
-        }
-
-        try(Reader reader = new FileReader(file)){
-            JsonArray ordersArray = gson.fromJson(reader, JsonArray.class);
-            for(JsonElement orderElement : ordersArray){
-                JsonObject orderObject = orderElement.getAsJsonObject();
-                gsonMacchine.add(orderObject);
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-        try {
-            subScene = createGroup();//TODO Con Elvis sistemare le macchine con chiamata json
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        add3DModel(subScene);
         slider_men.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
         butt_men_back.setVisible(false); //rendiamo invisibile il tasto menuback cosi che appena avviamo il codice non sia possibile cliccarlo
         menu_slider();
@@ -208,8 +176,8 @@ public class ConfiguratoreController{
         adas.setOnAction(e -> setAdas());
         sed_ris.setOnAction(e -> setSedRis());
         color_picker.setOnAction(e -> setColo());
-        save.setOnAction(e -> SaveFunc(subScene));
-        send.setOnAction(e -> sendfunc(subScene));
+        save.setOnAction(e -> saveFunc());
+        send.setOnAction(e -> sendfunc());
         home.setOnAction(event -> {
             try {
                 openHome();
@@ -224,13 +192,88 @@ public class ConfiguratoreController{
                 throw new RuntimeException(e);
             }
         });
+
+
+    }
+
+    private void checkUserSession(){
+        UserSession userSession = UserSession.getInstance();
+        if (userSession != null) {
+            // Se esiste, l'utente è loggato
+            // Mostra i dati dell'utente
+            User.setText(UserSession.getInstance().getUsername());
+            isAuthenticated = true;
+
+        } else {
+            // Se non esiste, l'utente non è loggato
+            User.setText("Guest");
+            isAuthenticated = false;
+        }
+    }
+
+    private void searchCar(int idToSearch){
+        try (FileReader reader = new FileReader("configuratore.json")) {
+            // Parsa il file JSON in un JsonArray
+            JsonElement parsed = JsonParser.parseReader(reader);
+            if (!parsed.isJsonArray()) {
+                throw new IllegalStateException("Il file JSON non contiene un array.");
+            }
+
+            JsonArray jsonArray = parsed.getAsJsonArray();
+
+            // Verifica se l'ID è valido rispetto al numero di oggetti
+            if (idToSearch > jsonArray.size()) {
+                throw new IllegalArgumentException("L'ID supera il numero di oggetti nel file JSON.");
+            }
+
+            // Ottieni l'oggetto JSON corrispondente all'ID
+            JsonObject jsonObject = jsonArray.get(idToSearch - 1).getAsJsonObject();
+            // Mappa l'oggetto JSON alla classe Auto
+            Gson gson = new Gson();
+            AutoConf auto = gson.fromJson(jsonObject, AutoConf.class);
+
+
+
+
+            // Salva i valori nelle variabili globali
+            car = auto.getMarca() + " " + auto.getModello();
+            System.out.println(car);
+            Motore_batteria = auto.getListaMotori();
+            System.out.println(Arrays.toString(Motore_batteria));
+            Base_price = auto.getPrezzo();
+            System.out.println(Base_price);
+            PezFin = auto.getFinestrini();
+            System.out.println(Arrays.toString(PezFin));
+            PezCol = auto.getListaPezziAutoColorati();
+            System.out.println(Arrays.toString(PezCol));
+            posizioneCamera = auto.getPosizioneCamera();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createCar(){
+        SubScene subScene;
+        try {
+            subScene = createGroup();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        add3DModel(subScene);
+    }
+
+    private void add3DModel(SubScene model) {
+        Platform.runLater(() -> {
+            auto.getChildren().add(model);
+        });
     }
 
     private void openMod() throws IOException {
         Stage stage = (Stage) marche.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Registration.class.getResource("/FXML/Marche.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Registration.class.getResource("/FXML/Marche.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         stage.setTitle("Marche");
         stage.setScene(scene);
@@ -241,37 +284,45 @@ public class ConfiguratoreController{
         Stage stage = (Stage) home.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Registration.class.getResource("/FXML/Homepage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Registration.class.getResource("/FXML/Homepage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         stage.setTitle("Homepage");
         stage.setScene(scene);
         stage.show();
     }
 
-    private void setShortcut(){
-        if (Objects.equals(shortcut.getValue(), type[0])) {
-            if (tele_pos.isSelected())removePrice(Optionals.TEL_POS.getOptionals());
-            tele_pos.setSelected(false);
-            if (fin_oscu.isSelected())removePrice(Optionals.MIRRORS.getOptionals());
-            fin_oscu.setSelected(false);
-            setFinLight();
-            if(adas.isSelected())removePrice(Optionals.ADAS.getOptionals());
-            adas.setSelected(false);
-            if(sed_ris.isSelected())removePrice(Optionals.HEATS_SEATS.getOptionals());
-            sed_ris.setSelected(false);
-            choice.setValue(Motore_batteria[0]);
+    private void setShortcut() {
+        if (shortcut.getValue() == null) {
+            return; // Se il valore è null, esci dal metodo
         }
-        else if (Objects.equals(shortcut.getValue(), type[1])) {
-            if(!tele_pos.isSelected())addPrice(Optionals.TEL_POS.getOptionals());
-            tele_pos.setSelected(true);
-            if(!fin_oscu.isSelected())addPrice(Optionals.MIRRORS.getOptionals());
-            fin_oscu.setSelected(true);
+
+        if (Objects.equals(shortcut.getValue(), type[0])) {
+            // Disabilita le opzioni
+            setOptionalState(tele_pos, Optionals.TEL_POS.getOptionals(), false);
+            setOptionalState(fin_oscu, Optionals.MIRRORS.getOptionals(), false);
+            setFinLight();
+            setOptionalState(adas, Optionals.ADAS.getOptionals(), false);
+            setOptionalState(sed_ris, Optionals.HEATS_SEATS.getOptionals(), false);
+            choice.setValue(Motore_batteria[0]);
+        } else if (Objects.equals(shortcut.getValue(), type[1])) {
+            // Abilita le opzioni
+            setOptionalState(tele_pos, Optionals.TEL_POS.getOptionals(), true);
+            setOptionalState(fin_oscu, Optionals.MIRRORS.getOptionals(), true);
             setFinOscu();
-            if(!adas.isSelected())addPrice(Optionals.ADAS.getOptionals());
-            adas.setSelected(true);
-            if(!sed_ris.isSelected())addPrice(Optionals.HEATS_SEATS.getOptionals());
-            sed_ris.setSelected(true);
+            setOptionalState(adas, Optionals.ADAS.getOptionals(), true);
+            setOptionalState(sed_ris, Optionals.HEATS_SEATS.getOptionals(), true);
             choice.setValue(Motore_batteria[1]);
+        }
+    }
+
+    private void setOptionalState(CheckBox checkBox, int optional, boolean isSelected) {
+        if (checkBox.isSelected() != isSelected) {
+            if (isSelected) {
+                addPrice(optional);
+            } else {
+                removePrice(optional);
+            }
+            checkBox.setSelected(isSelected);
         }
     }
 
@@ -380,54 +431,24 @@ public class ConfiguratoreController{
         reload3DModel(newColor);
     }
 
-    private void SaveFunc(SubScene subscene){
+    private void saveFunc(){
         if (!isAuthenticated){
-            showLoginPopup(subscene);
+            showLoginPopup();
         }
     }
 
-    private void sendfunc(SubScene subscene){
-        AtomicInteger id_usato = new AtomicInteger();
+    private void sendfunc(){
         if (!isAuthenticated){
-            showLoginPopup(subscene);
+            showLoginPopup();
         }
         else{
-            validation_popup.setVisible(true);
-            subscene.toBack();
-            si.setOnAction(event ->{
-                if (si.isSelected()){
-                    no.setSelected(false);
-                    id_usato.set(createFormUsed());
-                }
-            });
-            no.setOnAction(event -> {
-                if(no.isSelected()){
-                    si.setSelected(false);
-                    try {
-                        deleteUsed(id_usato);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-            send_conf.setOnAction(event -> {
-                //TODO
-            });
-            back_conf.setOnAction(event -> {
-                validation_popup.setVisible(false);
-                try {
-                    deleteUsed(id_usato);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            showValidationPopup();
         }
 
     }
 
-    private void showLoginPopup(SubScene subscene){
+    private void showLoginPopup(){
         login_popup.setVisible(true);
-        subscene.toBack();
         login.setOnAction(event -> {
             String user = username.getText();
             String pass = password.getText();
@@ -490,6 +511,39 @@ public class ConfiguratoreController{
         });
     }
 
+    private void showValidationPopup(){
+        AtomicInteger id_usato = new AtomicInteger();
+        validation_popup.setVisible(true);
+
+        si.setOnAction(event ->{
+            if (si.isSelected()){
+                no.setSelected(false);
+                id_usato.set(createFormUsed());
+            }
+        });
+        no.setOnAction(event -> {
+            if(no.isSelected()){
+                si.setSelected(false);
+                try {
+                    deleteUsed(id_usato);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        send_conf.setOnAction(event -> {
+            //TODO
+        });
+        back_conf.setOnAction(event -> {
+            validation_popup.setVisible(false);
+            try {
+                deleteUsed(id_usato);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
     private int createFormUsed() {
         int id = 0;
         try {
@@ -498,6 +552,7 @@ public class ConfiguratoreController{
             throw new RuntimeException(e);
         }
         form_used.setVisible(true);
+        form_used.toFront();
 
         load_img.setOnAction(event ->{
             Stage stage = (Stage) load_img.getScene().getWindow();
@@ -543,53 +598,60 @@ public class ConfiguratoreController{
             String date_infoText = date_info.getText();
             String km_infoText = km_info.getText();
 
-            if (controllaCampi(car_infoText, date_infoText, km_infoText) || (!II_mano.isSelected() && !III_mano.isSelected())
-                    || imageContainer.getChildren().isEmpty() ){
+            // Controlla se tutti i campi sono compilati e se ci sono immagini
+            if (controllaCampi(car_infoText, date_infoText, km_infoText) ||
+                    (!II_mano.isSelected() && !III_mano.isSelected()) ||
+                    imageContainer.getChildren().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Attenzione");
-                alert.setHeaderText("non compilati tutti i campi");
-                alert.setContentText("Devi compilare tutti i campi e acnhe inserire le immagini prima di confermare");
+                alert.setHeaderText("Non compilati tutti i campi");
+                alert.setContentText("Devi compilare tutti i campi e inserire le immagini prima di confermare");
                 alert.showAndWait();
+                return; // Esci dal metodo se i campi non sono validi
             }
 
-
+            // Crea un oggetto JSON per i dati
             JsonObject dati = new JsonObject();
-
             dati.addProperty("id", finalId);
-            dati.addProperty("img", imageContainer.getChildren().toString());
-            dati.addProperty("car" , car_infoText);
+            dati.addProperty("car", car_infoText);
             dati.addProperty("date", date_infoText);
             dati.addProperty("km", km_infoText);
             dati.addProperty("usata", II_mano.isSelected() ? "2°mano" : "3 mano o +");
 
+            // Converti le immagini in Base64 e aggiungile al JSON
+            JsonArray immaginiBase64 = new JsonArray();
+            for (Node node : imageContainer.getChildren()) {
+                if (node instanceof ImageView) {
+                    ImageView imageView = (ImageView) node;
+                    Image image = imageView.getImage();
+                    String base64 = convertImageToBase64(image);
+                    if (base64 != null) {
+                        immaginiBase64.add(base64);
+                    }
+                }
+            }
+            dati.add("img", immaginiBase64); // Aggiungi l'array di immagini al JSON
+
+            // Salva i dati nel file JSON
             try {
-                //proviamo a leggere il file dati_utente.json
                 JsonArray dati_presenti;
                 try (FileReader reader = new FileReader("usato.json")) {
                     JsonElement parsed = JsonParser.parseReader(reader);
-                    if (parsed.isJsonArray()) {
-                        dati_presenti = parsed.getAsJsonArray();
-                    } else {
-                        dati_presenti = new JsonArray();
-                    }
-                    //se il file esiste, leggiamo i dati, userData contiene i dati dell'utente sottoforma di oggetto JSON
+                    dati_presenti = parsed.isJsonArray() ? parsed.getAsJsonArray() : new JsonArray();
                 } catch (IOException | JsonSyntaxException e) {
-                    //se il file non esiste, creiamo un nuovo array vuoto
                     dati_presenti = new JsonArray();
                 }
 
-                // aggiungiamo i dati dell'utente all'array
-                dati_presenti.add(dati);
-                //scriviamo i dati aggiornati nel file dati_utente.json
+                dati_presenti.add(dati); // Aggiungi i nuovi dati all'array esistente
+
                 try (FileWriter writer = new FileWriter("usato.json")) {
-                    writer.write(dati_presenti.toString());
+                    writer.write(dati_presenti.toString()); // Scrivi i dati aggiornati nel file
                 }
             } catch (IOException e) {
-                //in caso di errore stampiamo l'errore
                 e.printStackTrace();
             }
-            clearUsedForm();
             form_used.setVisible(false);
+            clearUsedForm();
         });
 
         back.setOnAction(event -> {
@@ -598,6 +660,18 @@ public class ConfiguratoreController{
         });
 
         return id;
+    }
+
+    private String convertImageToBase64(Image image) {
+        try {
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", outputStream); // Puoi cambiare "png" con il formato desiderato
+            return Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void deleteUsed(AtomicInteger id) throws IOException {
@@ -754,11 +828,20 @@ public class ConfiguratoreController{
     private SubScene createGroup() throws IOException {//TODO modificare tutto con variabili della chiamata json
         Group modelRoot;
         PerspectiveCamera camera = new PerspectiveCamera(true);
-        camera.setTranslateZ(-8);
-        camera.setTranslateX(3.5);
-        camera.setTranslateY(3);
+        camera.setTranslateZ(posizioneCamera[0]);
+        camera.setTranslateX(posizioneCamera[1]);
+        camera.setTranslateY(posizioneCamera[2]);
 
-        modelRoot = loadModel(getClass().getResource("/configuratore/Porsche_918_Spyder_2016.obj"));
+        // Genera il nome del file sostituendo gli spazi con "_"
+        String fileName = (car + ".obj").replace(" ", "_");
+
+        // Percorso completo nella cartella "configuratore"
+        String filePath = Paths.get("/configuratore", fileName).toString();
+
+        // Stampa il percorso finale
+        System.out.println("Percorso del file JSON: " + filePath);
+
+        modelRoot = loadModel(getClass().getResource(filePath));
         modelRoot.setTranslateX(3);
         modelRoot.setTranslateY(4);
 
@@ -833,4 +916,4 @@ public class ConfiguratoreController{
     }
 */
 
-}   // End of class ConfiguratoreController
+}

@@ -114,7 +114,7 @@ public class ModelliController {
 
         Gson gson = new Gson();
         try (FileReader reader = new FileReader("modelli_auto.json")) {
-            List<Auto> autoList = gson.fromJson(reader, new TypeToken<List<Auto>>() {
+            List<AutoBase> autoList = gson.fromJson(reader, new TypeToken<List<Auto>>() {
             }.getType());
 
             // Filtra la lista di auto per includere solo quelle della marca selezionata
@@ -123,7 +123,7 @@ public class ModelliController {
                         .filter(auto -> auto.getMarca().equalsIgnoreCase(marca))
                         .collect(Collectors.toList());
             }
-            for (Auto auto : autoList) {
+            for (AutoBase auto : autoList) {
                 VBox banner = creaBanner(auto);
                 main_pane.getChildren().add(banner);
             }
@@ -133,7 +133,7 @@ public class ModelliController {
         }
     }
 
-    private VBox creaBanner(Auto auto) {
+    private VBox creaBanner(AutoBase auto) {
 
         VBox banner = new VBox();
         banner.setAlignment(Pos.CENTER);
@@ -162,7 +162,7 @@ public class ModelliController {
             // replace with the actual action
             //System.out.println("Button clicked!");
             try {
-                open_configuratore(auto.getModello());
+                open_configuratore(1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -351,14 +351,14 @@ public class ModelliController {
         stage.show();
     }
 
-    void open_configuratore(String nome) throws IOException {
+    void open_configuratore(int id) throws IOException {
         Stage stage = (Stage) marche_button.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
         FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Configuratore.class.getResource("/FXML/Configuratore.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         ConfiguratoreController controller = fxmlLoader.getController();
-        controller.initMacchina(nome);
+        controller.initMacchina(id);
         stage.setTitle("Configuratore");
         stage.setScene(scene);
         stage.show();

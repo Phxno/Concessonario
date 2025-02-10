@@ -16,7 +16,7 @@ public class Configuratore extends Application {
         stage.setTitle("Configuratore");
         Scene scene = new Scene(root, 1024, 768);
         ConfiguratoreController controller = fxmlLoader.getController();
-        controller.initMacchina("Porsche");
+        controller.initMacchina(6);
         stage.setMinWidth(1024);
         stage.setMinHeight(768);
         stage.setMaxWidth(1024);

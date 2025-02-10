@@ -3,9 +3,13 @@ package org.uni.progetto.homepage;
 public class Auto {
     public String marca;
     public String modello;
-    public String immagine;
-    public String prezzo;
-    public String descrizione;
+    public double prezzo;
+
+    public Auto(String marca, String modello, double prezzo) {
+        this.marca = marca;
+        this.modello = modello;
+        this.prezzo = prezzo;
+    }
 
 
     public String getMarca() {
@@ -15,18 +19,24 @@ public class Auto {
     public String getModello() {
         return modello;
     }
-
+/*
     public String getImmagine() {
         return immagine;
     }
 
-    public String getPrezzo() {
+ */
+
+    public double getPrezzo() {
         return prezzo;
     }
+/*
+
 
     public String getDescrizione() {
         return descrizione;
     }
+
+ */
 
     // Setters
     public void setMarca(String marca) {
@@ -37,15 +47,12 @@ public class Auto {
         this.modello = modello;
     }
 
-    public void setImmagine(String immagine) {
-        this.immagine = immagine;
-    }
-
-    public void setPrezzo(String prezzo) {
+    public void setPrezzo(double prezzo) {
         this.prezzo = prezzo;
     }
 
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
 }
+
+
+
+
