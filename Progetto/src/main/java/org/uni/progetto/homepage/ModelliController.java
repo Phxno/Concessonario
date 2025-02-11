@@ -9,11 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -90,44 +92,52 @@ public class ModelliController {
 
 
     public void initialize(String marca) {
-        slider_menu.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
+        slider_menu.setTranslateX(-200);
         slider_login.setTranslateX(200);
-        menuback.setVisible(false); //rendiamo invisibile il tasto menuback cosi che appena avviamo il codice non sia possibile cliccarlo
+        menuback.setVisible(false);
         loginback.setVisible(false);
-        menu_slider();  //chiamiamo la funzione menu_slider
-        login_slider(); //chiamiamo la funzione login_slider
+        menu_slider();
+        login_slider();
         UserSession userSession = UserSession.getInstance();
         if (userSession != null) {
-            // Se esiste, l'utente è loggato
-            // Mostra i dati dell'utente
             nome_login.setText(userSession.getFirstName());
             cognome_login.setText(userSession.getLastName());
             nome_utente_login.setText(userSession.getUsername());
             vbox_login.setVisible(false);
             vbox_dati_utente.setVisible(true);
         } else {
-            // Se non esiste, l'utente non è loggato
-            // Mostra lo slider di login
             vbox_login.setVisible(true);
             vbox_dati_utente.setVisible(false);
         }
 
-
         Gson gson = new Gson();
         try (FileReader reader = new FileReader("modelli_auto.json")) {
-            List<AutoBase> autoList = gson.fromJson(reader, new TypeToken<List<AutoBase>>() {
-            }.getType());
+            List<AutoBase> autoList = gson.fromJson(reader, new TypeToken<List<AutoBase>>() {}.getType());
 
-            // Filtra la lista di auto per includere solo quelle della marca selezionata
             if (!marca.equals("All")) {
                 autoList = autoList.stream()
                         .filter(auto -> auto.getMarca().equalsIgnoreCase(marca))
                         .toList();
             }
+
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setStyle("-fx-border-color: #B3C8CF; -fx-border-width: 2px;"); // Stile di debug
+
+            VBox content = new VBox();
+            content.setStyle("-fx-border-color: #B3C8CF; -fx-border-width: 2px;"); // Stile di debug
             for (AutoBase auto : autoList) {
                 VBox banner = creaBanner(auto);
-                main_pane.getChildren().add(banner);
+                content.getChildren().add(banner);
+                content.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                content.setMinHeight(Region.USE_PREF_SIZE);
+                content.setMaxHeight(Double.MAX_VALUE);
             }
+            scrollPane.setContent(content);
+            //main_pane.getChildren().clear();
+            main_pane.getChildren().add(scrollPane);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -143,7 +153,7 @@ public class ModelliController {
         String imageUrl = Objects.requireNonNull(getClass().getResource(auto.getImmagine())).toExternalForm();
         ImageView immagine = new ImageView(new Image(imageUrl));
 
-        immagine.setFitWidth(1024 * 0.33);  // 25% della larghezza della pagina
+        immagine.setFitWidth(1024 * 0.33);
         immagine.setFitHeight(768 * 0.33);
 
         Text marcaModello = new Text("\nMarca - Modello: " + auto.getMarca() + " " + auto.getModello() + "\n");
@@ -156,26 +166,21 @@ public class ModelliController {
         descrizione.getStyleClass().add("descrizione");
 
         Button button = new Button("Configura");
-
-
-        // Add an action to the button
         button.setOnAction(event -> {
-            // replace with the actual action
-            //System.out.println("Button clicked!");
             try {
-                open_configuratore(1);
+                open_configuratore(auto.getId());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
         button.getStyleClass().add("button");
 
-        // Imposta la larghezza del testo a 55% della larghezza della pagina*/
         marcaModello.setWrappingWidth(1024 * 0.50);
         prezzo.setWrappingWidth(1024 * 0.50);
         descrizione.setWrappingWidth(1024 * 0.50);
 
         banner.getChildren().addAll(immagine, marcaModello, prezzo, descrizione, button);
+
         return banner;
     }
 
