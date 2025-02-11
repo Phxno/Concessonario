@@ -4,7 +4,7 @@
     "marca": "Audi",
     "modello": "RS6 Avant",
     "prezzo": 140800,
-    "immagine":"/Images/immagini_auto_modelli/porsche_918_spyder.jpg",
+    "immagine":"/Images/immagini_auto_modelli/audi_rs6_transparent.png",
     "descrizione": "L'Audi RS6 è un'autovettura sportiva prodotta dalla casa automobilistica tedesca Audi a partire dal 2002. È disponibile sia con carrozzeria berlina che station wagon. La RS6 è la versione più potente della Audi A6. La RS6 è stata prodotta in quattro generazioni, denominate con numeri progressivi, dalla RS6 (2002) alla RS6 (2019). La RS6 è stata prodotta in oltre 100.000 esemplari.",
     "id": 1
   },
@@ -12,7 +12,7 @@
     "marca": "Audi",
     "modello": "R8",
     "prezzo": 169650,
-    "immagine":"/Images/immagini_auto_modelli/porsche_918_spyder.jpg",
+    "immagine":"/Images/immagini_auto_modelli/audi_r8_transparent.png",
     "descrizione": "L'Audi R8 è un'autovettura sportiva prodotta dalla casa automobilistica tedesca Audi a partire dal 2006. È disponibile sia con carrozzeria coupé che spider. La R8 è stata prodotta in due generazioni, denominate con numeri progressivi, dalla R8 (2006) alla R8 (2015). La R8 è stata prodotta in oltre 100.000 esemplari.",
     "id": 2
 
@@ -21,7 +21,7 @@
     "marca": "Porsche",
     "modello": "911 Turbo 2016",
     "prezzo": 99999,
-    "immagine":"/Images/immagini_auto_modelli/porsche_918_spyder.jpg",
+    "immagine":"/Images/immagini_auto_modelli/porsche_911_transparent.png",
     "descrizione": "La Porsche 911 è un'autovettura sportiva prodotta dalla casa automobilistica tedesca Porsche a partire dal 1964. È disponibile sia con carrozzeria coupé che cabriolet. La 911 è stata prodotta in otto generazioni, denominate con numeri progressivi, dalla 911 (1964) alla 911 (2020). La 911 è stata prodotta in oltre 1.000.000 di esemplari.",
     "id": 3
   },
@@ -29,7 +29,7 @@
     "marca": "Porsche",
     "modello": "918 Spyder 2016",
     "prezzo": 793420,
-    "immagine":"/Images/immagini_auto_modelli/porsche_918_spyder.jpg",
+    "immagine":"/Images/immagini_auto_modelli/porsche_918_transparent.png",
     "descrizione": "La Porsche 918 Spyder è un'autovettura sportiva ibrida prodotta dalla casa automobilistica tedesca Porsche a partire dal 2013. È disponibile con carrozzeria coupé. La 918 Spyder è stata prodotta in 918 esemplari. La 918 Spyder è stata prodotta in un'unica generazione. La 918 Spyder è stata prodotta in un'unica versione. La 918 Spyder è stata prodotta in un'unica motorizzazione.",
     "id": 4
   },
@@ -37,16 +37,15 @@
     "marca": "Tesla",
     "modello": "Cybertruck",
     "prezzo": 82930,
-    "immagine":"/Images/immagini_auto_modelli/porsche_918_spyder.jpg",
-    "descirizione": "Il Tesla Cybertruck è un pick-up elettrico prodotto dalla casa automobilistica statunitense Tesla Motors. È stato presentato il 21 novembre 2019. Il Cybertruck è stato progettato da Franz von Holzhausen. Il Cybertruck è stato presentato in tre versioni: monomotore, bimotore e trimotore. Il Cybertruck è stato presentato con un design futuristico e con una carrozzeria in acciaio inossidabile.",
+    "immagine":"/Images/immagini_auto_modelli/tesla_cybertruck.png",
+    "descrizione": "Il Tesla Cybertruck è un pick-up elettrico prodotto dalla casa automobilistica statunitense Tesla Motors. È stato presentato il 21 novembre 2019. Il Cybertruck è stato progettato da Franz von Holzhausen. Il Cybertruck è stato presentato in tre versioni: monomotore, bimotore e trimotore. Il Cybertruck è stato presentato con un design futuristico e con una carrozzeria in acciaio inossidabile.",
     "id": 5
-
   },
   {
     "marca": "Tesla",
     "modello": "Model S",
     "prezzo": 100030,
-    "immagine":"/Images/immagini_auto_modelli/porsche_918_spyder.jpg",
+    "immagine":"/Images/immagini_auto_modelli/tesla_s_transparent.png",
     "descrizione": "La Tesla Model S è un'autovettura elettrica prodotta dalla casa automobilistica statunitense Tesla Motors a partire dal 2012. È una berlina a 5 porte con carrozzeria in alluminio, disponibile con trazione posteriore o integrale. La Model S è stata la prima vettura elettrica a vincere il premio di Auto dell'anno nel 2013. La Model S è stata prodotta in oltre 250.000 esemplari.",
     "id": 6
   }

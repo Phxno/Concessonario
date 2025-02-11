@@ -30,6 +30,14 @@ public class RegistrationController {
     @FXML
     private TextField user;
 
+
+    @FXML
+    private PasswordField password1;
+
+
+    @FXML
+    private TextField email;
+
     @FXML
     private Button bottone_registrazione;
 
@@ -46,6 +54,8 @@ public class RegistrationController {
         String date = data.toString();
         String username = user.getText();
         String pass = password.getText();
+        String email1 = email.getText();
+        String pass1 = password1.getText();
         int id = 2;
 
         if (controllo_campi(name, surname, phone, date, username, pass)) {
@@ -75,6 +85,15 @@ public class RegistrationController {
             return;
         }
 
+        if(!(different_password(pass, pass1))){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Password non corrispondenti");
+            alert.setContentText("Per favore, inserire due password uguali");
+            alert.showAndWait();
+            return;
+        }
+
 
         JsonObject dati = new JsonObject();
 
@@ -83,6 +102,7 @@ public class RegistrationController {
         dati.addProperty("phone", phone);
         dati.addProperty("data", date);
         dati.addProperty("username", username);
+        dati.addProperty("email", email1);
         dati.addProperty("password", pass);
         dati.addProperty("type-user",id);
 
@@ -121,6 +141,7 @@ public class RegistrationController {
         telefono.clear();
         user.clear();
         password.clear();
+        password1.clear();
 
         Stage stage = (Stage) bottone_registrazione.getScene().getWindow();
         stage.close();
@@ -161,6 +182,10 @@ public class RegistrationController {
 
     boolean controlla_password(String pass) {
         return pass.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!/£.;#&@%()$?*^+=])(?=\\S+$).{5,}$"); //controlla se la password contiene almeno 5 caratteri, una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale
+    }
+
+    boolean different_password(String pass, String pass1) {
+        return pass.equals(pass1);
     }
 
 
