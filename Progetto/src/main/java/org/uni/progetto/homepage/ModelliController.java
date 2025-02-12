@@ -168,7 +168,7 @@ public class ModelliController {
         Button button = new Button("Configura");
         button.setOnAction(event -> {
             try {
-                open_configuratore(auto.getId());
+                open_configuratore(auto.getModello());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -357,14 +357,14 @@ public class ModelliController {
         stage.show();
     }
 
-    void open_configuratore(int id) throws IOException {
+    void open_configuratore(String modello) throws IOException {
         Stage stage = (Stage) marche_button.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
         FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Configuratore.class.getResource("/FXML/Configuratore.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         ConfiguratoreController controller = fxmlLoader.getController();
-        controller.initMacchina(id);
+        controller.initMacchina(modello);
         stage.setTitle("Configuratore");
         stage.setScene(scene);
         stage.show();
