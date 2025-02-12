@@ -1328,8 +1328,7 @@ public class ConfiguratoreController{
             e.printStackTrace();
             System.err.println("Errore durante il parsing del JSON.");
         }
-
-        System.out.println("Configurazione caricata: " + confList);
+        
 
         if (confList.size() < 6) {
             System.err.println("Errore: Configurazione incompleta. Elementi disponibili: " + confList.size());
@@ -1337,7 +1336,6 @@ public class ConfiguratoreController{
         }
 
         String hexColor = confList.get(0).toString();
-        System.out.println("Colore HEX: " + hexColor);
 
         Platform.runLater(() -> {
             try {
