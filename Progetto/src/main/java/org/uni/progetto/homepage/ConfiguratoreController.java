@@ -531,6 +531,8 @@ public class ConfiguratoreController{
         // Carica la scena della homepage
         FXMLLoader fxmlLoader = new FXMLLoader(Registration.class.getResource("/FXML/Modelli.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
+        ModelliController controller = fxmlLoader.getController();
+        controller.initialize("All");
         stage.setTitle("Modelli");
         stage.setScene(scene);
         stage.show();
@@ -1328,7 +1330,7 @@ public class ConfiguratoreController{
             e.printStackTrace();
             System.err.println("Errore durante il parsing del JSON.");
         }
-        
+
 
         if (confList.size() < 6) {
             System.err.println("Errore: Configurazione incompleta. Elementi disponibili: " + confList.size());
