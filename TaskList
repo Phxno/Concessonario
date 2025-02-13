@@ -7,7 +7,7 @@ BELLE'
 2- Salvare le configurazione e visualizzare
 3- Generare sconto per preventivo in costruzione
 BERTA
-1- Visualizzare preventivi con/senza usato e valutare l'usato se c'è
-2- Inviare conferma preventivo e generare pdf
-3- Memorizzare sedi in json con relativi ordini e sistemare ricerca ordini per sedi
+1- Visualizzare preventivi con/senza usato e valutare l'usato se c'è <- FATTO
+2- Inviare conferma preventivo e generare pdf <- NO PDF PER ORA
+3- Memorizzare sedi in json con relativi ordini e sistemare ricerca ordini per sedi <- Creato JSON con lista ordini
 4- Info modelli maybe(?)
