@@ -1,5 +1,6 @@
 package org.uni.progetto.homepage;
 
+import com.google.gson.stream.JsonReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,12 +10,19 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.geometry.Side;
+
+import java.io.FileReader;
 import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import com.google.gson.*;
+
+import java.io.Reader;
 import java.time.LocalDate;
 
 public class PreventivoController {
@@ -61,6 +69,7 @@ public class PreventivoController {
     private PrevClass prev;
     private String dip;
     private int t_user;
+    ContextMenu contextMenu = new ContextMenu();
 
     public void initialize(PrevClass prev, String dip, int t_user){
         this.t_user = t_user;
@@ -81,6 +90,26 @@ public class PreventivoController {
           dataShipping.setDisable(true);
         } else prevNumber.setText(prev.getId());
         this.dip = dip;
+
+        JsonArray configurazione = prev.getConfigurazione();
+        Rectangle colorSquare = new Rectangle(20, 20, Color.valueOf(configurazione.get(0).getAsString()));
+        // Create a MenuItem to hold the color square
+
+        for (int i = 0; i < configurazione.size(); i++) {
+            MenuItem item;
+            String temp = "";
+            if (i == 0) {
+                item = new MenuItem("Color");
+                item.setGraphic(colorSquare);
+            } else {
+                temp = configurazione.get(i).getAsString();
+                item = new MenuItem(temp);
+            }
+            if (!temp.isEmpty() || i == 0) {
+                contextMenu.getItems().add(item);
+            }
+        }
+
     }
 
     @FXML
@@ -94,7 +123,7 @@ public class PreventivoController {
     }
     @FXML
     void config(ActionEvent event) throws IOException {
-
+        contextMenu.show(configButton, Side.LEFT, 0, 0);
     }
 
     @FXML
