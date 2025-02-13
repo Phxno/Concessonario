@@ -1,0 +1,20 @@
+[
+  {
+    "Nome": "TriAuto Verona",
+    "Indirizzo": "Via Tommbetta 64, Verona, Italy",
+    "Ordini": []
+
+  },
+  {
+    "Nome": "TriAuto Milano",
+    "Indirizzo": "Via dei Fontanili 2, Milano, Italy",
+    "Ordini": []
+
+  },
+  {
+    "Nome": "TriAuto Aosta",
+    "Indirizzo": " Via Saint Martin de Corleans 45, Aosta, Italy",
+    "Ordini": []
+
+  }
+]

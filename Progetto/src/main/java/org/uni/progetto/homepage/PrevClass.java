@@ -26,9 +26,13 @@ public class PrevClass {
         this.prezzo = PrevObject.get("prezzo").getAsString();
         this.sconto = PrevObject.get("sconto").getAsString();
         this.negozioConsegna = PrevObject.get("negozioConsegna").getAsString();
-        this.dataConsegna = PrevObject.get("dataConsegna").getAsString();
         this.id = PrevObject.get("id").getAsString();
-        this.prezzoUsato = PrevObject.get("prezzoUsato").getAsString();
+        if (PrevObject.get("dataConsegna") != null) {
+            this.dataConsegna = PrevObject.get("dataConsegna").getAsString();
+        }
+        if (PrevObject.get("usato") != null) {
+            this.usato = PrevObject.get("usato").getAsString();
+        }
     }
     private UserClass recoverUser(String utente){
         String tempName = "";
@@ -42,7 +46,7 @@ public class PrevClass {
             //Creiamo un oggetto JSON per ogni utente
             for (JsonElement userElement : usersArray) {
                 JsonObject userObject = userElement.getAsJsonObject();
-                if (userObject.get("username").getAsString().equals(utente)){
+                if (userObject.get("name").getAsString().concat(" ").concat(userObject.get("surname").getAsString()).equals(utente)){
                     tempName = userObject.get("name").getAsString();
                     tempSurname = userObject.get("surname").getAsString();
                     tempCell = userObject.get("phone").getAsString();

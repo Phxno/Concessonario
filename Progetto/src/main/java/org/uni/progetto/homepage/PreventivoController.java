@@ -1,29 +1,35 @@
 package org.uni.progetto.homepage;
 
-import com.google.gson.stream.JsonReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.geometry.Side;
+import java.time.LocalDate;
 
+
+import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 import com.google.gson.*;
 
 import java.io.Reader;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Map;
+import java.util.Optional;
 
 public class PreventivoController {
 
@@ -41,9 +47,6 @@ public class PreventivoController {
 
     @FXML
     private Button usedButton;
-
-    @FXML
-    private DatePicker dataShipping;
 
     @FXML
     private Label prevLabel;
@@ -66,30 +69,63 @@ public class PreventivoController {
     @FXML
     private Label model;
 
+    @FXML
+    private Pane form_used;
+
+    @FXML
+    private Label labelMarcaModello;
+    @FXML
+    private Label labelAnnoImm;
+    @FXML
+    private Label labelKm;
+    @FXML
+    private Label labelProprietari;
+    @FXML
+    private TextField valutTextFIeld;
+    @FXML
+    private FlowPane imageContainer;
+    @FXML
+    private ImageView backButtonLogo;
+
+
     private PrevClass prev;
     private String dip;
     private int t_user;
+    private String valutazione;
     ContextMenu contextMenu = new ContextMenu();
+    ArrayList<String> usato = new ArrayList<>();
 
     public void initialize(PrevClass prev, String dip, int t_user){
+        form_used.setVisible(false);
         this.t_user = t_user;
         this.prev = prev;
-        clientName.setText(prev.getUtente().getName());
+        clientName.setText(prev.getUtente().getName() + " " + prev.getUtente().getSurname());
         price.setText(prev.getPrezzo());
-        sale.setText(prev.getSconto() + "%");
+        sale.setText(prev.getSconto());
         model.setText(prev.getMacchina());
         shopName.setText(prev.getNegozioConsegna());
-        String dataC = prev.getDataCreazione();
-        dataCreazione.setText(dataC.replace("-","/"));
-        LocalDate data = LocalDate.parse(prev.getDataConsegna());
-        dataShipping.setValue(data);
+        dataCreazione.setText(""+LocalDate.now());
+
         if (t_user == 2){
           prevLabel.setText("");
           prevNumber.setText("");
           usedButton.setVisible(false);
-          dataShipping.setDisable(true);
         } else prevNumber.setText(prev.getId());
         this.dip = dip;
+        this.usato = getUsato();
+        labelKm.setText(usato.get(3));
+        labelMarcaModello.setText(usato.get(1));
+        labelAnnoImm.setText(usato.get(2));
+        labelProprietari.setText(usato.get(4));
+
+        backButtonLogo.setOnMouseClicked(event -> {
+            try {
+                loadDipendente();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
 
         JsonArray configurazione = prev.getConfigurazione();
         Rectangle colorSquare = new Rectangle(20, 20, Color.valueOf(configurazione.get(0).getAsString()));
@@ -119,8 +155,29 @@ public class PreventivoController {
 
     @FXML
     void confirm(ActionEvent event) throws IOException {
-        loadDipendente();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("CONFERMA");
+        alert.setHeaderText(null);
+        alert.setContentText("Inviare preventivo?");
+        ButtonType button1 = new ButtonType("Annulla");
+        ButtonType button2 = new ButtonType("Conferma");
+
+        alert.getButtonTypes().setAll(button1, button2);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent()) {
+            ButtonType clickedButton = result.get();
+            if (clickedButton == button2) {
+                savePreventivo();
+                loadDipendente();
+            }
+        }
+
     }
+
+    private void savePreventivo() {
+    }
+
     @FXML
     void config(ActionEvent event) throws IOException {
         contextMenu.show(configButton, Side.LEFT, 0, 0);
@@ -128,8 +185,99 @@ public class PreventivoController {
 
     @FXML
     void used(ActionEvent event) throws IOException {
+        form_used.setVisible(true);
+    }
+    private Image convertFrom64ToImage(String base64String){
+        try {
+            // Decode the Base64 string into a byte array
+            byte[] imageBytes = Base64.getDecoder().decode(base64String);
+
+            // Convert the byte array to an Image
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
+            return new Image(byteArrayInputStream);
+
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;  // Invalid Base64 string
+        }
 
     }
+
+
+    private ArrayList<String> getUsato(){
+        ArrayList<String> usato = new ArrayList<>();
+        String file = "usato.json";
+        Gson gson = new Gson();
+
+        try (Reader reader = new FileReader(file)){
+            JsonArray usedArray = gson.fromJson(reader, JsonArray.class);
+
+            for (JsonElement orderElement : usedArray) {
+
+                JsonObject usedObject = orderElement.getAsJsonObject();
+                if (usedObject.get("id").getAsString().equals(prev.getUsato())){
+                    for (Map.Entry<String, JsonElement> entry : usedObject.entrySet()){
+                        if (entry.getKey().equals("img")){
+                            for (JsonElement element : entry.getValue().getAsJsonArray()){
+                                Image image = convertFrom64ToImage(element.getAsString());
+                                ImageView imageView = new ImageView(image);
+                                imageView.setFitWidth(120); // Larghezza dell'immagine
+                                imageView.setFitHeight(120); // Altezza dell'immagine
+                                imageView.setPreserveRatio(true); // Mantieni le proporzioni
+                                imageContainer.getChildren().add(imageView);
+                            }
+                        }else usato.add(entry.getValue().getAsString());
+                    }
+                }
+
+            }
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return usato;
+    }
+
+    @FXML
+    void cancelUsato(ActionEvent event) throws IOException {
+        form_used.setVisible(false);
+    }
+    @FXML
+    void confirmUsato(ActionEvent event) throws IOException {
+        if (valutTextFIeld.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("VALUTAZIONE USATO VUOTA");
+            alert.setHeaderText(null);
+            alert.setContentText("Attenzione, non è stato valutato l'usato. La cifra verrà messa automaticamente a 0, confermare?");
+            // Add custom buttons
+            ButtonType button1 = new ButtonType("Cancella");
+            ButtonType button2 = new ButtonType("Conferma");
+
+            alert.getButtonTypes().setAll(button1, button2);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent()) {
+                ButtonType clickedButton = result.get();
+                if (clickedButton == button2) {
+                    valutazione = "0";
+                    form_used.setVisible(false);
+                }
+            }
+        } else {
+            if (valutTextFIeld.getText().matches("\\d+")) {
+                valutazione = valutTextFIeld.getText();
+                form_used.setVisible(false);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Attenzione");
+                alert.setHeaderText(null);
+                alert.setContentText("Inserire solo cifre per cortesia");
+                alert.showAndWait();
+            }
+        }
+    }
+
     private void loadDipendente() throws IOException{
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();
