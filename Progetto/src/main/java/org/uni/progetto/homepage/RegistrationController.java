@@ -59,41 +59,34 @@ public class RegistrationController {
         int id = 2;
 
         if (controllo_campi(name, surname, phone, date, username, pass)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Campi vuoti");
-            alert.setContentText("Per favore, riempire tutti i campi");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Errore", "Campi vuoti", "Per favore, riempire tutti i campi");
             return;
         }
 
         if(!(controlla_numero(phone))){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Numero di telefono non valido");
-            alert.setContentText("Per favore, inserire un numero di telefono valido");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Errore", "Numero di telefono non valido", "Per favore, inserire un numero di telefono valido");
             return;
         }
 
         if(!(controlla_password(pass))){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Password non valida");
-            alert.setContentText("Per favore, inserire una password valida.\nLa password deve contenere: \n\t- almeno 5 caratteri\n\t- almeno una lettera maiuscola\n\t- almeno una lettera minuscola\n\t- almeno un numero\n\t- almeno un carattere speciale");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Errore", "Password non valida", "Per favore, inserire una password lunga 5 caratteri, con almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale");
             return;
         }
 
         if(!(different_password(pass, pass1))){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Password non corrispondenti");
-            alert.setContentText("Per favore, inserire due password uguali");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Errore", "Le password non corrispondono", "Per favore, inserire due password uguali");
             return;
         }
 
+        if(!(check_email(email1))){
+            showAlert(Alert.AlertType.ERROR, "Errore", "Email non valida", "Per favore, inserire un'email valida");
+            return;
+        }
+
+        if(checkIfUserIsPresent(username)){
+            showAlert(Alert.AlertType.ERROR, "Errore", "Username già usato", "Per favore, inserire un altro username");
+            return;
+        }
 
         JsonObject dati = new JsonObject();
 
@@ -105,9 +98,6 @@ public class RegistrationController {
         dati.addProperty("email", email1);
         dati.addProperty("password", pass);
         dati.addProperty("type-user",id);
-
-
-
 
         try {
             //proviamo a leggere il file dati_utente.json
@@ -171,6 +161,15 @@ public class RegistrationController {
     }
 
 
+    private void showAlert(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
 
     boolean controllo_campi(String name, String surname, String phone, String date, String username, String pass) { //controlla se ci sono campi vuoti
         return (name.isEmpty() || surname.isEmpty() || phone.isEmpty() || date.isEmpty() || username.isEmpty() || pass.isEmpty());
@@ -186,6 +185,33 @@ public class RegistrationController {
 
     boolean different_password(String pass, String pass1) {
         return pass.equals(pass1);
+    }
+
+    boolean check_email(String email) {
+        return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    private boolean checkIfUserIsPresent(String username) {
+        JsonArray dati_presenti;
+        try (FileReader reader = new FileReader("dati_utente.json")) {
+            JsonElement parsed = JsonParser.parseReader(reader);
+            if (parsed.isJsonArray()) {
+                dati_presenti = parsed.getAsJsonArray();
+            } else {
+                dati_presenti = new JsonArray();
+            }
+        } catch (IOException | JsonSyntaxException e) {
+            dati_presenti = new JsonArray();
+        }
+        for (JsonElement user : dati_presenti) {
+            if (user.getAsJsonObject().get("username").getAsString().equals(username)) {
+                return true;
+            }
+
+        }
+
+
+        return false;
     }
 
 

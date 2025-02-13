@@ -78,6 +78,9 @@ public class HomepageController {
     @FXML
     private Button modelli_button;
 
+    @FXML
+    private Button myPrev;
+
 
     public void initialize() {
         slider_menu.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
@@ -95,11 +98,13 @@ public class HomepageController {
             nome_utente_login.setText(userSession.getUsername());
             vbox_login.setVisible(false);
             vbox_dati_utente.setVisible(true);
+            myPrev.setVisible(true);
         } else {
             // Se non esiste, l'utente non è loggato
             // Mostra lo slider di login
             vbox_login.setVisible(true);
             vbox_dati_utente.setVisible(false);
+            myPrev.setVisible(false);
         }
     }
 
@@ -189,6 +194,7 @@ public class HomepageController {
                         vbox_login.setVisible(false);
                         vbox_dati_utente.setVisible(true);
                         isAuthenticated = true;
+                        myPrev.setVisible(true);
 
                         if(userObject.get("type-user").getAsInt() == 0){
                             open_dipendente(nome + " " + cognome/*,userObject.get("type-user").getAsInt()*/);

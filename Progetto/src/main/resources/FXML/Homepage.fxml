@@ -75,6 +75,7 @@
                            </font>
                         </Button>
                         <Button fx:id="modelli_button" mnemonicParsing="false" onAction="#open_modelli" text="Modelli" textFill="WHITE" />
+                        <Button fx:id="myPrev" mnemonicParsing="false" onAction="#open_modelli" text="Miei Preventivi" textFill="WHITE" />
                      </children>
                   </VBox>
                </children>

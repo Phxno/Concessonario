@@ -168,12 +168,14 @@ public class ConfiguratoreController{
     ContextMenu contextMenu = new ContextMenu();
     // </editor-fold>
 
+    // <editor-fold desc="Interfaccia utili">
     /**
      * interfaccia per una callBack mentre si crea il form per l'usato per non evitare errori
      */
     public interface FormUsedCallback {
         void onFormConfirmed(int id);
     }
+    // </editor-fold>
 
     // <editor-fold desc="Metodi creazione macchina e interfaccia">
 
@@ -875,6 +877,7 @@ public class ConfiguratoreController{
                         "macchina", car,
                         "configurazione", conf,
                         "usato", id_usato,
+                        "prezzoUsato", "",
                         "dataCreazione", getDataDiOggi(),
                         "dataConsegna", "",
                         "prezzo", price.getText(),
