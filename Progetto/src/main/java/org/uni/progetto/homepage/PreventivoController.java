@@ -14,17 +14,15 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.geometry.Side;
+
+import java.io.*;
 import java.time.LocalDate;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.google.gson.*;
 
-import java.io.Reader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -88,6 +86,7 @@ public class PreventivoController {
     private ImageView backButtonLogo;
 
 
+
     private PrevClass prev;
     private String dip;
     private int t_user;
@@ -112,12 +111,13 @@ public class PreventivoController {
           usedButton.setVisible(false);
         } else prevNumber.setText(prev.getId());
         this.dip = dip;
-        this.usato = getUsato();
-        labelKm.setText(usato.get(3));
-        labelMarcaModello.setText(usato.get(1));
-        labelAnnoImm.setText(usato.get(2));
-        labelProprietari.setText(usato.get(4));
-
+        if (Integer.parseInt(prev.getUsato()) != 0) {
+            this.usato = getUsato();
+            labelKm.setText(usato.get(3));
+            labelMarcaModello.setText(usato.get(1));
+            labelAnnoImm.setText(usato.get(2));
+            labelProprietari.setText(usato.get(4));
+        } else usedButton.setVisible(false);
         backButtonLogo.setOnMouseClicked(event -> {
             try {
                 loadDipendente();
@@ -176,11 +176,36 @@ public class PreventivoController {
     }
 
     private void savePreventivo() {
+        Gson gsonToWrite = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new Gson();
+        JsonArray prevsArray = new JsonArray();
+        try (Reader reader = new FileReader("preventivi.json")) {
+            prevsArray = gson.fromJson(reader, JsonArray.class);
+            //Creiamo un oggetto JSON per ogni utente
+            for (JsonElement prevElement : prevsArray) {
+                JsonObject prevObject = prevElement.getAsJsonObject();
+                if (prevObject.get("id").getAsString().equals(prev.getId())) {
+                    prevElement.getAsJsonObject().addProperty("prezzoUsato", valutazione);
+                    prevElement.getAsJsonObject().addProperty("dataCreazione", LocalDate.now().toString());
+                }
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        if (!prevsArray.isEmpty()) {
+            try (FileWriter writer = new FileWriter("preventivi.json")) {
+                    //System.out.println(prevsArray);
+                    gson.toJson(prevsArray, writer);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
     }
+
 
     @FXML
     void config(ActionEvent event) throws IOException {
-        contextMenu.show(configButton, Side.LEFT, 0, 0);
+        contextMenu.show(configButton, Side.RIGHT, 0, 0);
     }
 
     @FXML

@@ -160,7 +160,7 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <Pane fx:id="form_used" layoutX="130.0" layoutY="103.0" prefHeight="365.0" prefWidth="535.0" style="-fx-background-color: #79959c;" styleClass="registration_anchorpane" stylesheets="@../Styles/configuratore.css">
+            <Pane fx:id="form_used" layoutX="130.0" layoutY="103.0" prefHeight="365.0" prefWidth="535.0" style="-fx-background-color: #79959c;" styleClass="registration_anchorpane" stylesheets="@../Styles/configuratore.css" visible="false">
                <children>
                   <Button fx:id="cancelButtonUsato" layoutX="266.0" layoutY="306.0" mnemonicParsing="false" onAction="#cancelUsato" prefHeight="45.0" prefWidth="106.0" styleClass="registration_button" text="Annulla" />
                   <Button fx:id="confirmButtonUsato" layoutX="398.0" layoutY="306.0" mnemonicParsing="false" onAction="#confirmUsato" styleClass="registration_button" text="Conferma" />
