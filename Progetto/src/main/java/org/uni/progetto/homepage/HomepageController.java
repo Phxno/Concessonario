@@ -1,12 +1,11 @@
 package org.uni.progetto.homepage;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -14,72 +13,68 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.effect.BoxBlur;
-import com.google.gson.Gson;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 
 public class HomepageController {
 
     @FXML
     private AnchorPane car_home;
-
     @FXML
     private Button menu;
-
     @FXML
     private Button menuback;
-
     @FXML
     private AnchorPane slider_menu;
-
-
     @FXML
     private AnchorPane slider_login;
-
-
     @FXML
     private Button login;
-
     @FXML
     private Button loginback;
-
-
     @FXML
     private TextField username;
-
-
     @FXML
     private PasswordField password;
-
     @FXML
     private Button bottone_registrati_qui;
-
     @FXML
     private VBox vbox_dati_utente;
-
     @FXML
     private VBox vbox_login;
-
-
     @FXML
     private Label nome_login;
-
     @FXML
     private Label cognome_login;
-
     @FXML
     private Label nome_utente_login;
-
     @FXML
     private Button marche_button;
-
     @FXML
     private Button modelli_button;
-
     @FXML
     private Button myPrev;
+    @FXML
+    private AnchorPane prevPopUp;
+    @FXML
+    private TextField carText;
+    @FXML
+    private ListView<String> confList;
+    @FXML
+    private TextField prezzoUsato;
+    @FXML
+    private TextField prezzoUsato2;
+    @FXML
+    private TextField prezzoAuto;
+    @FXML
+    private TextField sconto;
+    @FXML
+    private TextField prezzoFinale;
+
+    private ContextMenu contextMenu = new ContextMenu();
 
 
     public void initialize() {
@@ -87,6 +82,7 @@ public class HomepageController {
         slider_login.setTranslateX(200);
         menuback.setVisible(false); //rendiamo invisibile il tasto menuback cosi che appena avviamo il codice non sia possibile cliccarlo
         loginback.setVisible(false);
+        prevPopUp.setVisible(false);
         menu_slider();  //chiamiamo la funzione menu_slider
         login_slider(); //chiamiamo la funzione login_slider
         UserSession userSession = UserSession.getInstance();
@@ -99,6 +95,7 @@ public class HomepageController {
             vbox_login.setVisible(false);
             vbox_dati_utente.setVisible(true);
             myPrev.setVisible(true);
+            loadContextMenu();
         } else {
             // Se non esiste, l'utente non è loggato
             // Mostra lo slider di login
@@ -106,7 +103,90 @@ public class HomepageController {
             vbox_dati_utente.setVisible(false);
             myPrev.setVisible(false);
         }
+        myPrev.setOnAction(event ->{
+                contextMenu.show(myPrev, Side.BOTTOM, 0, 0);
+                });
     }
+
+    private void showPrevPopup() {
+        prevPopUp.setVisible(true);
+        JsonElement jsonElement = readPrev("preventivi.json");
+        carText.setText(jsonElement.getAsJsonArray().get(1).getAsJsonObject().get("macchiina").getAsString());
+        prezzoUsato.setText(jsonElement.getAsJsonArray().get(4).getAsJsonObject().get("prezzoUsato").getAsString());
+        prezzoUsato2.setText(jsonElement.getAsJsonArray().get(4).getAsJsonObject().get("prezzoUsato").getAsString());
+        prezzoAuto.setText(jsonElement.getAsJsonArray().get(7).getAsJsonObject().get("prezzoAuto").getAsString());
+        sconto.setText(jsonElement.getAsJsonArray().get(8).getAsJsonObject().get("sconto").getAsString() + "%");
+        prezzoFinale.setText(calcPrezzoFinale(prezzoAuto.getText(), prezzoUsato.getText(), sconto.getText()));
+
+    }
+
+    private ArrayList<String> searchMyPrev(){
+        ArrayList<String> myConf = new ArrayList<>();
+        String user = UserSession.getInstance().getFirstName() + " " + UserSession.getInstance().getLastName();
+        try (FileReader reader = new FileReader("preventivi.json")) {
+            // Parsa il file JSON in un JsonArray
+            JsonElement parsed = JsonParser.parseReader(reader);
+            if (!parsed.isJsonArray()) {
+                throw new IllegalStateException("Il file JSON non contiene un array.");
+            }
+
+            JsonArray jsonArray = parsed.getAsJsonArray();
+
+            if (jsonArray.isEmpty()) {
+                return myConf; // Nessun oggetto nel file JSON
+            }
+            else{
+                for (JsonElement element : jsonArray) {
+                    JsonObject jsonObject = element.getAsJsonObject();
+                    if (jsonObject.get("utente").getAsString().equals(user) &&
+                            !jsonObject.get("prezzoUsato").getAsString().isEmpty()) {
+                        myConf.add(jsonObject.get("id") + " - " + jsonObject.get("dataCreazione"));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return myConf;
+    }
+
+    private void loadContextMenu(){
+        contextMenu.getItems().clear();
+        for (String config : searchMyPrev()) {
+            MenuItem item = new MenuItem(config);
+            item.setOnAction(event -> {
+                slideMenuTo(-200, true, false, null);
+                showPrevPopup();
+            });
+            contextMenu.getItems().add(item);
+        }
+    }
+
+    private JsonElement readPrev(String file) {
+        try (FileReader reader = new FileReader(file)) {
+            // Parsa il file JSON in un JsonArray
+            JsonElement parsed = JsonParser.parseReader(reader);
+            if (!parsed.isJsonArray()) {
+                throw new IllegalStateException("Il file JSON non contiene un array.");
+            }
+            return parsed;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String calcPrezzoFinale(String prezzoAuto, String prezzoUsato, String sconto){
+        double prezzoAutoD = Double.parseDouble(prezzoAuto);
+        double prezzoUsatoD = Double.parseDouble(prezzoUsato);
+        double scontoI = Integer.parseInt(sconto.replace("%", ""));
+        double prezzoFinaleD = (prezzoAutoD * (100 - scontoI)/100 ) - prezzoUsatoD;
+        return String.valueOf(prezzoFinaleD);
+    }
+
+
+
+
 
 
     public void menu_slider() {
@@ -195,6 +275,7 @@ public class HomepageController {
                         vbox_dati_utente.setVisible(true);
                         isAuthenticated = true;
                         myPrev.setVisible(true);
+                        loadContextMenu();
 
                         if(userObject.get("type-user").getAsInt() == 0){
                             open_dipendente(nome + " " + cognome/*,userObject.get("type-user").getAsInt()*/);

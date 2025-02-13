@@ -99,10 +99,10 @@
                   <Label alignment="CENTER" layoutX="6.0" layoutY="12.0" prefHeight="36.0" prefWidth="179.0" text="Non hai eseguito l'accesso" textAlignment="CENTER" />
                   <PasswordField fx:id="password" layoutX="20.0" layoutY="88.0" promptText="Password" />
                   <TextField fx:id="username" layoutX="20.0" layoutY="52.0" promptText="Username" />
-                  <Button fx:id="NoAccess" layoutX="74.0" layoutY="163.0" mnemonicParsing="false" text="Annulla" />
+                  <Button fx:id="noAccess" layoutX="74.0" layoutY="163.0" mnemonicParsing="false" text="Annulla" />
                </children>
             </Pane>
-            <AnchorPane fx:id="saveConfPopup" layoutX="408.0" layoutY="366.0" prefHeight="102.0" prefWidth="203.0" style="-fx-background-color: E5DDC5;" stylesheets="@../Styles/configuratore.css">
+            <AnchorPane fx:id="saveConfPopup" layoutX="400.0" layoutY="160.0" prefHeight="102.0" prefWidth="203.0" style="-fx-background-color: E5DDC5;" stylesheets="@../Styles/configuratore.css">
                <children>
                   <Label alignment="CENTER" layoutX="1.0" layoutY="5.0" prefHeight="17.0" prefWidth="198.0" text="Scegli nome della tua conf" />
                   <TextField fx:id="nomeConf" layoutX="21.0" layoutY="25.0" promptText="Nome Configurazione" />

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -75,7 +76,7 @@
                            </font>
                         </Button>
                         <Button fx:id="modelli_button" mnemonicParsing="false" onAction="#open_modelli" text="Modelli" textFill="WHITE" />
-                        <Button fx:id="myPrev" mnemonicParsing="false" onAction="#open_modelli" text="Miei Preventivi" textFill="WHITE" />
+                        <Button fx:id="myPrev" mnemonicParsing="false" text="Miei Preventivi" textFill="WHITE" />
                      </children>
                   </VBox>
                </children>
@@ -104,6 +105,40 @@
                            </image></ImageView>
                      </children>
                   </HBox>
+                  <AnchorPane fx:id="prevPopUp" layoutX="10.0" layoutY="30.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: E5DDC5;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="206.0" layoutY="22.0" prefHeight="50.0" prefWidth="200.0" text="Preventivo n° (id)">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="44.0" layoutY="78.0" prefHeight="31.0" prefWidth="65.0" text="Macchina :" />
+                        <TextField fx:id="carText" editable="false" layoutX="34.0" layoutY="109.0" />
+                        <ListView fx:id="confList" layoutX="311.0" layoutY="89.0" prefHeight="119.0" prefWidth="215.0" />
+                        <Label layoutX="35.0" layoutY="236.0" prefHeight="17.0" prefWidth="166.0" text="Il tuo usato è stato valutato : " />
+                        <TextField fx:id="prezzoUsato" editable="false" layoutX="214.0" layoutY="231.0" />
+                        <Label layoutX="311.0" layoutY="70.0" prefHeight="17.0" prefWidth="88.0" text="Configuraione" />
+                        <Button fx:id="pay_confirm" layoutX="405.0" layoutY="339.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="167.0" text="Paga e conferma" />
+                        <Button fx:id="back" layoutX="41.0" layoutY="341.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="103.0" text="Annulla" />
+                        <Label layoutX="57.0" layoutY="285.0" text="Prezzo Auto" />
+                        <TextField fx:id="prezzoAuto" editable="false" layoutX="54.0" layoutY="309.0" prefHeight="26.0" prefWidth="96.0" />
+                        <Label layoutX="159.0" layoutY="313.0" text="-" />
+                        <Label layoutX="189.0" layoutY="286.0" text="Usato" />
+                        <TextField fx:id="prezzoUsato2" editable="false" layoutX="173.0" layoutY="309.0" prefHeight="26.0" prefWidth="103.0" />
+                        <Label layoutX="288.0" layoutY="313.0" text="-" />
+                        <TextField fx:id="sconto" editable="false" layoutX="306.0" layoutY="309.0" prefHeight="26.0" prefWidth="103.0" />
+                        <Label layoutX="306.0" layoutY="286.0" text="Sconto" />
+                        <Label layoutX="416.0" layoutY="313.0" text="=" />
+                        <Label layoutX="434.0" layoutY="286.0" text="Prezzo Finale" />
+                        <TextField fx:id="prezzoFinale" editable="false" layoutX="433.0" layoutY="308.0" prefHeight="26.0" prefWidth="103.0" />
+                        <Label layoutX="473.0" layoutY="13.0" text="NB: " />
+                        <Label fx:id="scadenza" layoutX="498.0" layoutY="16.0" text="scade il yyyy-mm-dd">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </center>

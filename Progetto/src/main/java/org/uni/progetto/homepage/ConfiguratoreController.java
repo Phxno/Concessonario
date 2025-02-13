@@ -164,8 +164,8 @@ public class ConfiguratoreController{
     private double[] posizioneCamera;
     private String car;
     private int sconto;
-    ObjModelImporter importer = new ObjModelImporter();
-    ContextMenu contextMenu = new ContextMenu();
+    private ObjModelImporter importer = new ObjModelImporter();
+    private ContextMenu contextMenu = new ContextMenu();
     // </editor-fold>
 
     // <editor-fold desc="Interfaccia utili">
@@ -185,6 +185,7 @@ public class ConfiguratoreController{
      * @throws IOException
      */
     public void initMacchina(String mod)throws IOException {
+        if(Objects.equals(mod, "R8"))sconto = 5;
         login_popup.setVisible(false);
         validation_popup.setVisible(false);
         form_used.setVisible(false);
@@ -277,11 +278,7 @@ public class ConfiguratoreController{
             String user = username.getText();
             String pass = password.getText();
             if (user.isEmpty() || pass.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Errore");
-                alert.setHeaderText("Campi vuoti");
-                alert.setContentText("Inserisci username e password");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Errore", "Campi vuoti", "Inserisci username e password");
                 return;
             }
             Gson gson = new Gson();
@@ -310,11 +307,7 @@ public class ConfiguratoreController{
                     }
                 }
                 if (!isAuthenticated) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Errore");
-                    alert.setHeaderText("Errore di login");
-                    alert.setContentText("I dati inseriti non sono corretti. Riprova.");
-                    alert.showAndWait();
+                    showAlert(Alert.AlertType.ERROR, "Errore", "Credenziali errate", "Username o password errati");
 
                 }
             }catch(IOException e){
@@ -871,6 +864,14 @@ public class ConfiguratoreController{
         });
         send_conf.setOnAction(event -> {
             JsonArray conf = saveConf();
+            if (!si.isSelected() && !no.isSelected()) {
+                showAlert(Alert.AlertType.WARNING, "Attenzione", "Usato non specificato", "Seleziona Si o NO se hai un'auto usata da farci ritirare");
+                return;
+            }
+            if (sede.getValue() == null) {
+                showAlert(Alert.AlertType.WARNING, "Attenzione", "Sede non selezionata", "Seleziona la sede di consegna");
+                return;
+            }
             try {
                 saveInJson("preventivi.json", creaJsonObject(
                         "utente", UserSession.getInstance().getFirstName() + " " + UserSession.getInstance().getLastName(),
@@ -888,11 +889,7 @@ public class ConfiguratoreController{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Operazione Riuscita");
-            alert.setHeaderText("L'operazione è stata completata con successo!");
-            alert.setContentText("Puoi procedere con le prossime azioni.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.INFORMATION, "Preventivo inviato", "Preventivo inviato con successo", "Il preventivo è stato inviato con successo");
             try {
                 openHome();
             } catch (IOException e) {
@@ -971,13 +968,18 @@ public class ConfiguratoreController{
             if (controllaCampi(car_infoText, date_infoText, km_infoText) ||
                     (!II_mano.isSelected() && !III_mano.isSelected()) ||
                     imageContainer.getChildren().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Attenzione");
-                alert.setHeaderText("Non compilati tutti i campi");
-                alert.setContentText("Devi compilare tutti i campi e inserire le immagini prima di confermare");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.WARNING, "Attenzione", "Campi mancanti", "Compila tutti i campi e aggiungi almeno un'immagine");
                 return; // Esci dal metodo se i campi non sono validi
             }
+            if (!isValidYear(date_infoText)) {
+                showAlert(Alert.AlertType.WARNING, "Attenzione", "Anno non valido", "L'anno deve essere compreso tra 1995 e l'anno corrente");
+                return; // Esci dal metodo se l'anno non è valido
+            }
+            if (!isValidKm(km_infoText)) {
+                showAlert(Alert.AlertType.WARNING, "Attenzione", "Chilometraggio non valido", "Il chilometraggio deve essere un numero positivo");
+                return; // Esci dal metodo se il chilometraggio non è valido
+            }
+
             JsonArray immaginiBase64 = new JsonArray();
             for (Node node : imageContainer.getChildren()) {
                 if (node instanceof ImageView) {
@@ -997,6 +999,8 @@ public class ConfiguratoreController{
                     "usata", II_mano.isSelected() ? "2°mano" : "3 mano o +",
                     "img", immaginiBase64
             ));
+            showAlert(Alert.AlertType.INFORMATION, "Validità Usato", "campi validi e veritieri",
+                    "Se l'auto non corrisponde a quanto dichiarato verrà annullata la richiesta");
             form_used.setVisible(false);
             clearUsedForm();
             callback.onFormConfirmed(id_usato);
@@ -1101,6 +1105,35 @@ public class ConfiguratoreController{
         // Formatta la data nel formato yyyy-MM-dd
         return oggi.format(formatter);
     }
+
+    /**
+     * Questo metodo controlla che l'anno sia valido (compreso tra 1995 e l'anno corrente)
+     * @param yearText anno da controllare
+     * @return TRUE se l'anno è valido, altrimenti FALSE
+     */
+    private static boolean isValidYear(String yearText) {
+        try {
+            int year = Integer.parseInt(yearText);
+            int currentYear = LocalDate.now().getYear();
+            return year >= 1995 && year <= currentYear;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Questo metodo controlla che il chilometraggio sia valido (maggiore di 1000)
+     * @param kmText chilometraggio da controllare
+     * @return TRUE se il chilometraggio è valido, altrimenti FALSE
+     */
+    private static boolean isValidKm(String kmText) {
+        try {
+            int km = Integer.parseInt(kmText);
+            return km > 1000;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     // </editor-fold>
 
     // <editor-fold desc="Metodi per la gestione del salvataggio delle configurazioni">
@@ -1128,21 +1161,13 @@ public class ConfiguratoreController{
         saveConfButton.setOnAction(event -> {
             String nome = nomeConf.getText();
             if (nome.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Attenzione");
-                alert.setHeaderText("Nome non valido");
-                alert.setContentText("Devi inserire un nome per la configurazione prima di salvarla.");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.WARNING, "Attenzione", "Nome mancante", "Inserisci un nome per la configurazione");
                 return;
             }
             JsonArray conf = saveConf();
             try {
                 if (checkIfAlredaySaved(nome)) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Attenzione");
-                    alert.setHeaderText("Configurazione già salvata");
-                    alert.setContentText("Hai già salvato questa configurazione. Inserisci un nome diverso.");
-                    alert.showAndWait();
+                    showAlert(Alert.AlertType.WARNING, "Attenzione", "Configurazione già salvata", "Hai già salvato una configurazione con lo stesso nome");
                     return;
                 }
                 String[] parts = car.split(" ",2);
@@ -1160,11 +1185,7 @@ public class ConfiguratoreController{
             }
             saveConfPopup.setVisible(false);
             nomeConf.clear();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Operazione Riuscita");
-            alert.setHeaderText("Configurazione salvata con successo!");
-            alert.setContentText("Puoi visualizzarla nella sezione 'Le mie configurazioni'.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.INFORMATION, "Configurazione salvata", "Configurazione salvata con successo", "La configurazione è stata salvata con successo");
             loadContextMenu();
         });
 
@@ -1520,6 +1541,14 @@ public class ConfiguratoreController{
         }
 
         return newId;
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     // </editor-fold>
