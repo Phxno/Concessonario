@@ -511,7 +511,7 @@ public class ConfiguratoreController{
         Stage stage = (Stage) marche.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(Registration.class.getResource("/FXML/Marche.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Marche.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         stage.setTitle("Marche");
         stage.setScene(scene);
@@ -526,7 +526,7 @@ public class ConfiguratoreController{
         Stage stage = (Stage) modelli.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(Registration.class.getResource("/FXML/Modelli.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Modelli.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         ModelliController controller = fxmlLoader.getController();
         controller.initialize("All");
@@ -543,7 +543,7 @@ public class ConfiguratoreController{
         Stage stage = (Stage) home.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(Registration.class.getResource("/FXML/Homepage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Homepage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         stage.setTitle("Homepage");
         stage.setScene(scene);

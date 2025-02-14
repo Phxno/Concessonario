@@ -223,7 +223,7 @@ public class MarcheController {
         stage.close();
 
         // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Registration.class.getResource("/FXML/Registration.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Homepage.class.getResource("/FXML/Registration.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         stage.setTitle("Registrazione");
         stage.setScene(scene);
@@ -245,7 +245,7 @@ public class MarcheController {
         Stage stage = (Stage) homapage_button.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Registration.class.getResource("/FXML/Homepage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Homepage.class.getResource("/FXML/Homepage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         stage.setTitle("Homepage");
         stage.setScene(scene);
@@ -258,7 +258,7 @@ public class MarcheController {
         Stage stage = (Stage) modelli_button.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Registration.class.getResource("/FXML/Modelli.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Homepage.class.getResource("/FXML/Modelli.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         ModelliController controller = fxmlLoader.getController();
         controller.initialize("All");

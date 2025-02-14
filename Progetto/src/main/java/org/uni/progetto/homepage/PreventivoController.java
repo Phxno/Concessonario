@@ -305,7 +305,7 @@ public class PreventivoController {
     private void loadDipendente() throws IOException{
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();
-        FXMLLoader fxmlLoader = new FXMLLoader(Dipendente.class.getResource("/FXML/Dipendente.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Dipendente.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);
         DipendenteController controller = fxmlLoader.getController();
         controller.initialize(dip, this.t_user);

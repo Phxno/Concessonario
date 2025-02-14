@@ -133,6 +133,9 @@ public class DipendenteController {
 
     @FXML
     void backHomepage(ActionEvent event) throws IOException{
+        UserSession userSession = UserSession.getInstance();
+
+        if (userSession != null) userSession.logout();
       Stage stage = (Stage) backHomepageButton.getScene().getWindow();
       stage.close();
       FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Homepage.fxml"));
@@ -346,7 +349,7 @@ public class DipendenteController {
     private void loadOrdini(OrderClass ord) throws IOException { 
       Stage stage = (Stage) Ordini.getScene().getWindow();
       stage.close();
-      FXMLLoader fxmlLoader = new FXMLLoader(Ordine.class.getResource("/FXML/Ordine.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Ordine.fxml"));
       Scene scene = new Scene(fxmlLoader.load(), 320, 240);
       OrdineController controller = fxmlLoader.getController();
       controller.initialize(ord, dip);
@@ -361,7 +364,7 @@ public class DipendenteController {
     private void loadAuto(String selected) throws IOException{
         Stage stage = (Stage) autoButton.getScene().getWindow();
         stage.close();
-        FXMLLoader fxmlLoader = new FXMLLoader(ChangeAuto.class.getResource("/FXML/ChangeAuto.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/ChangeAuto.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         ChangeAutoController controller = fxmlLoader.getController();
         controller.initialize(dip,1,selected);
@@ -376,7 +379,7 @@ public class DipendenteController {
     private void loadPreventivi(PrevClass prev) throws IOException {
       Stage stage = (Stage) Preventivi.getScene().getWindow();
       stage.close();
-      FXMLLoader fxmlLoader = new FXMLLoader(Preventivo.class.getResource("/FXML/Preventivo.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(Homepage.class.getResource("/FXML/Preventivo.fxml"));
       Scene scene = new Scene(fxmlLoader.load(), 320, 240);
       PreventivoController controller = fxmlLoader.getController();
       controller.initialize(prev, dip, t_user);
