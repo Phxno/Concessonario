@@ -19,15 +19,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.effect.BoxBlur;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class HomepageController {
     private ObservableList<Object> items = FXCollections.observableArrayList();
@@ -128,9 +127,10 @@ public class HomepageController {
                 });
     }
 
-    private void showPrevPopup() {
+    private void showPrevPopup(String config){
         prevPopUp.setVisible(true);
-        JsonElement jsonElement = getMyPrev();
+        String[] get_id = config.split(" ");
+        JsonElement jsonElement =  getPrevById(get_id[0]);
         title.setText("Preventivo n° " + jsonElement.getAsJsonObject().get("id").getAsString());
         scadenza.setText("scade il " + createdataScadenza(jsonElement.getAsJsonObject().get("dataCreazione").getAsString()));
         carText.setText(jsonElement.getAsJsonObject().get("macchina").getAsString());
@@ -142,7 +142,67 @@ public class HomepageController {
         prezzoFinale.setText(calcPrezzoFinale(prezzoAuto.getText(), prezzoUsato.getText(), sconto.getText()));
 
         pay_confirm.setOnAction(event ->{
-            JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
+
+
+            // Estrarre l'ultima parola dalla stringa della Label
+            String[] words = title.getText().split(" ");
+            String lastWord = words[words.length - 1]; // Ultima parola
+
+
+            JsonObject jsonObject = getPrevById(lastWord);
+
+            int idOrdine = 0;
+            try {
+                idOrdine = createId("ordini.json");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (jsonObject != null) {
+                jsonObject.addProperty("dataFinalizzazione", LocalDate.now().toString());
+                jsonObject.addProperty("dataConsegna", createDataConsegna(items));
+                jsonObject.addProperty("id", idOrdine);
+            }
+            saveOrdine(jsonObject);
+
+            JsonElement sedi = readPrev("sedi.json");
+
+            JsonArray sediArray = sedi.getAsJsonArray();
+
+            String negozioConsegna = jsonElement.getAsJsonObject().get("negozioConsegna").getAsString();
+
+            // Scansiona le sedi
+            for (JsonElement sede : sediArray) {
+                JsonObject sedeObject = sede.getAsJsonObject();
+
+                // Controlla se il nome della sede corrisponde
+                if (sedeObject.get("Nome").getAsString().equals(negozioConsegna)) {
+
+                    // Recupera la lista degli ordini o la crea se non esiste
+                    JsonArray ordini;
+                    if (sedeObject.has("Ordini")) {
+                        ordini = sedeObject.getAsJsonArray("Ordini");
+                    } else {
+                        ordini = new JsonArray();
+                        sedeObject.add("Ordini", ordini);
+                    }
+
+                    // Aggiunge l'ID dell'ordine solo se non è già presente
+                    if (!ordini.contains(new JsonPrimitive(idOrdine))) {
+                        ordini.add(idOrdine);
+                        System.out.println("ID " + idOrdine + " aggiunto alla sede " + negozioConsegna);
+                    } else {
+                        System.out.println("ID " + idOrdine + " già presente nella sede " + negozioConsegna);
+                    }
+                    break;
+                }
+            }
+            try (FileWriter writer = new FileWriter("sedi.json")) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                gson.toJson(sediArray, writer);
+            }catch (IOException e) {
+            System.err.println("Errore nella lettura/scrittura di sedi.json: " + e.getMessage());
+        }
 
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -150,14 +210,44 @@ public class HomepageController {
             alert.setHeaderText("Pagamento effettuato con successo");
             alert.setContentText("Il pagamento è stato effettuato con successo. Grazie per aver scelto il nostro concessionario!");
             alert.showAndWait();
+            removePrev(lastWord);
+            loadContextMenu();
+            items.clear();
+            prevPopUp.setVisible(false);
+        });
+
+        back.setOnAction(event ->{
             items.clear();
             prevPopUp.setVisible(false);
         });
 
     }
 
-    private JsonElement getMyPrev(){
-        String user = UserSession.getInstance().getFirstName() + " " + UserSession.getInstance().getLastName();
+
+
+    private void saveOrdine(JsonObject jsonObject){
+        try {
+            // Legge il file JSON esistente
+            JsonArray ordiniArray;
+            try (FileReader reader = new FileReader("ordini.json")) {
+                ordiniArray = JsonParser.parseReader(reader).getAsJsonArray();
+            }
+
+            // Aggiunge il nuovo preventivo alla lista ordini
+            ordiniArray.add(jsonObject);
+
+            // Scrive il file aggiornato
+            try (FileWriter writer = new FileWriter("ordini.json")) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                writer.write(gson.toJson(ordiniArray));
+            }
+
+        } catch (IOException e) {
+            System.err.println("Errore durante il salvataggio del preventivo: " + e.getMessage());
+        }
+    }
+
+    private JsonObject getPrevById(String id){
         JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
         if (jsonArray.isEmpty()) {
             return null; // Nessun oggetto nel file JSON
@@ -165,9 +255,8 @@ public class HomepageController {
         else{
             for (JsonElement element : jsonArray) {
                 JsonObject jsonObject = element.getAsJsonObject();
-                if (jsonObject.get("utente").getAsString().equals(user) &&
-                        !jsonObject.get("prezzoUsato").getAsString().isEmpty()) {
-                    return element;
+                if (jsonObject.get("id").getAsString().equals(id)) {
+                    return jsonObject;
                 }
             }
         }
@@ -258,6 +347,7 @@ public class HomepageController {
             return false;
         }
     }
+
     private String createdataScadenza(String dataCreazione){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dataPreventivo = LocalDate.parse(dataCreazione, formatter);
@@ -265,7 +355,69 @@ public class HomepageController {
         return dataScadenza.format(formatter);
     }
 
+    private String createDataConsegna(ObservableList<Object> items){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate oggi = LocalDate.now();
+        LocalDate dataConsegna = oggi.plusMonths(1);
+        for (Object item : items) {
+            if (item instanceof String stringItem) {
+                if (stringItem.contains("ADAS")) {
+                    dataConsegna = dataConsegna.plusDays(10);
+                }
+                if (stringItem.contains("Sedili Riscaldati")) {
+                    dataConsegna = dataConsegna.plusDays(10);
+                }
+                if (stringItem.contains("Telecamera Posteriore")) {
+                    dataConsegna = dataConsegna.plusDays(10);
+                }
+                if (stringItem.contains("Finestrini Oscurati")) {
+                    dataConsegna = dataConsegna.plusDays(10);
+                }
+            }
+            if (item instanceof Color colorItem) {
+                if(!colorItem.equals(Color.WHITE) && !colorItem.equals(Color.BLACK)){
+                    dataConsegna = dataConsegna.plusDays(10);
+                }
+            }
+        }
+        return dataConsegna.format(formatter);
+    }
 
+    private synchronized int createId(String filepath) throws IOException {
+        Set<Integer> existingIds = new HashSet<>();
+        File file = new File(filepath);
+
+        // Se il file esiste e non è vuoto, leggere gli ID esistenti
+        if (file.exists() && file.length() > 0) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                StringBuilder jsonText = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonText.append(line);
+                }
+                if (!jsonText.toString().trim().isEmpty()) {
+                    JsonArray jsonArray = JsonParser.parseString(jsonText.toString()).getAsJsonArray();
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject obj = jsonArray.get(i).getAsJsonObject();
+                        if (obj.has("id")) {
+                            existingIds.add(obj.get("id").getAsInt());
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Errore nella lettura del file JSON: " + e.getMessage());
+                throw new IOException("Errore nella lettura del file JSON", e);
+            }
+        }
+
+        // Trova il primo ID disponibile
+        int newId = 1;
+        while (existingIds.contains(newId)) {
+            newId++;
+        }
+
+        return newId;
+    }
 
     private void loadContextMenu(){
         contextMenu.getItems().clear();
@@ -274,7 +426,7 @@ public class HomepageController {
             item.setOnAction(event -> {
                 slideMenuTo(-200, true, false, null);
                 contextMenu.hide();
-                showPrevPopup();
+                showPrevPopup(config);
             });
             contextMenu.getItems().add(item);
         }

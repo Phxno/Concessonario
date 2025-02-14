@@ -1,24 +1,186 @@
 [
   {
-    "utente":"aa aa",
-    "macchina":"template",
-    "configurazione":"template",
-    "dataFinalizzazione":"1999-01-01",
-    "prezzo":0,
-    "sconto":0,
-    "negozioConsegna":"template",
-    "dataConsegna":"1999-02-01",
-    "id":0
+    "utente": "aa aa",
+    "macchina": "template",
+    "configurazione": "template",
+    "dataFinalizzazione": "1999-01-01",
+    "prezzo": 0,
+    "sconto": 0,
+    "negozioConsegna": "template",
+    "dataConsegna": "1999-02-01",
+    "id": 0
   },
   {
-    "utente":"bb bb",
-    "macchina":"template",
-    "configurazione":"template",
-    "dataFinalizzazione":"2000-09-09",
-    "prezzo":0,
-    "sconto":0,
-    "negozioConsegna":"template",
-    "dataConsegna":"2000-10-09",
-    "id":1
+    "utente": "bb bb",
+    "macchina": "template",
+    "configurazione": "template",
+    "dataFinalizzazione": "2000-09-09",
+    "prezzo": 0,
+    "sconto": 0,
+    "negozioConsegna": "template",
+    "dataConsegna": "2000-10-09",
+    "id": 1
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 2
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 3
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 4
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 5
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 6
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-04-23",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "Roma",
+    "id": 7
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "Triauto Verona",
+    "id": 8,
+    "dataFinalizzazione": "2025-04-23"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-04-23",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 9,
+    "dataFinalizzazione": "2025-02-14"
   }
 ]
