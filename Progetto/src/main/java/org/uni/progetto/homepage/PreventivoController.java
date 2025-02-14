@@ -184,7 +184,7 @@ public class PreventivoController {
             for (JsonElement prevElement : prevsArray) {
                 JsonObject prevObject = prevElement.getAsJsonObject();
                 if (prevObject.get("id").getAsString().equals(prev.getId())) {
-                    prevElement.getAsJsonObject().addProperty("prezzoUsato", valutazione);
+                    prevElement.getAsJsonObject().addProperty("prezzoUsato", valutazione == null ? "0" : valutazione);
                     prevElement.getAsJsonObject().addProperty("dataCreazione", LocalDate.now().toString());
                 }
             }
