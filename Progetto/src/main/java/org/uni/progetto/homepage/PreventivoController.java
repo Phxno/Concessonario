@@ -104,18 +104,18 @@ public class PreventivoController {
         model.setText(prev.getMacchina());
         shopName.setText(prev.getNegozioConsegna());
         dataCreazione.setText(""+LocalDate.now());
-
-        if (t_user == 2){
-          prevLabel.setText("");
-          prevNumber.setText("");
+        prevLabel.setText("");
+        prevNumber.setText("");
+        if (t_user == 1){
           usedButton.setVisible(false);
+          confirmButton.setVisible(false);
         } else prevNumber.setText(prev.getId());
         this.dip = dip;
         if (Integer.parseInt(prev.getUsato()) != 0) {
             this.usato = getUsato();
-            labelKm.setText(usato.get(3));
             labelMarcaModello.setText(usato.get(1));
             labelAnnoImm.setText(usato.get(2));
+            labelKm.setText(usato.get(3));
             labelProprietari.setText(usato.get(4));
         } else usedButton.setVisible(false);
         backButtonLogo.setOnMouseClicked(event -> {

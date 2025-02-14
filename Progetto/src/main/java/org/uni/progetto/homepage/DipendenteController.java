@@ -2,6 +2,7 @@ package org.uni.progetto.homepage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -57,13 +58,25 @@ public class DipendenteController {
 
     @FXML
     private TextField MenOrdiniTextField;
+    @FXML
+    private TextField MenAutoTextField;
+
+    @FXML
+    private AnchorPane MenAuto;
+
+
 
     private final ObservableList<String> orders = FXCollections.observableArrayList();
     private final ObservableList<String> prevs = FXCollections.observableArrayList();
+
+    private final ObservableList<String> auto = FXCollections.observableArrayList();
     private final ArrayList<String> standbyPrevs = new ArrayList<String>();
     private final ArrayList<String> standbyOrders = new ArrayList<String>();
+
+    private final ArrayList<String> standbyAuto = new ArrayList<String>();
     private final ArrayList<JsonObject> gsonPrevsList = new ArrayList<JsonObject>();
     private final ArrayList<JsonObject> gsonOrderList = new ArrayList<JsonObject>();
+    private final ArrayList<JsonObject> gsonAutoList = new ArrayList<JsonObject>();
 
     private final ObservableList<String> filters = FXCollections.observableArrayList("Data","Cliente","Negozio","Marca");
     @FXML
@@ -77,6 +90,10 @@ public class DipendenteController {
 
     @FXML
     private ListView<String> ordersList = new ListView<String>(orders);
+
+    @FXML
+    private ListView<String> autoList = new ListView<String>();
+
 
     private int t_user;
     private String dip;
@@ -173,10 +190,16 @@ public class DipendenteController {
         if (ordTemp != null) loadOrdini(ordTemp);
       }
     }
+    @FXML
+    void OkayAuto(ActionEvent event) throws IOException {
+
+    }
+
     @FXML 
     void Nay(ActionEvent event) throws IOException{
       MenPrev.setVisible(false);
       MenOrdini.setVisible(false);
+      MenAuto.setVisible(false);
       filterBox.setValue(filterBox.getItems().get(0));
     }
 
@@ -224,6 +247,18 @@ public class DipendenteController {
         }
       }
       prevList.setItems(prevs);
+    }
+
+    @FXML
+    void refreshAutoList(){
+        auto.clear();
+        Collections.sort(standbyAuto);
+        for (String car: standbyAuto){
+            if (car.contains(MenAutoTextField.getText())){
+                auto.add(car);
+            }
+        }
+        autoList.setItems(auto);
     }
 
     @FXML
@@ -285,7 +320,27 @@ public class DipendenteController {
     }
 
     @FXML
-    void showAuto(ActionEvent event) throws IOException{}
+    void showAuto(ActionEvent event) throws IOException{
+        standbyAuto.clear();
+        MenAuto.setVisible(true);
+        gsonAutoList.clear();
+        String file = "modelli_auto.json";
+        Gson gson = new Gson();
+
+        try (Reader reader = new FileReader(file)){
+            JsonArray autoArray = gson.fromJson(reader, JsonArray.class);
+
+            for (JsonElement autoElement : autoArray) {
+
+                JsonObject autoObject = autoElement.getAsJsonObject();
+                gsonAutoList.add(autoObject);
+                standbyAuto.add(autoObject.get("Marca").getAsString() + " - "+ autoObject.get("modello").getAsString());
+            }
+            refreshAutoList();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
     private void loadOrdini(OrderClass ord) throws IOException { 
       Stage stage = (Stage) Ordini.getScene().getWindow();
