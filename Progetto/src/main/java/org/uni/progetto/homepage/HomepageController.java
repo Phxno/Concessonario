@@ -90,6 +90,8 @@ public class HomepageController {
     private Button back;
     @FXML
     private Button pay_confirm;
+    @FXML
+    private Label title;
 
     private ContextMenu contextMenu = new ContextMenu();
 
@@ -129,6 +131,7 @@ public class HomepageController {
     private void showPrevPopup() {
         prevPopUp.setVisible(true);
         JsonElement jsonElement = getMyPrev();
+        title.setText("Preventivo n° " + jsonElement.getAsJsonObject().get("id").getAsString());
         scadenza.setText("scade il " + createdataScadenza(jsonElement.getAsJsonObject().get("dataCreazione").getAsString()));
         carText.setText(jsonElement.getAsJsonObject().get("macchina").getAsString());
         addConf(jsonElement.getAsJsonObject().get("configurazione").getAsJsonArray());
@@ -139,7 +142,16 @@ public class HomepageController {
         prezzoFinale.setText(calcPrezzoFinale(prezzoAuto.getText(), prezzoUsato.getText(), sconto.getText()));
 
         pay_confirm.setOnAction(event ->{
+            JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
 
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Pagamento");
+            alert.setHeaderText("Pagamento effettuato con successo");
+            alert.setContentText("Il pagamento è stato effettuato con successo. Grazie per aver scelto il nostro concessionario!");
+            alert.showAndWait();
+            items.clear();
+            prevPopUp.setVisible(false);
         });
 
     }

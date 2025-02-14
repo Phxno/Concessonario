@@ -107,7 +107,7 @@
                   </HBox>
                   <AnchorPane fx:id="prevPopUp" layoutX="10.0" layoutY="30.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: E5DDC5;">
                      <children>
-                        <Label alignment="CENTER" layoutX="206.0" layoutY="22.0" prefHeight="50.0" prefWidth="200.0" text="Preventivo n° (id)">
+                        <Label fx:id="title" alignment="CENTER" layoutX="206.0" layoutY="22.0" prefHeight="50.0" prefWidth="200.0" text="Preventivo n° (id)">
                            <font>
                               <Font size="21.0" />
                            </font>
