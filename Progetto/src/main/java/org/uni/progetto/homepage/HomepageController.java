@@ -372,7 +372,7 @@ public class HomepageController {
         String user = username.getText();
         String pass = password.getText();
 
-        if (user.isEmpty() || pass.isEmpty()) {
+        if (campi_vuoti(user, pass)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setHeaderText("Campi vuoti");
@@ -388,14 +388,14 @@ public class HomepageController {
         try (Reader reader = new FileReader("dati_utente.json")) {
             // Convertiamo il file JSON in un oggetto Java
             JsonArray usersArray = gson.fromJson(reader, JsonArray.class);
-
+            //userObject.get("username").getAsString().equals(user) && userObject.get("password").getAsString().equals(pass)
             //Creiamo un oggetto JSON per ogni utente
             for (JsonElement userElement : usersArray) {
                 JsonObject userObject = userElement.getAsJsonObject();
 
                 //compariamo per ogni utente il campo username e password con quelli inseriti dall'utente
-                if (userObject.has("username") && userObject.has("password")) {
-                    if (userObject.get("username").getAsString().equals(user) && userObject.get("password").getAsString().equals(pass)) {
+                if (userObject.has("username") && userObject.has("password")) {//controlliamo che i campi username e password siano presenti
+                    if (campi_corretti(user,userObject.get("username").getAsString(),pass,userObject.get("password").getAsString())) { //se i campi username e password sono corretti
                         String nome = userObject.get("name").getAsString();
                         String cognome = userObject.get("surname").getAsString();
                         String username = userObject.get("username").getAsString();
@@ -428,6 +428,14 @@ public class HomepageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean campi_vuoti(String user, String pass) {
+        return (user.isEmpty() || pass.isEmpty());
+    }
+
+    public boolean campi_corretti(String user,String userD, String pass,String passD) {
+        return (user.equals(userD) && pass.equals(passD));
     }
 
     @FXML
@@ -494,19 +502,6 @@ public class HomepageController {
         stage.show();
     }
 
-
-   /* void open_segreteria(String seg) throws IOException {
-        Stage stage = (Stage) marche_button.getScene().getWindow();
-        stage.close();
-        // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Segreteria.class.getResource("/FXML/Segreteria.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
-        SegreteriaController controller = fxmlLoader.getController();
-        controller.initialize(seg);
-        stage.setTitle("Segreteria");
-        stage.setScene(scene);
-        stage.show();
-    }*/
 }
 
 

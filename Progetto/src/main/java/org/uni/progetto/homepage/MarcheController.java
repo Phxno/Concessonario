@@ -91,6 +91,10 @@ public class MarcheController {
     @FXML
     private Button telsa_button;
 
+    @FXML
+    private Button login_button;
+
+
 
     public void initialize() {
         slider_menu.setTranslateX(-200); //impostiamo la posizione iniziale dello slider a -200 cosi da renderla invisibile appena parte l'applicazione
@@ -166,7 +170,7 @@ public class MarcheController {
         String user = username.getText();
         String pass = password.getText();
 
-        if (user.isEmpty() || pass.isEmpty()) {
+        if (campi_vuoti(user, pass)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setHeaderText("Campi vuoti");
@@ -189,7 +193,7 @@ public class MarcheController {
 
                 //compariamo per ogni utente il campo username e password con quelli inseriti dall'utente
                 if (userObject.has("username") && userObject.has("password")) {
-                    if (userObject.get("username").getAsString().equals(user) && userObject.get("password").getAsString().equals(pass)) {
+                    if (campi_corretti(user,userObject.get("username").getAsString(),pass,userObject.get("password").getAsString())) {
                         String nome = userObject.get("name").getAsString();
                         String cognome = userObject.get("surname").getAsString();
                         String username = userObject.get("username").getAsString();
@@ -201,6 +205,9 @@ public class MarcheController {
                         vbox_dati_utente.setVisible(true);
                         isAuthenticated = true;
 
+                        if(userObject.get("type-user").getAsInt() < 2){
+                            open_dipendente(nome + " " + cognome,userObject.get("type-user").getAsInt());
+                        }
                     }
                 }
             }
@@ -216,6 +223,15 @@ public class MarcheController {
             e.printStackTrace();
         }
     }
+
+    public boolean campi_vuoti(String user, String pass) {
+        return (user.isEmpty() || pass.isEmpty());
+    }
+
+    public boolean campi_corretti(String user,String userD, String pass,String passD) {
+        return (user.equals(userD) && pass.equals(pass));
+    }
+
 
     @FXML
     void registration_button(ActionEvent event) throws IOException {
@@ -302,6 +318,19 @@ public class MarcheController {
             stage.setScene(scene);
             stage.show();
         }
+
+    void open_dipendente(String dip, Integer type_user) throws IOException {
+        Stage stage = (Stage) login_button.getScene().getWindow();
+        stage.close();
+        // Carica la scena della homepage
+        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Homepage.class.getResource("/FXML/Dipendente.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
+        DipendenteController controller = fxmlLoader.getController();
+        controller.initialize(dip,type_user);
+        stage.setTitle("Dipendente");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
 
 
