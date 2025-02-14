@@ -20,12 +20,17 @@ import javafx.util.Duration;
 import javafx.scene.effect.BoxBlur;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class HomepageController {
+    private ObservableList<Object> items = FXCollections.observableArrayList();
 
     @FXML
     private AnchorPane car_home;
@@ -68,7 +73,7 @@ public class HomepageController {
     @FXML
     private TextField carText;
     @FXML
-    private ListView<Object> confList;
+    private ListView<Object> confList = new ListView<>(items);
     @FXML
     private TextField prezzoUsato;
     @FXML
@@ -79,8 +84,15 @@ public class HomepageController {
     private TextField sconto;
     @FXML
     private TextField prezzoFinale;
+    @FXML
+    private Label scadenza;
+    @FXML
+    private Button back;
+    @FXML
+    private Button pay_confirm;
 
     private ContextMenu contextMenu = new ContextMenu();
+
 
 
     public void initialize() {
@@ -117,14 +129,19 @@ public class HomepageController {
     private void showPrevPopup() {
         prevPopUp.setVisible(true);
         JsonElement jsonElement = getMyPrev();
-        System.out.println(jsonElement);
+        scadenza.setText("scade il " + createdataScadenza(jsonElement.getAsJsonObject().get("dataCreazione").getAsString()));
         carText.setText(jsonElement.getAsJsonObject().get("macchina").getAsString());
-        confList = setConfList(jsonElement.getAsJsonObject().get("configurazione").getAsJsonArray());
+        addConf(jsonElement.getAsJsonObject().get("configurazione").getAsJsonArray());
         prezzoAuto.setText(jsonElement.getAsJsonObject().get("prezzo").getAsString());
         prezzoUsato.setText(jsonElement.getAsJsonObject().get("prezzoUsato").getAsString());
         prezzoUsato2.setText(jsonElement.getAsJsonObject().get("prezzoUsato").getAsString());
         sconto.setText(jsonElement.getAsJsonObject().get("sconto").getAsString());
         prezzoFinale.setText(calcPrezzoFinale(prezzoAuto.getText(), prezzoUsato.getText(), sconto.getText()));
+
+        pay_confirm.setOnAction(event ->{
+
+        });
+
     }
 
     private JsonElement getMyPrev(){
@@ -145,6 +162,51 @@ public class HomepageController {
         return null;
     }
 
+    private void addConf(JsonArray jsonArray){
+        // Estrazione dati dal JsonArray
+        String colorCode = jsonArray.get(0).getAsString();
+        String engine = jsonArray.get(1).getAsString();
+        boolean rearCamera = jsonArray.get(2).getAsBoolean();
+        boolean windows = jsonArray.get(3).getAsBoolean();
+        boolean adas = jsonArray.get(4).getAsBoolean();
+        boolean heatedSeats = jsonArray.get(5).getAsBoolean();
+
+        // Aggiunge il colore come primo elemento
+        items.add(Color.web(colorCode));
+
+        // Aggiunge il motore
+        items.add("Motore: " + engine);
+
+        // Aggiunge solo gli optional con valore `true`
+        if (rearCamera) items.add("Telecamera Posteriore");
+        if (windows) items.add("Finestrini Elettrici");
+        if (adas) items.add("ADAS");
+        if (heatedSeats) items.add("Sedili Riscaldati");
+
+        // Creazione della ListView
+        confList.setItems(items);
+
+        // Personalizzazione delle celle per gestire il colore
+        confList.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Object item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else if (item instanceof Color colorItem) {
+                    // Crea un rettangolo colorato per mostrare il colore
+                    Rectangle colorBox = new Rectangle(100, 20, colorItem);
+                    setGraphic(colorBox);
+                    setText("Colore: " + colorItem);
+                } else {
+                    setText(item.toString());
+                    setGraphic(null);
+                }
+            }
+        });
+    }
+
     private ArrayList<String> searchMyPrev(){
         ArrayList<String> myConf = new ArrayList<>();
         String user = UserSession.getInstance().getFirstName() + " " + UserSession.getInstance().getLastName();
@@ -158,13 +220,40 @@ public class HomepageController {
             for (JsonElement element : jsonArray) {
                 JsonObject jsonObject = element.getAsJsonObject();
                 if (jsonObject.get("utente").getAsString().equals(user) &&
-                        !jsonObject.get("prezzoUsato").getAsString().isEmpty()) {
+                        !jsonObject.get("prezzoUsato").getAsString().isEmpty() &&
+                        !isPreventivoScaduto(jsonObject.get("dataCreazione").getAsString())) {
                     myConf.add(jsonObject.get("id") + " - " + jsonObject.get("dataCreazione"));
+                }
+                if (isPreventivoScaduto(jsonObject.get("dataCreazione").getAsString())) {
+                    removePrev(jsonObject.get("id").getAsString());
                 }
             }
         }
         return myConf;
     }
+
+    private static boolean isPreventivoScaduto(String dataCreazione) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try {
+            LocalDate dataPreventivo = LocalDate.parse(dataCreazione, formatter);
+            LocalDate dataScadenza = dataPreventivo.plusDays(20);
+            LocalDate oggi = LocalDate.now();
+
+            return oggi.isAfter(dataScadenza); // True se il preventivo è scaduto
+        } catch (DateTimeParseException e) {
+            System.out.println("Formato data non valido! Usa yyyy-MM-dd");
+            return false;
+        }
+    }
+    private String createdataScadenza(String dataCreazione){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dataPreventivo = LocalDate.parse(dataCreazione, formatter);
+        LocalDate dataScadenza = dataPreventivo.plusDays(20);
+        return dataScadenza.format(formatter);
+    }
+
+
 
     private void loadContextMenu(){
         contextMenu.getItems().clear();
@@ -201,51 +290,22 @@ public class HomepageController {
         return String.valueOf(prezzoFinaleD);
     }
 
-    private ListView<Object> setConfList(JsonArray jsonArray){
-        ObservableList<Object> items = FXCollections.observableArrayList();
-
-        // Estrazione dati dal JsonArray
-        String colorCode = jsonArray.get(0).getAsString();
-        String engine = jsonArray.get(1).getAsString();
-        boolean rearCamera = jsonArray.get(2).getAsBoolean();
-        boolean windows = jsonArray.get(3).getAsBoolean();
-        boolean adas = jsonArray.get(4).getAsBoolean();
-        boolean heatedSeats = jsonArray.get(5).getAsBoolean();
-
-        // Aggiunge il colore come primo elemento
-        items.add(Color.web(colorCode));
-
-        // Aggiunge il motore
-        items.add("Motore: " + engine);
-
-        // Aggiunge solo gli optional con valore `true`
-        if (rearCamera) items.add("Telecamera Posteriore");
-        if (windows) items.add("Finestrini Elettrici");
-        if (adas) items.add("ADAS");
-        if (heatedSeats) items.add("Sedili Riscaldati");
-
-        ListView<Object> listView = new ListView<>(items);
-        listView.setCellFactory(lv -> new ListCell<>() {
-            @Override
-            protected void updateItem(Object item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else if (item instanceof Color colorItem) {
-                    // Crea un rettangolo colorato per mostrare il colore
-                    Rectangle colorBox = new Rectangle(100, 20, colorItem);
-                    setGraphic(colorBox);
-                    setText("Colore: " + colorItem);
-                } else {
-                    setText(item.toString());
-                    setGraphic(null);
-                }
+    private void removePrev(String id){
+        JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
+        JsonArray newJsonArray = new JsonArray();
+        for (JsonElement element : jsonArray) {
+            JsonObject jsonObject = element.getAsJsonObject();
+            if (!jsonObject.get("id").getAsString().equals(id)) {
+                newJsonArray.add(jsonObject);
             }
-        });
-        return listView;
+        }
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter("preventivi.json")) {
+            gson.toJson(newJsonArray, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
 
 
 
