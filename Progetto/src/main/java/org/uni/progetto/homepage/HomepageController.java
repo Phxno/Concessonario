@@ -337,12 +337,10 @@ public class HomepageController {
                         myPrev.setVisible(true);
                         loadContextMenu();
 
-                        if(userObject.get("type-user").getAsInt() == 0){
-                            open_dipendente(nome + " " + cognome/*,userObject.get("type-user").getAsInt()*/);
+                        if(userObject.get("type-user").getAsInt() < 2){
+                            open_dipendente(nome + " " + cognome,userObject.get("type-user").getAsInt());
                         }
-                        /*if(userObject.get("type-user").getAsInt() == 1){
-                            open_segreteria(nome + " " + cognome);
-                        }*/
+
                     }
                 }
 
@@ -396,14 +394,14 @@ public class HomepageController {
         stage.show();
     }
 
-    void open_dipendente(String dip) throws IOException {
+    void open_dipendente(String dip, Integer type_user) throws IOException {
         Stage stage = (Stage) marche_button.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
         FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Dipendente.class.getResource("/FXML/Dipendente.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         DipendenteController controller = fxmlLoader.getController();
-        controller.initialize(dip,2);
+        controller.initialize(dip,type_user);
         stage.setTitle("Dipendente");
         stage.setScene(scene);
         stage.show();
