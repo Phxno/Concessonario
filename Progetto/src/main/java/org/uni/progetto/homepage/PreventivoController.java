@@ -176,7 +176,6 @@ public class PreventivoController {
     }
 
     private void savePreventivo() {
-        Gson gsonToWrite = new GsonBuilder().setPrettyPrinting().create();
         Gson gson = new Gson();
         JsonArray prevsArray = new JsonArray();
         try (Reader reader = new FileReader("preventivi.json")) {

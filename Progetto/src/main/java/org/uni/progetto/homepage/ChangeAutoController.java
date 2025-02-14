@@ -182,7 +182,9 @@ public class ChangeAutoController {
             //Creiamo un oggetto JSON per ogni utente
             for (JsonElement infoElement : infoArray) {
                 JsonObject autoObject = infoElement.getAsJsonObject();
-                if ((autoObject.get("Marca").getAsString() + " - "+ autoObject.get("modello").getAsString()).equals(infoCar)) {
+                if ((autoObject.get("marca").getAsString() + " - "+ autoObject.get("modello").getAsString()).equals(infoCar)) {
+                    marcaLabel.setText(autoObject.get("marca").getAsString());
+                    modelloLabel.setText(autoObject.get("modello").getAsString());
                     oldPirceLabel.setText(autoObject.get("prezzo").getAsString());
                     textAreaDesc.setText(autoObject.get("descrizione").getAsString());
                     break;
@@ -200,8 +202,8 @@ public class ChangeAutoController {
             //Creiamo un oggetto JSON per ogni utente
             for (JsonElement infoElement : infoArray) {
                 JsonObject autoObject = infoElement.getAsJsonObject();
-                if ((autoObject.get("Marca").getAsString() + " - "+ autoObject.get("modello").getAsString()).equals(infoCar)) {
-                    JsonArray optPrice = autoObject.getAsJsonArray();
+                if ((autoObject.get("marca").getAsString() + " - "+ autoObject.get("modello").getAsString()).equals(infoCar)) {
+                    JsonArray optPrice = autoObject.get("prezzoOptional").getAsJsonArray();
                     priceMotore.setText(optPrice.get(0).getAsString());
                     priceTele.setText(optPrice.get(1).getAsString());
                     priceFine.setText(optPrice.get(2).getAsString());
@@ -214,6 +216,57 @@ public class ChangeAutoController {
             e.printStackTrace();
         }
     }
+    private void saveIntoModelli(){
+        Gson gson = new Gson();
+        JsonArray autoArray = new JsonArray();
+        try (Reader reader = new FileReader("modelli_auto.json")) {
+            autoArray = gson.fromJson(reader, JsonArray.class);
+            //Creiamo un oggetto JSON per ogni utente
+            for (JsonElement autoElement : autoArray) {
+                JsonObject autoObject = autoElement.getAsJsonObject();
+                if ((autoObject.get("marca").getAsString() + " - "+ autoObject.get("modello").getAsString()).equals(infoCar)) {
+                    autoElement.getAsJsonObject().addProperty("prezzo", newPrice.getText().isEmpty() ? autoObject.get("prezzo").getAsString() : newPrice.getText());
+                    autoElement.getAsJsonObject().addProperty("descrizione", textAreaDesc.getText());
+                }
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        if (!autoArray.isEmpty()) {
+            try (FileWriter writer = new FileWriter("modelli_auto.json")) {
+                //System.out.println(prevsArray);
+                gson.toJson(autoArray, writer);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    private void saveIntoConf(){
+        Gson gson = new Gson();
+        JsonArray autoArray = new JsonArray();
+        try (Reader reader = new FileReader("configurazione.json")) {
+            autoArray = gson.fromJson(reader, JsonArray.class);
+            //Creiamo un oggetto JSON per ogni utente
+            for (JsonElement autoElement : autoArray) {
+                JsonObject autoObject = autoElement.getAsJsonObject();
+                if ((autoObject.get("marca").getAsString() + " - "+ autoObject.get("modello").getAsString()).equals(infoCar)) {
+                    autoElement.getAsJsonObject().addProperty("prezzo", newPrice.getText().isEmpty() ? autoObject.get("prezzo").getAsString() : newPrice.getText());
+
+                }
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        if (!autoArray.isEmpty()) {
+            try (FileWriter writer = new FileWriter("configurazione.json")) {
+                //System.out.println(prevsArray);
+                gson.toJson(autoArray, writer);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private void loadDipendente() throws IOException{
         Stage stage = (Stage) confirmButton.getScene().getWindow();

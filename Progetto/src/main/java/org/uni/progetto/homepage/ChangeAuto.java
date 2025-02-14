@@ -12,8 +12,8 @@ public class ChangeAuto extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ChangeAuto.class.getResource("/FXML/ChangeAuto.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        ChangeAutoController controller = fxmlLoader.getController();
-        controller.initialize("Test",1);
+        //ChangeAutoController controller = fxmlLoader.getController();
+        //controller.initialize("Test",1,"Audi - RS6 Avant");
         stage.setTitle("Concessionario - Modifica Auto");
         stage.setMinWidth(1024);
         stage.setMinHeight(768);

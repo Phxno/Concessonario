@@ -62,7 +62,7 @@ public class DipendenteController {
     private TextField MenAutoTextField;
 
     @FXML
-    private AnchorPane MenAuto;
+    private BorderPane MenAuto;
 
 
 
@@ -192,7 +192,8 @@ public class DipendenteController {
     }
     @FXML
     void OkayAuto(ActionEvent event) throws IOException {
-
+        String selected = autoList.getSelectionModel().getSelectedItem();
+        if (selected != null && !selected.isEmpty()) loadAuto(selected);
     }
 
     @FXML 
@@ -334,7 +335,7 @@ public class DipendenteController {
 
                 JsonObject autoObject = autoElement.getAsJsonObject();
                 gsonAutoList.add(autoObject);
-                standbyAuto.add(autoObject.get("Marca").getAsString() + " - "+ autoObject.get("modello").getAsString());
+                standbyAuto.add(autoObject.get("marca").getAsString() + " - "+ autoObject.get("modello").getAsString());
             }
             refreshAutoList();
         } catch (IOException e){
@@ -356,6 +357,21 @@ public class DipendenteController {
       stage.setMaxHeight(768);
       stage.setScene(scene);
       stage.show();
+    }
+    private void loadAuto(String selected) throws IOException{
+        Stage stage = (Stage) autoButton.getScene().getWindow();
+        stage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(ChangeAuto.class.getResource("/FXML/ChangeAuto.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        ChangeAutoController controller = fxmlLoader.getController();
+        controller.initialize(dip,1,selected);
+        stage.setTitle("Concessionario - Modifica Auto");
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
+        stage.setMaxWidth(1024);
+        stage.setMaxHeight(768);
+        stage.setScene(scene);
+        stage.show();
     }
     private void loadPreventivi(PrevClass prev) throws IOException {
       Stage stage = (Stage) Preventivi.getScene().getWindow();
