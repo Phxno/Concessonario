@@ -157,6 +157,7 @@ public class ConfiguratoreController{
     private String[] concessionari = {"Verona", "Milano", "Aosta"};
     private String[] type = {"Base", "Full Optional"};
     private String[] Motore_batteria;
+    private int[] prezzoOptional;
     private double Base_price;
     private int[] PezCol;
     private int[] PezFin;
@@ -366,6 +367,7 @@ public class ConfiguratoreController{
                 // Salva i valori nelle variabili globali
                 car = auto.getMarca() + " " + auto.getModello();
                 Motore_batteria = auto.getListaMotori();
+                prezzoOptional = auto.getPrezzoOptional();
                 Base_price = auto.getPrezzo();
                 PezFin = auto.getFinestrini();
                 PezCol = auto.getListaPezziAutoColorati();
@@ -596,19 +598,19 @@ public class ConfiguratoreController{
 
         if (Objects.equals(shortcut.getValue(), type[0])) {
             // Disabilita le opzioni
-            setOptionalState(tele_pos, Optionals.TEL_POS.getOptionals(), false);
-            setOptionalState(fin_oscu, Optionals.MIRRORS.getOptionals(), false);
+            setOptionalState(tele_pos, prezzoOptional[1], false);
+            setOptionalState(fin_oscu, prezzoOptional[2], false);
             setFinLight();
-            setOptionalState(adas, Optionals.ADAS.getOptionals(), false);
-            setOptionalState(sed_ris, Optionals.HEATS_SEATS.getOptionals(), false);
+            setOptionalState(adas, prezzoOptional[3], false);
+            setOptionalState(sed_ris, prezzoOptional[4], false);
             choice.setValue(Motore_batteria[0]);
         } else if (Objects.equals(shortcut.getValue(), type[1])) {
             // Abilita le opzioni
-            setOptionalState(tele_pos, Optionals.TEL_POS.getOptionals(), true);
-            setOptionalState(fin_oscu, Optionals.MIRRORS.getOptionals(), true);
+            setOptionalState(tele_pos,prezzoOptional[1], true);
+            setOptionalState(fin_oscu, prezzoOptional[2], true);
             setFinOscu();
-            setOptionalState(adas, Optionals.ADAS.getOptionals(), true);
-            setOptionalState(sed_ris, Optionals.HEATS_SEATS.getOptionals(), true);
+            setOptionalState(adas, prezzoOptional[3], true);
+            setOptionalState(sed_ris, prezzoOptional[4], true);
             choice.setValue(Motore_batteria[1]);
         }
     }
@@ -637,12 +639,12 @@ public class ConfiguratoreController{
         if(choice.getValue().equals(Motore_batteria[0])){
             if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !adas.isSelected() && !sed_ris.isSelected())shortcut.setValue(type[0]);
             else if (tele_pos.isSelected() && fin_oscu.isSelected() && adas.isSelected() && sed_ris.isSelected())shortcut.setValue("Custom");
-            removePrice(Optionals.ENGINE.getOptionals());
+            removePrice(prezzoOptional[0]);
         }
         else{
             if(tele_pos.isSelected() && fin_oscu.isSelected() && adas.isSelected() && sed_ris.isSelected())shortcut.setValue(type[1]);
             else if (!tele_pos.isSelected() && !fin_oscu.isSelected() && !adas.isSelected() && !sed_ris.isSelected())shortcut.setValue("Custom");
-            addPrice(Optionals.ENGINE.getOptionals());
+            addPrice(prezzoOptional[0]);
         }
     }
 
@@ -651,7 +653,7 @@ public class ConfiguratoreController{
      */
     private void setTelePos(){
         if (tele_pos.isSelected()) {
-            addPrice(Optionals.TEL_POS.getOptionals());
+            addPrice(prezzoOptional[1]);
             if (fin_oscu.isSelected() && adas.isSelected() && sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[1])) {
                 shortcut.setValue(type[1]);
             }
@@ -660,7 +662,7 @@ public class ConfiguratoreController{
             }
         }
         else {
-            removePrice(Optionals.TEL_POS.getOptionals());
+            removePrice(prezzoOptional[1]);
             if(!fin_oscu.isSelected() && !adas.isSelected() && !sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[0])) {
                 shortcut.setValue(type[0]);
             }
@@ -677,7 +679,7 @@ public class ConfiguratoreController{
     private void setFin(){
         if (fin_oscu.isSelected()) {
             setFinOscu();
-            addPrice(Optionals.MIRRORS.getOptionals());
+            addPrice(prezzoOptional[2]);
             if (tele_pos.isSelected() && adas.isSelected() && sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[1])) {
                 shortcut.setValue(type[1]);
             }
@@ -686,7 +688,7 @@ public class ConfiguratoreController{
             }
         }
         else {
-            removePrice(Optionals.MIRRORS.getOptionals());
+            removePrice(prezzoOptional[2]);
             setFinLight();
             if(!tele_pos.isSelected() && !adas.isSelected() && !sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[0])) {
                 shortcut.setValue(type[0]);
@@ -702,7 +704,7 @@ public class ConfiguratoreController{
      */
     private void setAdas(){
         if (adas.isSelected()) {
-            addPrice(Optionals.ADAS.getOptionals());
+            addPrice(prezzoOptional[3]);
             if (tele_pos.isSelected() && fin_oscu.isSelected() && sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[1])) {
                 shortcut.setValue(type[1]);
             }
@@ -711,7 +713,7 @@ public class ConfiguratoreController{
             }
         }
         else {
-            removePrice(Optionals.ADAS.getOptionals());
+            removePrice(prezzoOptional[3]);
             if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !sed_ris.isSelected() && choice.getValue().equals(Motore_batteria[0])) {
                 shortcut.setValue(type[0]);
             }
@@ -726,7 +728,7 @@ public class ConfiguratoreController{
      */
     private void setSedRis(){
         if (sed_ris.isSelected()) {
-            addPrice(Optionals.HEATS_SEATS.getOptionals());
+            addPrice(prezzoOptional[4]);
             if (tele_pos.isSelected() && fin_oscu.isSelected() && adas.isSelected() && choice.getValue().equals(Motore_batteria[1])) {
                 shortcut.setValue(type[1]);
             }
@@ -735,7 +737,7 @@ public class ConfiguratoreController{
             }
         }
         else {
-            removePrice(Optionals.HEATS_SEATS.getOptionals());
+            removePrice(prezzoOptional[4]);
             if(!tele_pos.isSelected() && !fin_oscu.isSelected() && !adas.isSelected() && choice.getValue().equals(Motore_batteria[0])) {
                 shortcut.setValue(type[0]);
             }
@@ -1385,11 +1387,11 @@ public class ConfiguratoreController{
                 sed_ris.setSelected(Boolean.parseBoolean(confList.get(5).toString()));
 
                 price.setText(Base_price + " €");
-                if(choice.getValue().equals(Motore_batteria[1]))addPrice(Optionals.ENGINE.getOptionals());
-                if(tele_pos.isSelected())addPrice(Optionals.TEL_POS.getOptionals());
-                if(fin_oscu.isSelected())addPrice(Optionals.MIRRORS.getOptionals());
-                if(adas.isSelected())addPrice(Optionals.ADAS.getOptionals());
-                if(sed_ris.isSelected())addPrice(Optionals.HEATS_SEATS.getOptionals());
+                if(choice.getValue().equals(Motore_batteria[1]))addPrice(prezzoOptional[0]);
+                if(tele_pos.isSelected())addPrice(prezzoOptional[1]);
+                if(fin_oscu.isSelected())addPrice(prezzoOptional[2]);
+                if(adas.isSelected())addPrice(prezzoOptional[3]);
+                if(sed_ris.isSelected())addPrice(prezzoOptional[4]);
 
             } catch (Exception e) {
                 e.printStackTrace();

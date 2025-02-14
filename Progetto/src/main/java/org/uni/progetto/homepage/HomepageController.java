@@ -2,6 +2,8 @@ package org.uni.progetto.homepage;
 
 import com.google.gson.*;
 import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.effect.BoxBlur;
@@ -18,6 +23,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomepageController {
 
@@ -62,7 +68,7 @@ public class HomepageController {
     @FXML
     private TextField carText;
     @FXML
-    private ListView<String> confList;
+    private ListView<Object> confList;
     @FXML
     private TextField prezzoUsato;
     @FXML
@@ -110,42 +116,52 @@ public class HomepageController {
 
     private void showPrevPopup() {
         prevPopUp.setVisible(true);
-        JsonElement jsonElement = readPrev("preventivi.json");
-        carText.setText(jsonElement.getAsJsonArray().get(1).getAsJsonObject().get("macchiina").getAsString());
-        prezzoUsato.setText(jsonElement.getAsJsonArray().get(4).getAsJsonObject().get("prezzoUsato").getAsString());
-        prezzoUsato2.setText(jsonElement.getAsJsonArray().get(4).getAsJsonObject().get("prezzoUsato").getAsString());
-        prezzoAuto.setText(jsonElement.getAsJsonArray().get(7).getAsJsonObject().get("prezzoAuto").getAsString());
-        sconto.setText(jsonElement.getAsJsonArray().get(8).getAsJsonObject().get("sconto").getAsString() + "%");
+        JsonElement jsonElement = getMyPrev();
+        System.out.println(jsonElement);
+        carText.setText(jsonElement.getAsJsonObject().get("macchina").getAsString());
+        confList = setConfList(jsonElement.getAsJsonObject().get("configurazione").getAsJsonArray());
+        prezzoAuto.setText(jsonElement.getAsJsonObject().get("prezzo").getAsString());
+        prezzoUsato.setText(jsonElement.getAsJsonObject().get("prezzoUsato").getAsString());
+        prezzoUsato2.setText(jsonElement.getAsJsonObject().get("prezzoUsato").getAsString());
+        sconto.setText(jsonElement.getAsJsonObject().get("sconto").getAsString());
         prezzoFinale.setText(calcPrezzoFinale(prezzoAuto.getText(), prezzoUsato.getText(), sconto.getText()));
+    }
 
+    private JsonElement getMyPrev(){
+        String user = UserSession.getInstance().getFirstName() + " " + UserSession.getInstance().getLastName();
+        JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
+        if (jsonArray.isEmpty()) {
+            return null; // Nessun oggetto nel file JSON
+        }
+        else{
+            for (JsonElement element : jsonArray) {
+                JsonObject jsonObject = element.getAsJsonObject();
+                if (jsonObject.get("utente").getAsString().equals(user) &&
+                        !jsonObject.get("prezzoUsato").getAsString().isEmpty()) {
+                    return element;
+                }
+            }
+        }
+        return null;
     }
 
     private ArrayList<String> searchMyPrev(){
         ArrayList<String> myConf = new ArrayList<>();
         String user = UserSession.getInstance().getFirstName() + " " + UserSession.getInstance().getLastName();
-        try (FileReader reader = new FileReader("preventivi.json")) {
-            // Parsa il file JSON in un JsonArray
-            JsonElement parsed = JsonParser.parseReader(reader);
-            if (!parsed.isJsonArray()) {
-                throw new IllegalStateException("Il file JSON non contiene un array.");
-            }
 
-            JsonArray jsonArray = parsed.getAsJsonArray();
+        JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
 
-            if (jsonArray.isEmpty()) {
-                return myConf; // Nessun oggetto nel file JSON
-            }
-            else{
-                for (JsonElement element : jsonArray) {
-                    JsonObject jsonObject = element.getAsJsonObject();
-                    if (jsonObject.get("utente").getAsString().equals(user) &&
-                            !jsonObject.get("prezzoUsato").getAsString().isEmpty()) {
-                        myConf.add(jsonObject.get("id") + " - " + jsonObject.get("dataCreazione"));
-                    }
+        if (jsonArray.isEmpty()) {
+            return myConf; // Nessun oggetto nel file JSON
+        }
+        else{
+            for (JsonElement element : jsonArray) {
+                JsonObject jsonObject = element.getAsJsonObject();
+                if (jsonObject.get("utente").getAsString().equals(user) &&
+                        !jsonObject.get("prezzoUsato").getAsString().isEmpty()) {
+                    myConf.add(jsonObject.get("id") + " - " + jsonObject.get("dataCreazione"));
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return myConf;
     }
@@ -156,6 +172,7 @@ public class HomepageController {
             MenuItem item = new MenuItem(config);
             item.setOnAction(event -> {
                 slideMenuTo(-200, true, false, null);
+                contextMenu.hide();
                 showPrevPopup();
             });
             contextMenu.getItems().add(item);
@@ -177,14 +194,57 @@ public class HomepageController {
     }
 
     private String calcPrezzoFinale(String prezzoAuto, String prezzoUsato, String sconto){
-        double prezzoAutoD = Double.parseDouble(prezzoAuto);
+        double prezzoAutoD = Double.parseDouble(prezzoAuto.replace("€", ""));
         double prezzoUsatoD = Double.parseDouble(prezzoUsato);
         double scontoI = Integer.parseInt(sconto.replace("%", ""));
         double prezzoFinaleD = (prezzoAutoD * (100 - scontoI)/100 ) - prezzoUsatoD;
         return String.valueOf(prezzoFinaleD);
     }
 
+    private ListView<Object> setConfList(JsonArray jsonArray){
+        ObservableList<Object> items = FXCollections.observableArrayList();
 
+        // Estrazione dati dal JsonArray
+        String colorCode = jsonArray.get(0).getAsString();
+        String engine = jsonArray.get(1).getAsString();
+        boolean rearCamera = jsonArray.get(2).getAsBoolean();
+        boolean windows = jsonArray.get(3).getAsBoolean();
+        boolean adas = jsonArray.get(4).getAsBoolean();
+        boolean heatedSeats = jsonArray.get(5).getAsBoolean();
+
+        // Aggiunge il colore come primo elemento
+        items.add(Color.web(colorCode));
+
+        // Aggiunge il motore
+        items.add("Motore: " + engine);
+
+        // Aggiunge solo gli optional con valore `true`
+        if (rearCamera) items.add("Telecamera Posteriore");
+        if (windows) items.add("Finestrini Elettrici");
+        if (adas) items.add("ADAS");
+        if (heatedSeats) items.add("Sedili Riscaldati");
+
+        ListView<Object> listView = new ListView<>(items);
+        listView.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Object item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else if (item instanceof Color colorItem) {
+                    // Crea un rettangolo colorato per mostrare il colore
+                    Rectangle colorBox = new Rectangle(100, 20, colorItem);
+                    setGraphic(colorBox);
+                    setText("Colore: " + colorItem);
+                } else {
+                    setText(item.toString());
+                    setGraphic(null);
+                }
+            }
+        });
+        return listView;
+    }
 
 
 

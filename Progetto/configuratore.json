@@ -4,6 +4,7 @@
     "modello": "RS6 Avant",
     "prezzo": 140800,
     "listaMotori": ["v4-282","v8-605"],
+    "prezzoOptional":[4000, 1000, 500, 2500, 1500],
     "finestrini":[17,19],
     "listaPezziAutoColorati": [0,14,54,69,70,71,82,83,84,88,89,115,116,126],
     "posizioneCamera": [-7,3.5,3]
@@ -13,6 +14,7 @@
     "modello": "R8",
     "prezzo": 169650,
     "listaMotori": ["v6-313","v10-550"],
+    "prezzoOptional":[4000, 1000, 500, 2500, 1500],
     "finestrini":[1],
     "listaPezziAutoColorati": [0,6,7],
     "posizioneCamera": [-7,3.5,3]
@@ -22,6 +24,7 @@
     "modello": "911 Turbo 2016",
     "prezzo": 99999,
     "listaMotori": ["b-370","b-420"],
+    "prezzoOptional":[4000, 1000, 500, 2500, 1500],
     "finestrini":[6],
     "listaPezziAutoColorati": [0],
     "posizioneCamera": [-7,3.5,3]
@@ -31,6 +34,7 @@
     "modello": "918 Spyder 2016",
     "prezzo": 793420,
     "listaMotori": ["v8-608","v12-803"],
+    "prezzoOptional":[4000, 1000, 500, 2500, 1500],
     "finestrini":[13,14,16],
     "listaPezziAutoColorati": [0,1,2,3,4,5,6,7,8,9,10,11,71],
     "posizioneCamera": [-8,3.5,3]
@@ -40,6 +44,7 @@
     "modello": "Cybertruck",
     "prezzo": 82930,
     "listaMotori": ["E-500","E-600"],
+    "prezzoOptional":[4000, 1000, 500, 2500, 1500],
     "finestrini":[1],
     "listaPezziAutoColorati": [0],
     "posizioneCamera": [-5,3.5,4]
@@ -49,6 +54,7 @@
     "modello": "Model S",
     "prezzo": 100030,
     "listaMotori": ["E-500","E-600"],
+    "prezzoOptional":[4000, 1000, 500, 2500, 1500],
     "finestrini":[8,10,11],  
     "listaPezziAutoColorati": [0,1,2,3,4,5,6,9,12,16,17,18,28],
     "posizioneCamera": [-8,3.5,3]
