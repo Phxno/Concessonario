@@ -40,34 +40,10 @@ public class ChangeAutoController {
     private ImageView backButtonLogo;
 
     @FXML
-    private Button cancelButtonUsato;
-
-    @FXML
     private Button confirmButton;
 
     @FXML
-    private Button confirmButtonUsato;
-
-    @FXML
     private Label fineLabel;
-
-    @FXML
-    private Pane form_used;
-
-    @FXML
-    private FlowPane imageContainer;
-
-    @FXML
-    private Label labelAnnoImm;
-
-    @FXML
-    private Label labelKm;
-
-    @FXML
-    private Label labelMarcaModello;
-
-    @FXML
-    private Label labelProprietari;
 
     @FXML
     private Label marcaLabel;
@@ -97,7 +73,7 @@ public class ChangeAutoController {
     private TextField newTele;
 
     @FXML
-    private Label oldPirceLabel;
+    private Label oldPriceLabel;
 
     @FXML
     private Label priceAdas;
@@ -132,9 +108,6 @@ public class ChangeAutoController {
     @FXML
     private TextArea textAreaDesc;
 
-    @FXML
-    private TextField valutTextFIeld;
-
     private int t_user;
     private String dip;
     private String infoCar;
@@ -160,20 +133,75 @@ public class ChangeAutoController {
     }
 
     @FXML
-    void cancelUsato(ActionEvent event) {
+    void confirm(ActionEvent event) throws IOException{
+        Alert alertMod = new Alert(Alert.AlertType.CONFIRMATION);
+        alertMod.setTitle("Conferma salvataggio");
+        alertMod.setHeaderText(null);
+        alertMod.setContentText("Vuoi confermare il salvataggio?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Valori bassi");
+        alert.setHeaderText(null);
+        alert.setContentText("I valori inseriti risultano 10 volte più bassi rispetto al valore precedente, procedere?");
+        ButtonType button1 = new ButtonType("Annulla");
+        ButtonType button2 = new ButtonType("Conferma");
 
+        Alert alertError = new Alert(Alert.AlertType.WARNING);
+        alertError.setTitle("Attenzione");
+        alertError.setHeaderText(null);
+        alertError.setContentText("Errore nella compilazione dei campi, ricontrollare per favore");
+
+        alert.getButtonTypes().setAll(button1, button2);
+        alertMod.getButtonTypes().setAll(button1, button2);
+        Optional<ButtonType> result = Optional.empty();
+        Optional<ButtonType> resultError = Optional.empty();
+        if ((!checkEmpty(newPrice) && checkInt(newPrice))) {
+            if (Integer.parseInt(oldPriceLabel.getText()) / Integer.parseInt(newPrice.getText()) > 10) result = alert.showAndWait();
+        } else if(!checkEmpty(newTele) && checkInt(newTele)){
+            if (Integer.parseInt(priceTele.getText()) / Integer.parseInt(newTele.getText()) > 10) result = alert.showAndWait();
+        } else if(!checkEmpty(newFine) && checkInt(newFine)) {
+            if (Integer.parseInt(priceFine.getText()) / Integer.parseInt(newFine.getText()) > 10) result = alert.showAndWait();
+        }else if (!checkEmpty(newMotore) && checkInt(newMotore)){
+            if (Integer.parseInt(priceMotore.getText()) / Integer.parseInt(newMotore.getText()) > 10) result = alert.showAndWait();
+        } else if (!checkEmpty(newAdas) && checkInt(newAdas)) {
+            if (Integer.parseInt(priceAdas.getText()) / Integer.parseInt(newAdas.getText()) > 10) result = alert.showAndWait();
+        } else if (!checkEmpty(newSedili) && checkInt(newSedili)){
+            if (Integer.parseInt(priceSedili.getText()) / Integer.parseInt(newSedili.getText()) > 10) result = alert.showAndWait();
+        } else {
+            if (!(checkEmpty(newPrice) && checkEmpty(newTele) && checkEmpty(newFine) && checkEmpty(newMotore) && checkEmpty(newAdas) && checkEmpty(newSedili))){
+                resultError = alertError.showAndWait();
+            }
+
+        }
+        if (textAreaDesc.getText().isEmpty()){
+            alertError.showAndWait();
+        }else {
+            if (resultError.isEmpty()){
+                if (result.isEmpty()) result = alertMod.showAndWait();
+                if (result.isPresent()) {
+                    ButtonType clickedButton = result.get();
+                    if (clickedButton == button2) {
+                        saveIntoConf();
+                        saveIntoModelli();
+                        loadDipendente();
+                    }
+                }
+            }
+        }
     }
-
-    @FXML
-    void confirm(ActionEvent event) {
-
+    private boolean checkEmpty(TextField temp){
+        boolean result = temp.getText().isEmpty();
+        return result;
     }
-
-    @FXML
-    void confirmUsato(ActionEvent event) {
-
+    private boolean checkInt(TextField temp){
+        boolean result = false;
+        try {
+            Integer number = Integer.parseInt(temp.getText());
+            if (number > 0) result = true;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
-
     private void getFromModelli(){
         Gson gson = new Gson();
         JsonArray infoArray = new JsonArray();
@@ -185,7 +213,7 @@ public class ChangeAutoController {
                 if ((autoObject.get("marca").getAsString() + " - "+ autoObject.get("modello").getAsString()).equals(infoCar)) {
                     marcaLabel.setText(autoObject.get("marca").getAsString());
                     modelloLabel.setText(autoObject.get("modello").getAsString());
-                    oldPirceLabel.setText(autoObject.get("prezzo").getAsString());
+                    oldPriceLabel.setText(autoObject.get("prezzo").getAsString());
                     textAreaDesc.setText(autoObject.get("descrizione").getAsString());
                     break;
                 }
@@ -244,21 +272,27 @@ public class ChangeAutoController {
     private void saveIntoConf(){
         Gson gson = new Gson();
         JsonArray autoArray = new JsonArray();
-        try (Reader reader = new FileReader("configurazione.json")) {
+        try (Reader reader = new FileReader("configuratore.json")) {
             autoArray = gson.fromJson(reader, JsonArray.class);
             //Creiamo un oggetto JSON per ogni utente
             for (JsonElement autoElement : autoArray) {
                 JsonObject autoObject = autoElement.getAsJsonObject();
                 if ((autoObject.get("marca").getAsString() + " - "+ autoObject.get("modello").getAsString()).equals(infoCar)) {
-                    autoElement.getAsJsonObject().addProperty("prezzo", newPrice.getText().isEmpty() ? autoObject.get("prezzo").getAsString() : newPrice.getText());
-
+                    autoElement.getAsJsonObject().addProperty("prezzo", newPrice.getText().isEmpty() ? oldPriceLabel.getText() : newPrice.getText());
+                    JsonArray temp = new JsonArray();
+                    temp.add(newMotore.getText().isEmpty() ? priceMotore.getText() : newMotore.getText());
+                    temp.add(newTele.getText().isEmpty() ? priceTele.getText() : newTele.getText());
+                    temp.add(newFine.getText().isEmpty() ? priceFine.getText() : newFine.getText());
+                    temp.add(newAdas.getText().isEmpty() ? priceAdas.getText() : newAdas.getText());
+                    temp.add(newSedili.getText().isEmpty() ? priceSedili.getText() : newSedili.getText());
+                    autoElement.getAsJsonObject().add("prezzoOptional", temp);
                 }
             }
         } catch (IOException e){
             e.printStackTrace();
         }
         if (!autoArray.isEmpty()) {
-            try (FileWriter writer = new FileWriter("configurazione.json")) {
+            try (FileWriter writer = new FileWriter("configuratore.json")) {
                 //System.out.println(prevsArray);
                 gson.toJson(autoArray, writer);
             } catch (IOException e){
