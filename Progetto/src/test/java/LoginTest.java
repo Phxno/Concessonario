@@ -33,10 +33,10 @@ class LoginTest {
     @Test
     void testCampiCorretti() {
         // Simula il comportamento con campi corretti
-        assertFalse(controller.campi_corretti("hacker","Hack1!", "hacker","hack1!"));
-        assertFalse(controller.campi_corretti("Sbagliato","sbagliato","giusto","giusto"));
+        assertFalse(controller.campi_corretti("hacker","Hack1!", "hacker","hack1!"));//username e password diversi
+        assertFalse(controller.campi_corretti("Sbagliato","sbagliato","giusto","giusto"));//
         assertFalse(controller.campi_corretti("sbagliato","Sbagliato","SBAGLIATO","Sbagliato"));
-        assertTrue(controller.campi_corretti("Elvis", "Elvis", "Elvis03!", "Elvis03!"));
+        assertTrue(controller.campi_corretti("Elvis", "Elvis", "Elvis03!", "Elvis03!"));//username e password corretti
 
 
     }
