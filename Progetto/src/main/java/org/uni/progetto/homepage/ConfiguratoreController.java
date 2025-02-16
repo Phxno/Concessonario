@@ -154,7 +154,7 @@ public class ConfiguratoreController{
     @FXML
     private Button annullaConfButton;
 
-    private String[] concessionari = {"TriAuto Verona", "Triatuo Milano", "Triauto Aosta"};
+    private String[] concessionari = {"TriAuto Verona", "TriAtuo Milano", "TriAuto Aosta"};
     private String[] type = {"Base", "Full Optional"};
     private String[] Motore_batteria;
     private int[] prezzoOptional;

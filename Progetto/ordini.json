@@ -1,24 +1,777 @@
 [
   {
-    "utente":"aa aa",
-    "macchina":"template",
-    "configurazione":"template",
-    "dataFinalizzazione":"1999-01-01",
-    "prezzo":0,
-    "sconto":0,
-    "negozioConsegna":"template",
-    "dataConsegna":"1999-02-01",
-    "id":0
+    "utente": "aa aa",
+    "macchina": "template",
+    "configurazione": "template",
+    "dataFinalizzazione": "1999-01-01",
+    "prezzo": 0,
+    "sconto": 0,
+    "negozioConsegna": "template",
+    "dataConsegna": "1999-02-01",
+    "id": 0
   },
   {
-    "utente":"bb bb",
-    "macchina":"template",
-    "configurazione":"template",
-    "dataFinalizzazione":"2000-09-09",
-    "prezzo":0,
-    "sconto":0,
-    "negozioConsegna":"template",
-    "dataConsegna":"2000-10-09",
-    "id":1
+    "utente": "bb bb",
+    "macchina": "template",
+    "configurazione": "template",
+    "dataFinalizzazione": "2000-09-09",
+    "prezzo": 0,
+    "sconto": 0,
+    "negozioConsegna": "template",
+    "dataConsegna": "2000-10-09",
+    "id": 1
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 2
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 3
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 4
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 5
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Audi RS6 Avant",
+    "configurazione": [
+      "#ffffff",
+      "v4-282",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 4,
+    "prezzoUsato": "4020",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-14",
+    "prezzo": "140800.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "Milano",
+    "id": 6
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-04-23",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "Roma",
+    "id": 7
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "Triauto Verona",
+    "id": 8,
+    "dataFinalizzazione": "2025-04-23"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-04-23",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 9,
+    "dataFinalizzazione": "2025-02-14"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-04-25",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "Triauto Verona",
+    "id": 10,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-04-25",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "Triauto Verona",
+    "id": 11,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 911 GT3 RS",
+    "configurazione": [
+      "#ff0000",
+      "v6-520",
+      true,
+      true,
+      true,
+      true
+    ],
+    "usato": 0,
+    "prezzoUsato": "0",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-04-25",
+    "prezzo": "225000.0 €",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 12,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "1200",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 13,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "11111",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 14,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "11111",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 15,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "11111",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 16,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "11111",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 17,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "232323",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 18,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "3233",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 19,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "2313",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Milano",
+    "id": 20,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "3223",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Aosta",
+    "id": 21,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "2321",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Aosta",
+    "id": 22,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "1313",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 23,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "2313",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Milano",
+    "id": 24,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "2121",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 25,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "usato": 0,
+    "prezzoUsato": "2222",
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0 € ",
+    "sconto": "0%",
+    "negozioConsegna": "TriAuto Milano",
+    "id": 26,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "791420.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 27,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "791198.0",
+    "negozioConsegna": "Triauto Verona",
+    "id": 28,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "791098.0",
+    "negozioConsegna": "TriAutoVerona",
+    "id": 29,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "791198.0",
+    "negozioConsegna": "TriAuto Aosta",
+    "id": 30,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "791198.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 31,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "791198.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 32,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "790087.0",
+    "negozioConsegna": "TriAuto Aosta",
+    "id": 33,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793198.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 34,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "793420.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 35,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "782309.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 36,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "791198.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 37,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "792309.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 38,
+    "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "aa aa",
+    "macchina": "Porsche 918 Spyder 2016",
+    "configurazione": [
+      "#ff0000",
+      "v8-608",
+      false,
+      false,
+      false,
+      false
+    ],
+    "dataCreazione": "2025-02-13",
+    "dataConsegna": "2025-03-26",
+    "prezzo": "792309.0",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 39,
+    "dataFinalizzazione": "2025-02-16"
   }
 ]
