@@ -6,6 +6,7 @@ module org.uni.progetto {
     requires java.compiler;
     requires java.desktop;
     requires javafx.swing;
+    requires org.apache.pdfbox;
 
 
     opens org.uni.progetto.homepage to javafx.fxml,com.google.gson;

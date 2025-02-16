@@ -20,6 +20,8 @@ import javafx.util.Duration;
 import javafx.scene.effect.BoxBlur;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -27,6 +29,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import org.apache.pdfbox.pdmodel.*;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+
+import java.awt.Desktop;
 
 public class HomepageController {
     private ObservableList<Object> items = FXCollections.observableArrayList();
@@ -130,7 +138,7 @@ public class HomepageController {
     private void showPrevPopup(String config){
         prevPopUp.setVisible(true);
         String[] get_id = config.split(" ");
-        JsonElement jsonElement =  getPrevById(get_id[0]);
+        JsonElement jsonElement =  getJsonById(get_id[0], "preventivi.json");
         title.setText("Preventivo n° " + jsonElement.getAsJsonObject().get("id").getAsString());
         scadenza.setText("scade il " + createdataScadenza(jsonElement.getAsJsonObject().get("dataCreazione").getAsString()));
         carText.setText(jsonElement.getAsJsonObject().get("macchina").getAsString());
@@ -149,7 +157,7 @@ public class HomepageController {
             String lastWord = words[words.length - 1]; // Ultima parola
 
 
-            JsonObject jsonObject = getPrevById(lastWord);
+            JsonObject jsonObject = getJsonById(lastWord, "preventivi.json");// preventivo
 
             int idOrdine = 0;
             try {
@@ -162,12 +170,17 @@ public class HomepageController {
                 jsonObject.addProperty("dataFinalizzazione", LocalDate.now().toString());
                 jsonObject.addProperty("dataConsegna", createDataConsegna(items));
                 jsonObject.addProperty("id", idOrdine);
+                jsonObject.addProperty("prezzo", prezzoFinale.getText());
+                jsonObject.remove("prezzoUsato");
+                jsonObject.remove("usato");
+                jsonObject.remove("sconto");
+
             }
             saveOrdine(jsonObject);
 
-            JsonElement sedi = readPrev("sedi.json");
+            JsonElement sedi = readJson("sedi.json");
 
-            JsonArray sediArray = sedi.getAsJsonArray();
+            JsonArray sediArray = sedi.getAsJsonArray();//sedi
 
             String negozioConsegna = jsonElement.getAsJsonObject().get("negozioConsegna").getAsString();
 
@@ -190,9 +203,6 @@ public class HomepageController {
                     // Aggiunge l'ID dell'ordine solo se non è già presente
                     if (!ordini.contains(new JsonPrimitive(idOrdine))) {
                         ordini.add(idOrdine);
-                        System.out.println("ID " + idOrdine + " aggiunto alla sede " + negozioConsegna);
-                    } else {
-                        System.out.println("ID " + idOrdine + " già presente nella sede " + negozioConsegna);
                     }
                     break;
                 }
@@ -211,6 +221,7 @@ public class HomepageController {
             alert.setContentText("Il pagamento è stato effettuato con successo. Grazie per aver scelto il nostro concessionario!");
             alert.showAndWait();
             removePrev(lastWord);
+            generaPDFConferma(sediArray, "" + idOrdine, "ordini.json");
             loadContextMenu();
             items.clear();
             prevPopUp.setVisible(false);
@@ -223,6 +234,92 @@ public class HomepageController {
 
     }
 
+    public static void generaPDFConferma(JsonArray sedi, String idOrdine,  String filePathOrdini) {
+        try {
+            // Legge il file ordini.json
+            JsonObject ordineTrovato = getJsonById(idOrdine, filePathOrdini);
+
+            String sedeNome = ordineTrovato.get("negozioConsegna").getAsString();
+            String sedeIndirizzo = "Indirizzo non trovato";
+
+
+            for (JsonElement sede : sedi) {
+                JsonObject sedeObj = sede.getAsJsonObject();
+                if (sedeObj.get("Nome").getAsString().equals(sedeNome)) {
+                    sedeIndirizzo = sedeObj.get("Indirizzo").getAsString();
+                    break;
+                }
+            }
+
+
+            // Percorso della cartella Download dell'utente
+            String downloadPath = getDownloadFolderPath() + "/Conferma_Ordine_" + idOrdine + ".pdf";
+            System.out.println(downloadPath);
+
+            // Creazione del PDF
+            try (PDDocument document = new PDDocument()) {
+                PDPage page = new PDPage();
+                document.addPage(page);
+
+
+                try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                    System.out.println("PDF creato con successo");
+
+                    PDImageXObject logo = PDImageXObject.createFromFile("/Users/tommasobelle/Documents/Uni/Secondo Anno/Ingegneria del software/Concessonario/Progetto/src/main/resources/Images/Logo_concessionario_colorato.png", document);
+                    contentStream.drawImage(logo, 50, 700, 100, 50); // Posizione e dimensione del logo
+
+                    contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(100, 700);
+                    contentStream.showText("Conferma Ordine #" + idOrdine);
+                    contentStream.endText();
+                    System.out.println("Titolo inserito con successo");
+
+                    contentStream.setFont(PDType1Font.HELVETICA, 14);
+                    int yPosition = 650;
+
+                    for (String key : ordineTrovato.keySet()) {
+                        if (!key.equals("configurazione")){
+                            contentStream.beginText();
+                            contentStream.newLineAtOffset(100, yPosition);
+                            contentStream.showText(key + ": " + ordineTrovato.get(key).getAsString());
+                            contentStream.endText();
+                            yPosition -= 20;
+                        }
+                    }
+
+                    contentStream.setFont(PDType1Font.HELVETICA_BOLD, 14);
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(50, yPosition - 20);
+                    contentStream.showText("Sede: " + sedeNome);
+                    contentStream.endText();
+
+                    contentStream.setFont(PDType1Font.HELVETICA, 12);
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(50, yPosition - 40);
+                    contentStream.showText("Indirizzo: " + sedeIndirizzo);
+                    contentStream.endText();
+                    System.out.println("Contenuto inserito con successo");
+                }catch (IOException e) {
+                    System.err.println("Errore durante la scrittura del contenuto del PDF: " + e.getMessage());
+                }
+
+                document.save(downloadPath);
+            }
+
+            System.out.println("PDF generato con successo: " + downloadPath);
+
+            // Aprire automaticamente il PDF dopo il download
+            File pdfFile = new File(downloadPath);
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(pdfFile);
+                System.out.println("PDF aperto con successo");
+            }
+
+        } catch (IOException e) {
+            System.err.println("Errore nella generazione del PDF: " + e.getMessage());
+        }
+    }
 
 
     private void saveOrdine(JsonObject jsonObject){
@@ -247,8 +344,28 @@ public class HomepageController {
         }
     }
 
-    private JsonObject getPrevById(String id){
-        JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
+    public static String getDownloadFolderPath() {
+        String userHome = System.getProperty("user.home");
+
+        // Percorsi standard delle cartelle Download su diversi sistemi operativi
+        String[] possiblePaths = {
+                userHome + "/Downloads",         // Linux/macOS
+                userHome + "/Scaricati",         // macOS in italiano
+                userHome + "/Desktop/Downloads", // Alcune distro Linux
+                userHome + "\\Downloads"         // Windows
+        };
+
+        for (String path : possiblePaths) {
+            if (Files.exists(Paths.get(path))) {
+                return path; // Restituisce il primo percorso valido
+            }
+        }
+
+        return userHome; // Se la cartella Download non esiste, usa la home come fallback
+    }
+
+    private static JsonObject getJsonById(String id, String filepath) {
+        JsonArray jsonArray = Objects.requireNonNull(readJson(filepath)).getAsJsonArray();
         if (jsonArray.isEmpty()) {
             return null; // Nessun oggetto nel file JSON
         }
@@ -256,6 +373,7 @@ public class HomepageController {
             for (JsonElement element : jsonArray) {
                 JsonObject jsonObject = element.getAsJsonObject();
                 if (jsonObject.get("id").getAsString().equals(id)) {
+                    System.out.println("id trovato");
                     return jsonObject;
                 }
             }
@@ -312,7 +430,7 @@ public class HomepageController {
         ArrayList<String> myConf = new ArrayList<>();
         String user = UserSession.getInstance().getFirstName() + " " + UserSession.getInstance().getLastName();
 
-        JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
+        JsonArray jsonArray = Objects.requireNonNull(readJson("preventivi.json")).getAsJsonArray();
 
         if (jsonArray.isEmpty()) {
             return myConf; // Nessun oggetto nel file JSON
@@ -432,7 +550,7 @@ public class HomepageController {
         }
     }
 
-    private JsonElement readPrev(String file) {
+    private static JsonElement readJson(String file) {
         try (FileReader reader = new FileReader(file)) {
             // Parsa il file JSON in un JsonArray
             JsonElement parsed = JsonParser.parseReader(reader);
@@ -455,7 +573,7 @@ public class HomepageController {
     }
 
     private void removePrev(String id){
-        JsonArray jsonArray = Objects.requireNonNull(readPrev("preventivi.json")).getAsJsonArray();
+        JsonArray jsonArray = Objects.requireNonNull(readJson("preventivi.json")).getAsJsonArray();
         JsonArray newJsonArray = new JsonArray();
         for (JsonElement element : jsonArray) {
             JsonObject jsonObject = element.getAsJsonObject();
