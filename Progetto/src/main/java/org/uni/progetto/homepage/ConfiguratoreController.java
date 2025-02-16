@@ -1062,7 +1062,7 @@ public class ConfiguratoreController{
      * @param km chilometraggio
      * @return TRUE se almeno un campo è vuoto, altrimenti FALSE
      */
-    private boolean controllaCampi(String car, String date, String km){
+    public boolean controllaCampi(String car, String date, String km){
         return (car.isEmpty() || date.isEmpty() || km.isEmpty());
     }
 
@@ -1113,7 +1113,7 @@ public class ConfiguratoreController{
      * @param yearText anno da controllare
      * @return TRUE se l'anno è valido, altrimenti FALSE
      */
-    private static boolean isValidYear(String yearText) {
+    public static boolean isValidYear(String yearText) {
         try {
             int year = Integer.parseInt(yearText);
             int currentYear = LocalDate.now().getYear();
@@ -1128,7 +1128,7 @@ public class ConfiguratoreController{
      * @param kmText chilometraggio da controllare
      * @return TRUE se il chilometraggio è valido, altrimenti FALSE
      */
-    private static boolean isValidKm(String kmText) {
+    public static boolean isValidKm(String kmText) {
         try {
             int km = Integer.parseInt(kmText);
             return km > 1000;

@@ -171,27 +171,27 @@ public class RegistrationController {
 
 
 
-    boolean controllo_campi(String name, String surname, String phone, String date, String username, String pass) { //controlla se ci sono campi vuoti
+    public boolean controllo_campi(String name, String surname, String phone, String date, String username, String pass) { //controlla se ci sono campi vuoti
         return (name.isEmpty() || surname.isEmpty() || phone.isEmpty() || date.isEmpty() || username.isEmpty() || pass.isEmpty());
     }
 
-    boolean controlla_numero(String phone) { //controlla se il numero di telefono è composto solo da numeri e se è lungo 10 caratteri
+    public boolean controlla_numero(String phone) { //controlla se il numero di telefono è composto solo da numeri e se è lungo 10 caratteri
         return phone.matches("[0-9]+") && phone.length() == 10;
     }
 
-    boolean controlla_password(String pass) {
+    public boolean controlla_password(String pass) {
         return pass.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!/£.;#&@%()$?*^+=])(?=\\S+$).{5,}$"); //controlla se la password contiene almeno 5 caratteri, una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale
     }
 
-    boolean different_password(String pass, String pass1) {
+    public boolean different_password(String pass, String pass1) {
         return pass.equals(pass1);
     }
 
-    boolean check_email(String email) {
+    public boolean check_email(String email) {
         return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
     }
 
-    private boolean checkIfUserIsPresent(String username) {
+    public boolean checkIfUserIsPresent(String username) {
         JsonArray dati_presenti;
         try (FileReader reader = new FileReader("dati_utente.json")) {
             JsonElement parsed = JsonParser.parseReader(reader);

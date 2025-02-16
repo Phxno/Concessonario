@@ -90,6 +90,9 @@ public class ModelliController {
     @FXML
     private VBox main_pane;
 
+    @FXML
+    private Button login_button;
+
 
     public void initialize(String marca) {
         slider_menu.setTranslateX(-200);
@@ -236,7 +239,7 @@ public class ModelliController {
         String user = username.getText();
         String pass = password.getText();
 
-        if (user.isEmpty() || pass.isEmpty()) {
+        if (campi_vuoti(user, pass)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setHeaderText("Campi vuoti");
@@ -259,7 +262,7 @@ public class ModelliController {
 
                 //compariamo per ogni utente il campo username e password con quelli inseriti dall'utente
                 if (userObject.has("username") && userObject.has("password")) {
-                    if (userObject.get("username").getAsString().equals(user) && userObject.get("password").getAsString().equals(pass)) {
+                    if (campi_corretti(user,userObject.get("username").getAsString(),pass,userObject.get("password").getAsString())) {
                         String nome = userObject.get("name").getAsString();
                         String cognome = userObject.get("surname").getAsString();
                         String username = userObject.get("username").getAsString();
@@ -271,12 +274,9 @@ public class ModelliController {
                         vbox_dati_utente.setVisible(true);
                         isAuthenticated = true;
 
-                        if (userObject.get("type-user").getAsInt() == 0) {
-                            open_dipendente(nome + " " + cognome/*,userObject.get("type-user").getAsInt()*/);
+                        if(userObject.get("type-user").getAsInt() < 2){
+                            open_dipendente(nome + " " + cognome,userObject.get("type-user").getAsInt());
                         }
-                        /*if(userObject.get("type-user").getAsInt() == 1){
-                            open_segreteria(nome + " " + cognome);
-                        }*/
                     }
                 }
 
@@ -292,6 +292,13 @@ public class ModelliController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public boolean campi_vuoti(String user, String pass) {
+        return (user.isEmpty() || pass.isEmpty());
+    }
+
+    public boolean campi_corretti(String user,String userD, String pass,String passD) {
+        return (user.equals(userD) && pass.equals(pass));
     }
 
     @FXML
@@ -344,14 +351,15 @@ public class ModelliController {
     }
 
 
-    void open_dipendente(String dip) throws IOException {
-        Stage stage = (Stage) marche_button.getScene().getWindow();
+
+    void open_dipendente(String dip, Integer type_user) throws IOException {
+        Stage stage = (Stage) login_button.getScene().getWindow();
         stage.close();
         // Carica la scena della homepage
         FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Homepage.class.getResource("/FXML/Dipendente.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
         DipendenteController controller = fxmlLoader.getController();
-        controller.initialize(dip,0);
+        controller.initialize(dip,type_user);
         stage.setTitle("Dipendente");
         stage.setScene(scene);
         stage.show();
@@ -371,16 +379,5 @@ public class ModelliController {
     }
 }
 
-   /* void open_segreteria(String seg) throws IOException {
-        Stage stage = (Stage) marche_button.getScene().getWindow();
-        stage.close();
-        // Carica la scena della homepage
-        FXMLLoader fxmlLoader = new FXMLLoader(org.uni.progetto.homepage.Segreteria.class.getResource("/FXML/Segreteria.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);  //dimensione finestra 1024x768 pixel
-        SegreteriaController controller = fxmlLoader.getController();
-        controller.initialize(seg,1);
-        stage.setTitle("Segreteria");
-        stage.setScene(scene);
-        stage.show();
-    }*/
+
 

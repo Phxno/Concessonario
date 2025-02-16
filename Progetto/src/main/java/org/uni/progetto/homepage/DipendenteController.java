@@ -101,7 +101,8 @@ public class DipendenteController {
     public void initialize(String dip, int t_user){
       MenPrev.setVisible(false);
       MenOrdini.setVisible(false);
-      UData.setText(dip);
+      UserSession userSession = UserSession.getInstance();
+      if (userSession != null) UData.setText(userSession.getFirstName() + " " + userSession.getLastName());
       filterBox.getItems().addAll(filters);
       filterBox.setValue(filters.get(0));
       filterBox.setOnAction(e -> {
