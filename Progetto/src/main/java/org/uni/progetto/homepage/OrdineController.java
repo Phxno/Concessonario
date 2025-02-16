@@ -63,7 +63,6 @@ public class OrdineController {
       clientName.setText(order.getUtente().getName());
       orderNumber.setText(order.getId());
       price.setText(order.getPrezzo());
-      sale.setText(order.getSconto() + "%");
       shopName.setText(order.getNegozioConsegna());
       LocalDate data = LocalDate.parse(order.getDataConsegna());
       dataShipping.setValue(data);

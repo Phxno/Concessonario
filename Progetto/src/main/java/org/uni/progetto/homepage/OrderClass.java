@@ -8,20 +8,18 @@ import java.io.Reader;
 public class OrderClass {
   private UserClass utente;
   private String macchina;
-  private String configurazione;
+  private JsonArray configurazione;
   private String dataFinalizzazione;
   private String prezzo;
-  private String sconto;
   private String negozioConsegna;
   private String dataConsegna;
   private String id;
   public OrderClass(JsonObject OrderObject){
     this.utente = recoverUser(OrderObject.get("utente").getAsString());
     this.macchina = OrderObject.get("macchina").getAsString();
-    this.configurazione = OrderObject.get("configurazione").getAsString();
+    this.configurazione = OrderObject.get("configurazione").getAsJsonArray();
     this.dataFinalizzazione = OrderObject.get("dataFinalizzazione").getAsString();
     this.prezzo = OrderObject.get("prezzo").getAsString();
-    this.sconto = OrderObject.get("sconto").getAsString();
     this.negozioConsegna = OrderObject.get("negozioConsegna").getAsString();
     this.dataConsegna = OrderObject.get("dataConsegna").getAsString();
     this.id = OrderObject.get("id").getAsString();
@@ -59,17 +57,11 @@ public class OrderClass {
   public String getMacchina(){
     return this.macchina;
   }
-  public String getConfigurazione(){
-    return this.configurazione;
-  }
   public String getDataFinalizzazione(){
     return this.dataFinalizzazione;
   }
   public String getPrezzo(){
     return this.prezzo;
-  }
-  public String getSconto(){
-    return this.sconto;
   }
   public String getNegozioConsegna(){
     return this.negozioConsegna;

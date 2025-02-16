@@ -773,5 +773,23 @@
     "negozioConsegna": "TriAuto Verona",
     "id": 39,
     "dataFinalizzazione": "2025-02-16"
+  },
+  {
+    "utente": "Elvis Ndokaj",
+    "macchina": "Audi R8",
+    "configurazione": [
+      "#ff0000",
+      "v10-550",
+      false,
+      true,
+      true,
+      true
+    ],
+    "dataCreazione": "2025-02-16",
+    "dataConsegna": "2025-04-15",
+    "prezzo": "165242.5",
+    "negozioConsegna": "TriAuto Verona",
+    "id": 40,
+    "dataFinalizzazione": "2025-02-16"
   }
 ]

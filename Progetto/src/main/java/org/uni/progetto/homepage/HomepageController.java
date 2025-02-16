@@ -30,6 +30,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+
 import org.apache.pdfbox.pdmodel.*;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
@@ -677,11 +682,11 @@ public class HomepageController {
                         vbox_dati_utente.setVisible(true);
                         isAuthenticated = true;
                         myPrev.setVisible(true);
-                        loadContextMenu();
 
                         if(userObject.get("type-user").getAsInt() < 2){
                             open_dipendente(nome + " " + cognome,userObject.get("type-user").getAsInt());
                         }
+                        loadContextMenu();
 
                     }
                 }

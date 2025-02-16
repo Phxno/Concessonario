@@ -115,7 +115,7 @@
                         <Insets top="40.0" />
                      </VBox.margin>
                      <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="118.0" text="Prezzo" textFill="WHITE">
+                        <Label alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="291.0" text="Prezzo" textFill="WHITE">
                            <padding>
                               <Insets left="20.0" top="35.0" />
                            </padding>
@@ -123,20 +123,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="price" alignment="CENTER" prefHeight="146.0" prefWidth="158.0" text="€ 00" textFill="WHITE">
-                           <font>
-                              <Font size="32.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="239.0" text="Sconto" textFill="WHITE">
-                           <padding>
-                              <Insets left="20.0" top="35.0" />
-                           </padding>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="sale" alignment="CENTER" prefHeight="146.0" prefWidth="158.0" text="30%" textFill="WHITE">
+                        <Label fx:id="price" alignment="CENTER" prefHeight="100.0" prefWidth="256.0" text="€ 00" textFill="WHITE">
                            <font>
                               <Font size="32.0" />
                            </font>
