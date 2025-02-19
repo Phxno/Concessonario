@@ -270,7 +270,7 @@ public class HomepageController {
                 try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                     System.out.println("PDF creato con successo");
 
-                    PDImageXObject logo = PDImageXObject.createFromFile("/Users/tommasobelle/Documents/Uni/Secondo Anno/Ingegneria del software/Concessonario/Progetto/src/main/resources/Images/Logo_concessionario_colorato.png", document);
+                    PDImageXObject logo = PDImageXObject.createFromFile("/Users/tommasobelle/Documents/Uni/Secondo Anno/Ingegneria del software/Concessonario/Progetto/src/main/resources/Images/Logo concessionario colorato.png", document);
                     contentStream.drawImage(logo, 50, 700, 100, 50); // Posizione e dimensione del logo
 
                     contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
